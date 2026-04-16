@@ -1,0 +1,248 @@
+{% extends "base.html" %}
+
+{% block page_title %}Планировщик питания{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Выберите дату</h2>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <button class="btn btn-secondary" onclick="changeWeek(-1)">← Пред. неделя</button>
+            <span id="current-week-label" style="font-weight: 500;"></span>
+            <button class="btn btn-secondary" onclick="changeWeek(1)">След. неделя →</button>
+        </div>
+    </div>
+    
+    <div class="calendar-grid" style="margin-bottom: 24px;">
+        {% for day in week_days %}
+        <div class="calendar-day {% if day.is_today %}today{% endif %} {% if day.is_selected %}has-plan{% endif %}"
+             style="{% if day.is_selected %}border-color: var(--primary-color); background: rgba(16, 185, 129, 0.1);{% endif %}"
+             onclick="selectDate('{{ day.date }}')">
+            <div class="day-number">{{ day.day_num }}</div>
+            <div class="day-meals">{{ day.day_name }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Meal Plan for Selected Date -->
+<div class="card" id="meal-plan-container">
+    <div class="card-header">
+        <h2 class="card-title">План питания на <span id="selected-date">{{ selected_date }}</span></h2>
+        <button class="btn btn-primary" onclick="showAddRecipeModal()">+ Добавить блюдо</button>
+    </div>
+    
+    <div class="grid-2" id="meals-grid">
+        {% for meal_type, meals in meals_by_type.items() %}
+        <div class="meal-type-card" data-meal-type="{{ meal_type }}">
+            <div class="meal-type-header">
+                <span class="meal-type-icon">{{ meal_icons.get(meal_type, '🍽️') }}</span>
+                <span class="meal-type-title">{{ meal_names.get(meal_type, meal_type) }}</span>
+            </div>
+            
+            {% if meals %}
+                {% for meal in meals %}
+                <div style="background: var(--background-color); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; margin-bottom: 4px;">{{ meal.name }}</div>
+                            <div style="font-size: 13px; color: var(--text-secondary);">
+                                {{ meal.nutrition.calories|round }} ккал | 
+                                Б: {{ meal.nutrition.protein|round }}г | 
+                                Ж: {{ meal.nutrition.fat|round }}г | 
+                                У: {{ meal.nutrition.carbohydrates|round }}г
+                            </div>
+                        </div>
+                        <button class="btn btn-danger" style="padding: 4px 8px; font-size: 12px;"
+                                onclick="removeRecipe('{{ meal_type }}', {{ meal.id }})">✕</button>
+                    </div>
+                </div>
+                {% endfor %}
+                
+                <!-- Meal Type Totals -->
+                <div style="padding: 12px; background: rgba(16, 185, 129, 0.05); border-radius: 8px; margin-top: 12px;">
+                    <div style="font-size: 13px; font-weight: 600; color: var(--primary-color);">
+                        Итого: {{ meal_totals.get(meal_type, {}).get('calories', 0)|round }} ккал | 
+                        {{ "%.2f"|format(meal_totals.get(meal_type, {}).get('price', 0)) }} ₽
+                    </div>
+                </div>
+            {% else %}
+                <div style="text-align: center; padding: 20px; color: var(--text-secondary);">
+                    Нет блюд для этого приема пищи
+                </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Daily Total -->
+    <div style="margin-top: 24px; padding: 20px; background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); 
+                border-radius: var(--radius-lg); color: white;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <div style="font-size: 14px; opacity: 0.9;">Итого за день</div>
+                <div style="font-size: 28px; font-weight: 700; margin-top: 4px;">
+                    {{ daily_nutrition.daily_total.calories|round }} ккал
+                </div>
+            </div>
+            <div style="display: flex; gap: 24px; text-align: center;">
+                <div>
+                    <div style="font-size: 12px; opacity: 0.9;">Белки</div>
+                    <div style="font-size: 20px; font-weight: 600;">{{ daily_nutrition.daily_total.protein|round }}г</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; opacity: 0.9;">Жиры</div>
+                    <div style="font-size: 20px; font-weight: 600;">{{ daily_nutrition.daily_total.fat|round }}г</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; opacity: 0.9;">Углеводы</div>
+                    <div style="font-size: 20px; font-weight: 600;">{{ daily_nutrition.daily_total.carbohydrates|round }}г</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; opacity: 0.9;">Стоимость</div>
+                    <div style="font-size: 20px; font-weight: 600;">{{ "%.2f"|format(daily_nutrition.daily_total.price) }} ₽</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Recipe Modal -->
+<div class="modal-overlay" id="add-recipe-modal">
+    <div class="modal" style="max-width: 800px;">
+        <div class="modal-header">
+            <h3 class="modal-title">Добавить рецепт в план питания</h3>
+            <button class="modal-close" onclick="hideModal('add-recipe-modal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="form-label">Прием пищи</label>
+                <select id="meal-type-select" class="form-select">
+                    <option value="breakfast">Завтрак</option>
+                    <option value="second_breakfast">Второй завтрак</option>
+                    <option value="lunch">Обед</option>
+                    <option value="snack">Перекус</option>
+                    <option value="dinner">Ужин</option>
+                    <option value="second_snack">Второй перекус</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Выберите рецепт</label>
+                <div class="grid-3" id="recipes-grid" style="max-height: 400px; overflow-y: auto;">
+                    {% for recipe in all_recipes %}
+                    <div class="recipe-card" onclick="selectRecipe({{ recipe.id }}, '{{ recipe.name }}')">
+                        <div class="recipe-image">🍽️</div>
+                        <div class="recipe-content">
+                            <div class="recipe-name">{{ recipe.name }}</div>
+                            <div class="recipe-meta">
+                                <span>⏱️ {{ recipe.prep_time_minutes }} мин</span>
+                                <span>👥 {{ recipe.servings }} порц.</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="hideModal('add-recipe-modal')">Отмена</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let currentDate = new Date('{{ selected_date }}');
+let currentWeekStart = getWeekStart(currentDate);
+
+function getWeekStart(date) {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(d.setDate(diff));
+}
+
+function formatDate(date) {
+    return date.toISOString().split('T')[0];
+}
+
+function changeWeek(delta) {
+    currentWeekStart.setDate(currentWeekStart.getDate() + (delta * 7));
+    window.location.href = `/meal-planner?date=${formatDate(currentWeekStart)}`;
+}
+
+function selectDate(dateStr) {
+    window.location.href = `/meal-planner?date=${dateStr}`;
+}
+
+function showAddRecipeModal() {
+    document.getElementById('add-recipe-modal').classList.add('active');
+}
+
+function hideModal(modalId) {
+    document.getElementById(modalId).classList.remove('active');
+}
+
+function selectRecipe(recipeId, recipeName) {
+    const mealType = document.getElementById('meal-type-select').value;
+    const selectedDate = document.getElementById('selected-date').textContent;
+    
+    fetch(`/api/meal-plans/${selectedDate}/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            recipe_id: recipeId,
+            meal_type: mealType
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            location.reload();
+        } else {
+            alert('Ошибка при добавлении рецепта');
+        }
+    })
+    .catch(error => {
+        alert('Ошибка: ' + error);
+    });
+}
+
+function removeRecipe(mealType, recipeId) {
+    const selectedDate = document.getElementById('selected-date').textContent;
+    
+    if (confirm('Удалить это блюдо из плана?')) {
+        fetch(`/api/meal-plans/${selectedDate}/${mealType}/${recipeId}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Ошибка при удалении');
+            }
+        })
+        .catch(error => {
+            alert('Ошибка: ' + error);
+        });
+    }
+}
+
+// Update week label
+const weekStart = currentWeekStart;
+const weekEnd = new Date(weekStart);
+weekEnd.setDate(weekEnd.getDate() + 6);
+document.getElementById('current-week-label').textContent = 
+    `${weekStart.toLocaleDateString('ru-RU')} - ${weekEnd.toLocaleDateString('ru-RU')}`;
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            hideModal('add-recipe-modal');
+        }
+    });
+});
+</script>
+{% endblock %}

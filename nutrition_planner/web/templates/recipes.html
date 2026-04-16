@@ -1,0 +1,311 @@
+{% extends "base.html" %}
+
+{% block page_title %}Рецепты{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">База рецептов</h2>
+        <button class="btn btn-primary" onclick="showModal('add-recipe-modal')">+ Добавить рецепт</button>
+    </div>
+    
+    <div style="margin-bottom: 20px;">
+        <input type="text" id="search-input" class="form-input" 
+               placeholder="🔍 Поиск рецепта..." 
+               onkeyup="searchRecipes()"
+               style="max-width: 400px;">
+    </div>
+    
+    <div class="grid-3" id="recipes-grid">
+        {% for recipe in recipes %}
+        <div class="recipe-card" onclick="viewRecipe({{ recipe.id }})">
+            <div class="recipe-image">🍽️</div>
+            <div class="recipe-content">
+                <div class="recipe-name">{{ recipe.name }}</div>
+                <div class="recipe-description">{{ recipe.description[:100] }}{% if recipe.description|length > 100 %}...{% endif %}</div>
+                <div class="recipe-meta">
+                    <span>⏱️ {{ recipe.prep_time_minutes }} мин</span>
+                    <span>👥 {{ recipe.servings }} порц.</span>
+                </div>
+                <div class="recipe-kbjou">
+                    {% set nutrition = recipe_nutrition.get(recipe.id, {}) %}
+                    <div class="kbjou-item">
+                        <span class="kbjou-value">{{ nutrition.calories|round|int if nutrition else 0 }}</span>
+                        <span>ккал</span>
+                    </div>
+                    <div class="kbjou-item">
+                        <span class="kbjou-value">{{ nutrition.protein|round|int if nutrition else 0 }}</span>
+                        <span>Б</span>
+                    </div>
+                    <div class="kbjou-item">
+                        <span class="kbjou-value">{{ nutrition.fat|round|int if nutrition else 0 }}</span>
+                        <span>Ж</span>
+                    </div>
+                    <div class="kbjou-item">
+                        <span class="kbjou-value">{{ nutrition.carbohydrates|round|int if nutrition else 0 }}</span>
+                        <span>У</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    {% if not recipes %}
+    <div style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
+        <div style="font-size: 64px; margin-bottom: 20px;">📖</div>
+        <h3>Нет рецептов</h3>
+        <p>Добавьте первый рецепт, чтобы начать</p>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Add Recipe Modal -->
+<div class="modal-overlay" id="add-recipe-modal">
+    <div class="modal" style="max-width: 800px;">
+        <div class="modal-header">
+            <h3 class="modal-title">Добавить новый рецепт</h3>
+            <button class="modal-close" onclick="hideModal('add-recipe-modal')">&times;</button>
+        </div>
+        <form id="add-recipe-form">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Название рецепта</label>
+                    <input type="text" name="name" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Описание</label>
+                    <textarea name="description" class="form-textarea" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Инструкция приготовления</label>
+                    <textarea name="instructions" class="form-textarea" rows="5"></textarea>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label class="form-label">Время приготовления (мин)</label>
+                        <input type="number" name="prep_time_minutes" class="form-input" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Порции</label>
+                        <input type="number" name="servings" class="form-input" value="1">
+                    </div>
+                </div>
+                
+                <!-- Ingredients Section -->
+                <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-color);">
+                    <h4 style="margin-bottom: 16px;">Ингредиенты</h4>
+                    <div id="ingredients-list">
+                        <div class="grid-3 gap-4 mb-4" style="align-items: end;">
+                            <div class="form-group">
+                                <label class="form-label">Ингредиент</label>
+                                <select class="form-select ingredient-select">
+                                    <option value="">Выберите ингредиент</option>
+                                    {% for ingredient in all_ingredients %}
+                                    <option value="{{ ingredient.id }}">{{ ingredient.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Количество (г)</label>
+                                <input type="number" step="1" class="form-input ingredient-quantity" value="100">
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary" onclick="addIngredientRow()">+ Добавить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="hideModal('add-recipe-modal')">Отмена</button>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- View Recipe Modal -->
+<div class="modal-overlay" id="view-recipe-modal">
+    <div class="modal" style="max-width: 700px;">
+        <div class="modal-header">
+            <h3 class="modal-title" id="view-recipe-name">Название рецепта</h3>
+            <button class="modal-close" onclick="hideModal('view-recipe-modal')">&times;</button>
+        </div>
+        <div class="modal-body" id="view-recipe-content">
+            <!-- Content will be loaded dynamically -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="hideModal('view-recipe-modal')">Закрыть</button>
+            <button type="button" class="btn btn-primary" onclick="addToMealPlan()">Добавить в план</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const API_BASE = '/api';
+let currentRecipeId = null;
+
+function showModal(modalId) {
+    document.getElementById(modalId).classList.add('active');
+}
+
+function hideModal(modalId) {
+    document.getElementById(modalId).classList.remove('active');
+}
+
+function addIngredientRow() {
+    const container = document.getElementById('ingredients-list');
+    const row = document.createElement('div');
+    row.className = 'grid-3 gap-4 mb-4';
+    row.style.alignItems = 'end';
+    row.innerHTML = `
+        <div class="form-group">
+            <label class="form-label">Ингредиент</label>
+            <select class="form-select ingredient-select">
+                <option value="">Выберите ингредиент</option>
+                {% for ingredient in all_ingredients %}
+                <option value="{{ ingredient.id }}">{{ ingredient.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Количество (г)</label>
+            <input type="number" step="1" class="form-input ingredient-quantity" value="100">
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-danger" onclick="this.parentElement.parentElement.remove()">✕ Удалить</button>
+        </div>
+    `;
+    container.appendChild(row);
+}
+
+document.getElementById('add-recipe-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+    
+    // Convert numbers
+    data.prep_time_minutes = parseInt(data.prep_time_minutes) || 0;
+    data.servings = parseInt(data.servings) || 1;
+    
+    try {
+        // Create recipe
+        const response = await fetch(`${API_BASE}/recipes/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to create recipe');
+        }
+        
+        const recipe = await response.json();
+        
+        // Add ingredients
+        const ingredientSelects = document.querySelectorAll('.ingredient-select');
+        const quantityInputs = document.querySelectorAll('.ingredient-quantity');
+        
+        for (let i = 0; i < ingredientSelects.length; i++) {
+            const ingredientId = ingredientSelects[i].value;
+            const quantity = quantityInputs[i].value;
+            
+            if (ingredientId && quantity) {
+                await fetch(`${API_BASE}/recipes/${recipe.id}/ingredients/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        ingredient_id: parseInt(ingredientId),
+                        quantity_grams: parseFloat(quantity)
+                    })
+                });
+            }
+        }
+        
+        hideModal('add-recipe-modal');
+        location.reload();
+    } catch (error) {
+        alert('Ошибка при сохранении рецепта: ' + error);
+    }
+});
+
+async function viewRecipe(id) {
+    currentRecipeId = id;
+    try {
+        const response = await fetch(`${API_BASE}/recipes/${id}`);
+        const data = await response.json();
+        
+        document.getElementById('view-recipe-name').textContent = data.recipe.name;
+        
+        let content = `
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">${data.recipe.description || 'Нет описания'}</p>
+            
+            <div style="display: flex; gap: 24px; margin-bottom: 24px; padding: 16px; background: var(--background-color); border-radius: var(--radius-md);">
+                <div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">Время приготовления</div>
+                    <div style="font-weight: 600;">${data.recipe.prep_time_minutes} мин</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">Порции</div>
+                    <div style="font-weight: 600;">${data.recipe.servings}</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">Калории</div>
+                    <div style="font-weight: 600; color: var(--primary-color);">${Math.round(data.nutrition.calories)} ккал</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">Стоимость</div>
+                    <div style="font-weight: 600; color: var(--primary-color);">${data.nutrition.price.toFixed(2)} ₽</div>
+                </div>
+            </div>
+            
+            <h4 style="margin-bottom: 12px;">Ингредиенты</h4>
+            <ul style="margin-bottom: 24px; padding-left: 20px;">
+                ${data.recipe.ingredients.map(ing => `<li>${ing.name}</li>`).join('')}
+            </ul>
+            
+            <h4 style="margin-bottom: 12px;">Инструкция</h4>
+            <p style="white-space: pre-wrap; color: var(--text-secondary);">${data.recipe.instructions || 'Нет инструкции'}</p>
+        `;
+        
+        document.getElementById('view-recipe-content').innerHTML = content;
+        showModal('view-recipe-modal');
+    } catch (error) {
+        alert('Ошибка при загрузке рецепта');
+    }
+}
+
+function addToMealPlan() {
+    if (currentRecipeId) {
+        window.location.href = `/meal-planner?recipe=${currentRecipeId}`;
+    }
+}
+
+function searchRecipes() {
+    const query = document.getElementById('search-input').value.toLowerCase();
+    const cards = document.querySelectorAll('.recipe-card');
+    
+    cards.forEach(card => {
+        const name = card.querySelector('.recipe-name').textContent.toLowerCase();
+        if (name.includes(query)) {
+            card.style.display = '';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            hideModal('add-recipe-modal');
+            hideModal('view-recipe-modal');
+        }
+    });
+});
+</script>
+{% endblock %}

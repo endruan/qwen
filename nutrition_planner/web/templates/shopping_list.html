@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block page_title %}Список покупок{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Список покупок на неделю</h2>
+        <div style="display: flex; gap: 12px;">
+            <button class="btn btn-secondary" onclick="regenerateShoppingList()">🔄 Обновить</button>
+            <button class="btn btn-primary" onclick="printShoppingList()">🖨️ Печать</button>
+        </div>
+    </div>
+    
+    <div style="margin-bottom: 20px; padding: 16px; background: rgba(16, 185, 129, 0.05); 
+                border-radius: var(--radius-md); border-left: 4px solid var(--primary-color);">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <div style="font-weight: 600; margin-bottom: 4px;">📅 Период планирования</div>
+                <div style="color: var(--text-secondary); font-size: 14px;">
+                    {{ week_start }} - {{ week_end }}
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-weight: 600; margin-bottom: 4px;">💰 Общая стоимость</div>
+                <div style="color: var(--primary-color); font-size: 24px; font-weight: 700;">
+                    {{ "%.2f"|format(total_price) }} ₽
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% if shopping_list %}
+        <div id="shopping-list-items">
+            {% for item in shopping_list %}
+            <div class="shopping-item {% if item.is_purchased %}purchased{% endif %}" 
+                 data-item-id="{{ item.id }}">
+                <div class="checkbox-custom {% if item.is_purchased %}checked{% endif %}"
+                     onclick="togglePurchase({{ item.id }})">
+                    {% if item.is_purchased %}✓{% endif %}
+                </div>
+                <div class="item-details">
+                    <div class="item-name">{{ item.name }}</div>
+                    <div class="item-quantity">{{ "%.0f"|format(item.quantity_needed) }} {{ item.unit }}</div>
+                </div>
+                <div class="item-price">{{ "%.2f"|format(item.estimated_price) }} ₽</div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Summary by Category -->
+        <div class="grid-3 mt-4">
+            <div class="stat-card">
+                <div class="stat-value">{{ shopping_list|length }}</div>
+                <div class="stat-label">Всего позиций</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ purchased_count }}</div>
+                <div class="stat-label">Куплено</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">{{ (shopping_list|length - purchased_count) }}</div>
+                <div class="stat-label">Осталось купить</div>
+            </div>
+        </div>
+    {% else %}
+        <div style="text-align: center; padding: 60px 20px;">
+            <div style="font-size: 64px; margin-bottom: 20px;">🛒</div>
+            <h3 style="margin-bottom: 12px;">Список покупок пуст</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 24px;">
+                Сначала составьте план питания на неделю, чтобы автоматически создать список покупок
+            </p>
+            <button class="btn btn-primary" onclick="window.location.href='/meal-planner'">
+                Перейти к планировщику
+            </button>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Grouped by Categories -->
+{% if shopping_list %}
+<div class="card mt-4">
+    <div class="card-header">
+        <h2 class="card-title">Сгруппировано по категориям</h2>
+    </div>
+    <div class="grid-2">
+        {% for category, items in grouped_items.items() %}
+        <div style="background: var(--background-color); padding: 16px; border-radius: var(--radius-md);">
+            <h3 style="margin-bottom: 12px; font-size: 16px;">{{ category }}</h3>
+            {% for item in items %}
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color);">
+                <span>{{ item.name }}</span>
+                <span style="font-weight: 500;">{{ "%.0f"|format(item.quantity) }} {{ item.unit }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+async function togglePurchase(itemId) {
+    try {
+        const response = await fetch(`/api/shopping-list/${itemId}/purchase/`, {
+            method: 'POST'
+        });
+        
+        if (response.ok) {
+            const itemElement = document.querySelector(`[data-item-id="${itemId}"]`);
+            const checkbox = itemElement.querySelector('.checkbox-custom');
+            
+            if (itemElement.classList.contains('purchased')) {
+                itemElement.classList.remove('purchased');
+                checkbox.classList.remove('checked');
+                checkbox.textContent = '';
+            } else {
+                itemElement.classList.add('purchased');
+                checkbox.classList.add('checked');
+                checkbox.textContent = '✓';
+            }
+            
+            // Update counts
+            updateCounts();
+        }
+    } catch (error) {
+        alert('Ошибка при обновлении статуса');
+    }
+}
+
+function updateCounts() {
+    const purchased = document.querySelectorAll('.shopping-item.purchased').length;
+    const total = document.querySelectorAll('.shopping-item').length;
+    
+    // You can update the summary cards here if needed
+    console.log(`Куплено: ${purchased} из ${total}`);
+}
+
+async function regenerateShoppingList() {
+    const today = new Date().toISOString().split('T')[0];
+    try {
+        const response = await fetch(`/api/shopping-list/generate/${today}`);
+        const data = await response.json();
+        
+        if (data.shopping_list && data.shopping_list.length > 0) {
+            location.reload();
+        } else {
+            alert('Нет данных для формирования списка покупок.');
+        }
+    } catch (error) {
+        alert('Ошибка при обновлении списка покупок');
+    }
+}
+
+function printShoppingList() {
+    window.print();
+}
+
+// Add print styles
+const printStyle = document.createElement('style');
+printStyle.textContent = `
+    @media print {
+        .sidebar, .top-actions, .btn, .checkbox-custom {
+            display: none !important;
+        }
+        .main-content {
+            margin-left: 0 !important;
+            padding: 0 !important;
+        }
+        .shopping-item {
+            break-inside: avoid;
+        }
+    }
+`;
+document.head.appendChild(printStyle);
+</script>
+{% endblock %}
