@@ -1,33 +1,15 @@
 ```
-# Compiled and build artifacts
-*.pyc
-__pycache__/
-*.o
-*.obj
+# Windows-specific files
+*.bat
+*.cmd
 *.exe
-*.dll
-*.so
-*.a
-*.out
-
-# Dependencies
-.venv/
-venv/
-node_modules/
-.mypy_cache/
-.pytest_cache/
-dist/
-build/
-target/
-.gradle/
 
 # Logs and temp files
 *.log
 *.tmp
 *.swp
-*.swo
 
-# Environment
+# Environment variables
 .env
 .env.local
 *.env.*
@@ -36,36 +18,34 @@ target/
 .vscode/
 .idea/
 
-# System files
-.DS_Store
-Thumbs.db
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
 
-# Coverage
-coverage/
-htmlcov/
+# Build artifacts
+build/
+dist/
+*.egg-info/
 .coverage
+htmlcov/
+.coverage.*
+.nyc_output
+coverage-final.json
 
-# Compressed files
-*.zip
-*.gz
-*.tar
-*.tgz
-*.bz2
-*.xz
-*.7z
-*.rar
-*.zst
-*.lz4
-*.lzh
-*.cab
-*.arj
-*.rpm
-*.deb
-*.Z
-*.lz
-*.lzo
-*.tar.gz
-*.tar.bz2
-*.tar.xz
-*.tar.zst
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 ```
