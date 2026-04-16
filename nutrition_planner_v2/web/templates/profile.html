@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль - Nutrition Planner{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>👤 Профиль и настройки</h1>
+</div>
+
+<div class="profile-container">
+    <!-- Profile Form -->
+    <div class="card">
+        <h2>📋 Мои параметры</h2>
+        <form id="profileForm" class="form-grid">
+            <div class="form-group">
+                <label>Текущий вес (кг)</label>
+                <input type="number" step="0.1" name="current_weight" value="{{ profile.current_weight }}" required>
+            </div>
+            <div class="form-group">
+                <label>Целевой вес (кг)</label>
+                <input type="number" step="0.1" name="target_weight" value="{{ profile.target_weight }}" required>
+            </div>
+            <div class="form-group">
+                <label>Рост (см)</label>
+                <input type="number" name="height" value="{{ profile.height }}" required>
+            </div>
+            <div class="form-group">
+                <label>Возраст</label>
+                <input type="number" name="age" value="{{ profile.age }}" required>
+            </div>
+            <div class="form-group">
+                <label>Пол</label>
+                <select name="gender">
+                    <option value="male" {% if profile.gender == 'male' %}selected{% endif %}>Мужской</option>
+                    <option value="female" {% if profile.gender == 'female' %}selected{% endif %}>Женский</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Активность</label>
+                <select name="activity_level">
+                    <option value="low" {% if profile.activity_level == 'low' %}selected{% endif %}>Низкая</option>
+                    <option value="moderate" {% if profile.activity_level == 'moderate' %}selected{% endif %}>Средняя</option>
+                    <option value="high" {% if profile.activity_level == 'high' %}selected{% endif %}>Высокая</option>
+                </select>
+            </div>
+            
+            <h3>🎯 Цели по КБЖУ</h3>
+            <div class="form-group">
+                <label>Калории (ккал)</label>
+                <input type="number" name="target_calories" value="{{ profile.target_calories }}">
+            </div>
+            <div class="form-group">
+                <label>Белки (г)</label>
+                <input type="number" step="0.1" name="target_protein" value="{{ profile.target_protein }}">
+            </div>
+            <div class="form-group">
+                <label>Жиры (г)</label>
+                <input type="number" step="0.1" name="target_fat" value="{{ profile.target_fat }}">
+            </div>
+            <div class="form-group">
+                <label>Углеводы (г)</label>
+                <input type="number" step="0.1" name="target_carbs" value="{{ profile.target_carbs }}">
+            </div>
+            
+            <button type="submit" class="btn-primary">Сохранить</button>
+        </form>
+    </div>
+    
+    <!-- Weight Log -->
+    <div class="card">
+        <h2>⚖️ Добавить вес</h2>
+        <form id="weightForm" class="form-inline">
+            <input type="number" step="0.1" name="weight" placeholder="Вес (кг)" required>
+            <input type="date" name="date">
+            <button type="submit" class="btn-primary">Добавить</button>
+        </form>
+        
+        <h3>📊 История веса</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Вес (кг)</th>
+                    <th>Изменение</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in weight_logs[:10] %}
+                <tr>
+                    <td>{{ log.date }}</td>
+                    <td>{{ log.weight }}</td>
+                    <td>{% if loop.index > 1 %}
+                        {% set prev = weight_logs[loop.index0 - 1].weight %}
+                        {% if log.weight > prev %}+{% endif %}{{ (log.weight - prev)|round(1) }}
+                    {% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Measurements -->
+    <div class="card">
+        <h2>📏 Замеры тела</h2>
+        <form id="measurementsForm" class="form-grid">
+            <div class="form-group">
+                <label>Грудь (см)</label>
+                <input type="number" step="0.5" name="chest" value="0">
+            </div>
+            <div class="form-group">
+                <label>Талия (см)</label>
+                <input type="number" step="0.5" name="waist" value="0">
+            </div>
+            <div class="form-group">
+                <label>Бедра (см)</label>
+                <input type="number" step="0.5" name="hips" value="0">
+            </div>
+            <div class="form-group">
+                <label>Бицепс (см)</label>
+                <input type="number" step="0.5" name="bicep" value="0">
+            </div>
+            <div class="form-group">
+                <label>Бедро (см)</label>
+                <input type="number" step="0.5" name="thigh" value="0">
+            </div>
+            <div class="form-group">
+                <label>Дата</label>
+                <input type="date" name="date">
+            </div>
+            <button type="submit" class="btn-primary">Сохранить замеры</button>
+        </form>
+        
+        <h3>📋 История замеров</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Грудь</th>
+                    <th>Талия</th>
+                    <th>Бедра</th>
+                    <th>Бицепс</th>
+                    <th>Бедро</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in measurements %}
+                <tr>
+                    <td>{{ m.date }}</td>
+                    <td>{{ m.chest }}</td>
+                    <td>{{ m.waist }}</td>
+                    <td>{{ m.hips }}</td>
+                    <td>{{ m.bicep }}</td>
+                    <td>{{ m.thigh }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Profile form
+document.getElementById('profileForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    
+    try {
+        const response = await fetch('/api/profile/update', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (response.ok) {
+            alert('✅ Профиль обновлен!');
+        } else {
+            throw new Error('Ошибка сохранения');
+        }
+    } catch (error) {
+        alert('❌ Ошибка: ' + error.message);
+    }
+});
+
+// Weight form
+document.getElementById('weightForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    
+    try {
+        const response = await fetch('/api/weight/add', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (response.ok) {
+            alert('✅ Вес добавлен!');
+            e.target.reset();
+        } else {
+            throw new Error('Ошибка сохранения');
+        }
+    } catch (error) {
+        alert('❌ Ошибка: ' + error.message);
+    }
+});
+
+// Measurements form
+document.getElementById('measurementsForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    
+    try {
+        const response = await fetch('/api/measurements/add', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (response.ok) {
+            alert('✅ Замеры сохранены!');
+            e.target.reset();
+        } else {
+            throw new Error('Ошибка сохранения');
+        }
+    } catch (error) {
+        alert('❌ Ошибка: ' + error.message);
+    }
+});
+</script>
+{% endblock %}
