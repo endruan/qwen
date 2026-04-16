@@ -11,8 +11,15 @@ from datetime import date, timedelta
 from sqlalchemy.orm import Session
 import sys
 import os
+from pathlib import Path
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Get the absolute path to the web directory - Windows compatible
+WEB_DIR = Path(__file__).resolve().parent
+BASE_DIR = WEB_DIR.parent
+
+# Add base directory to Python path for imports
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
 
 from models.database import init_db
 from services.core_services import (
@@ -25,13 +32,19 @@ from services.core_services import (
 # Create FastAPI app for web frontend
 app = FastAPI(title="Nutrition Planner Web")
 
-# Mount static files
-static_path = os.path.join(os.path.dirname(__file__), 'static')
-app.mount("/static", StaticFiles(directory=static_path), name="static")
+# Mount static files - Windows compatible paths
+static_path = WEB_DIR.joinpath('static')
+if static_path.exists():
+    app.mount("/static", StaticFiles(directory=str(static_path)), name="static")
+else:
+    print(f"Warning: Static directory not found at {static_path}")
 
-# Setup templates
-templates_path = os.path.join(os.path.dirname(__file__), 'templates')
-templates = Jinja2Templates(directory=templates_path)
+# Setup templates - Windows compatible paths
+templates_path = WEB_DIR.joinpath('templates')
+if not templates_path.exists():
+    raise RuntimeError(f"Templates directory not found at {templates_path}")
+    
+templates = Jinja2Templates(directory=str(templates_path))
 
 # Dependency to get database session
 def get_db():
