@@ -246,16 +246,22 @@ class MealPlanService:
         if existing:
             return True  # Already added
         
-        # Add the recipe to the meal
-        self.db.execute(
-            meal_plan_recipes.insert().values(
-                meal_plan_id=meal_plan.id,
-                recipe_id=recipe_id,
-                meal_type=meal_type
+        try:
+            # Add the recipe to the meal
+            self.db.execute(
+                meal_plan_recipes.insert().values(
+                    meal_plan_id=meal_plan.id,
+                    recipe_id=recipe_id,
+                    meal_type=meal_type
+                )
             )
-        )
-        self.db.commit()
-        return True
+            self.db.commit()
+            return True
+        except Exception as e:
+            self.db.rollback()
+            if "UNIQUE constraint" in str(e):
+                return True  # Already exists, ignore
+            raise
     
     def get_meal_plan_by_date(self, plan_date: date) -> Optional[MealPlan]:
         """Get meal plan for a specific date."""
