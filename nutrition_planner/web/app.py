@@ -124,7 +124,7 @@ async def dashboard(request: Request, db: Session = Depends(get_db)):
     # Get today's meals
     today_meals = meal_plan_service.get_meals_by_type(today)
     
-    return templates.TemplateResponse("dashboard.html", {
+    context = {
         "request": request,
         "stats": stats,
         "week_days": week_days,
@@ -133,7 +133,9 @@ async def dashboard(request: Request, db: Session = Depends(get_db)):
         "meal_names": MEAL_NAMES,
         "meal_icons": MEAL_ICONS,
         "active_page": "dashboard"
-    })
+    }
+    
+    return templates.TemplateResponse(name="dashboard.html", context=context)
 
 
 @app.get("/ingredients", response_class=HTMLResponse)
@@ -142,11 +144,13 @@ async def ingredients_page(request: Request, db: Session = Depends(get_db)):
     ingredient_service = IngredientService(db)
     ingredients = ingredient_service.get_all_ingredients()
     
-    return templates.TemplateResponse("ingredients.html", {
+    context = {
         "request": request,
         "ingredients": ingredients,
         "active_page": "ingredients"
-    })
+    }
+    
+    return templates.TemplateResponse(name="ingredients.html", context=context)
 
 
 @app.get("/recipes", response_class=HTMLResponse)
@@ -163,13 +167,15 @@ async def recipes_page(request: Request, db: Session = Depends(get_db)):
     for recipe in recipes:
         recipe_nutrition[recipe.id] = recipe_service.calculate_recipe_nutrition(recipe.id)
     
-    return templates.TemplateResponse("recipes.html", {
+    context = {
         "request": request,
         "recipes": recipes,
         "all_ingredients": all_ingredients,
         "recipe_nutrition": recipe_nutrition,
         "active_page": "recipes"
-    })
+    }
+    
+    return templates.TemplateResponse(name="recipes.html", context=context)
 
 
 @app.get("/meal-planner", response_class=HTMLResponse)
@@ -213,7 +219,7 @@ async def meal_planner_page(
     # Get all recipes for the modal
     all_recipes = recipe_service.get_all_recipes()
     
-    return templates.TemplateResponse("meal_planner.html", {
+    context = {
         "request": request,
         "selected_date": selected_date.strftime("%d.%m.%Y"),
         "week_days": week_days,
@@ -224,7 +230,9 @@ async def meal_planner_page(
         "meal_names": MEAL_NAMES,
         "meal_icons": MEAL_ICONS,
         "active_page": "meal-planner"
-    })
+    }
+    
+    return templates.TemplateResponse(name="meal_planner.html", context=context)
 
 
 @app.get("/shopping-list", response_class=HTMLResponse)
@@ -282,7 +290,7 @@ async def shopping_list_page(
             'unit': item['unit']
         })
     
-    return templates.TemplateResponse("shopping_list.html", {
+    context = {
         "request": request,
         "shopping_list": shopping_list,
         "week_start": week_start.strftime("%d.%m.%Y"),
@@ -291,7 +299,9 @@ async def shopping_list_page(
         "purchased_count": purchased_count,
         "grouped_items": grouped_items,
         "active_page": "shopping-list"
-    })
+    }
+    
+    return templates.TemplateResponse(name="shopping_list.html", context=context)
 
 
 if __name__ == "__main__":
