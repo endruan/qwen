@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% set active_page = "ingredients" %}
+
+{% block content %}
+<h1>Ингредиенты</h1>
+
+<div class="card">
+    <button onclick="document.getElementById('addIngredientModal').style.display='block'" class="btn-primary">+ Добавить ингредиент</button>
+    
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Ккал/100г</th>
+                <th>Белки</th>
+                <th>Жиры</th>
+                <th>Углеводы</th>
+                <th>Цена за уп.</th>
+                <th>Упаковка</th>
+                <th>Ед. изм.</th>
+                <th>Цена за 100г</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ing in ingredients %}
+            <tr>
+                <td>{{ ing.name }}</td>
+                <td>{{ ing.calories }}</td>
+                <td>{{ ing.protein }}г</td>
+                <td>{{ ing.fat }}г</td>
+                <td>{{ ing.carbs }}г</td>
+                <td>{{ ing.price }}₽</td>
+                <td>{{ ing.package_weight }}{{ ing.unit }}</td>
+                <td>{{ ing.unit }}</td>
+                <td>{{ (ing.price / ing.package_weight * 100) | round(2) if ing.package_weight > 0 else 0 }}₽</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Модальное окно добавления -->
+<div id="addIngredientModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="document.getElementById('addIngredientModal').style.display='none'">&times;</span>
+        <h2>Добавить ингредиент</h2>
+        <form action="/ingredients/add" method="POST">
+            <div class="form-group">
+                <label>Название</label>
+                <input type="text" name="name" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Ккал на 100г</label>
+                    <input type="number" step="0.1" name="calories" required>
+                </div>
+                <div class="form-group">
+                    <label>Белки (г)</label>
+                    <input type="number" step="0.1" name="protein" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Жиры (г)</label>
+                    <input type="number" step="0.1" name="fat" required>
+                </div>
+                <div class="form-group">
+                    <label>Углеводы (г)</label>
+                    <input type="number" step="0.1" name="carbs" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Цена за упаковку (₽)</label>
+                    <input type="number" step="0.01" name="price" required>
+                </div>
+                <div class="form-group">
+                    <label>Вес упаковки</label>
+                    <input type="number" step="0.1" name="package_weight" required>
+                </div>
+                <div class="form-group">
+                    <label>Ед. измерения</label>
+                    <select name="unit">
+                        <option value="г">грамм (г)</option>
+                        <option value="кг">килограмм (кг)</option>
+                        <option value="шт">штука (шт)</option>
+                        <option value="мл">миллилитр (мл)</option>
+                        <option value="л">литр (л)</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn-primary">Сохранить</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

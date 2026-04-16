@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% set active_page = "shopping" %}
+
+{% block content %}
+<h1>Список покупок</h1>
+<p class="date">На неделю с {{ week_start.strftime('%d.%m') }} по {{ week_end.strftime('%d.%m') }}</p>
+
+<div class="card">
+    <div class="shopping-actions">
+        <button onclick="exportShoppingList()" class="btn-primary">📥 Скачать в файл</button>
+        <button onclick="copyToTelegram()" class="btn-secondary">✈️ Копировать для Telegram</button>
+    </div>
+    
+    {% if items %}
+    <table class="data-table shopping-table">
+        <thead>
+            <tr>
+                <th>Продукт</th>
+                <th>Количество</th>
+                <th>Примерная стоимость</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr class="shopping-item" 
+                data-name="{{ item.name }}" 
+                data-amount="{{ item.amount | round(0) }}" 
+                data-unit="{{ item.unit }}" 
+                data-cost="{{ item.cost | round(2) }}">
+                <td>{{ item.name }}</td>
+                <td>{{ item.amount | round(0) }} {{ item.unit }}</td>
+                <td>{{ item.cost | round(2) }}₽</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td><strong>Итого:</strong></td>
+                <td></td>
+                <td><strong>{{ total_cost }}₽</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+    {% else %}
+    <p class="no-data">Список покупок пуст. Добавьте блюда в план питания на неделю.</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h2>Советы по покупкам</h2>
+    <ul class="shopping-tips">
+        <li>Проверьте запасы дома перед покупкой</li>
+        <li>Покупайте овощи и фрукты по сезону - это дешевле</li>
+        <li>Оптимально закупаться 1-2 раза в неделю</li>
+        <li>Составляйте список заранее, чтобы ничего не забыть</li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function exportShoppingList() {
+    let text = "🛒 Список покупок на неделю\n";
+    text += "с {{ week_start.strftime('%d.%m') }} по {{ week_end.strftime('%d.%m') }}\n\n";
+    
+    document.querySelectorAll('.shopping-item').forEach(item => {
+        const name = item.dataset.name;
+        const amount = item.dataset.amount;
+        const unit = item.dataset.unit;
+        const cost = item.dataset.cost;
+        text += `• ${name}: ${amount} ${unit} (${cost}₽)\n`;
+    });
+    
+    text += `\n💰 Итого: {{ total_cost }}₽`;
+    
+    // Скачивание файла
+    const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'shopping_list.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    alert('Файл скачан!');
+}
+
+function copyToTelegram() {
+    let text = "🛒 *Список покупок*\n";
+    text += "_на неделю_\n\n";
+    
+    document.querySelectorAll('.shopping-item').forEach(item => {
+        const name = item.dataset.name;
+        const amount = item.dataset.amount;
+        const unit = item.dataset.unit;
+        const cost = item.dataset.cost;
+        text += `• ${name}: ${amount} ${unit} — ${cost}₽\n`;
+    });
+    
+    text += `\n*Итого: {{ total_cost }}₽*`;
+    
+    navigator.clipboard.writeText(text).then(() => {
+        alert('Скопировано в буфер обмена! Теперь можно отправить в Telegram.');
+    }).catch(err => {
+        alert('Ошибка копирования. Попробуйте вручную.');
+    });
+}
+</script>
+{% endblock %}
