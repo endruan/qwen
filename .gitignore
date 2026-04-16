@@ -1,46 +1,42 @@
 ```
-# Python
+# Dependencies
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Virtual environments
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.local
+.env.*
 venv/
 .venv/
-env/
-ENV/
+node_modules/
 
-# Database
-*.sqlite
-*.db
+# Build artifacts
+dist/
+build/
+*.egg-info/
 
-# Web specific
-web/__pycache__/
-web/*.py[cod]
-web/*$py.class
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
 
 # Logs
 *.log
 
-# Environment variables
-.env
-.env.local
-.env.*
+# Coverage
+.coverage
+coverage/
+htmlcov/
+
+# Python specific
+*.py[cod]
+*$py.class
+*.so
+.Python
 ```
