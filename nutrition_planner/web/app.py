@@ -134,7 +134,7 @@ async def dashboard(request: Request, db: Session = Depends(get_db)):
         "active_page": "dashboard"
     }
     
-    return templates.TemplateResponse("dashboard.html", request, context)
+    return templates.TemplateResponse(name="dashboard.html", request=request, context=context)
 
 
 @app.get("/ingredients", response_class=HTMLResponse)
@@ -148,7 +148,7 @@ async def ingredients_page(request: Request, db: Session = Depends(get_db)):
         "active_page": "ingredients"
     }
     
-    return templates.TemplateResponse("ingredients.html", request, context)
+    return templates.TemplateResponse(name="ingredients.html", request=request, context=context)
 
 
 @app.get("/recipes", response_class=HTMLResponse)
@@ -172,7 +172,7 @@ async def recipes_page(request: Request, db: Session = Depends(get_db)):
         "active_page": "recipes"
     }
     
-    return templates.TemplateResponse("recipes.html", request, context)
+    return templates.TemplateResponse(name="recipes.html", request=request, context=context)
 
 
 @app.get("/meal-planner", response_class=HTMLResponse)
@@ -228,7 +228,7 @@ async def meal_planner_page(
         "active_page": "meal-planner"
     }
     
-    return templates.TemplateResponse("meal_planner.html", request, context)
+    return templates.TemplateResponse(name="meal_planner.html", request=request, context=context)
 
 
 @app.get("/shopping-list", response_class=HTMLResponse)
@@ -296,7 +296,7 @@ async def shopping_list_page(
         "active_page": "shopping-list"
     }
     
-    return templates.TemplateResponse("shopping_list.html", request, context)
+    return templates.TemplateResponse(name="shopping_list.html", request=request, context=context)
 
 
 if __name__ == "__main__":

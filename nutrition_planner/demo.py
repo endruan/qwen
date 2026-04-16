@@ -52,10 +52,15 @@ def create_sample_data(db):
             created_ingredients[ing_data["name"]] = ingredient
             print(f"  ✓ Добавлен ингредиент: {ingredient.name}")
         except Exception as e:
-            # Ingredient might already exist
-            existing = ingredient_service.search_ingredients(ing_data["name"])[0]
-            created_ingredients[ing_data["name"]] = existing
-            print(f"  ⚠ Ингредиент уже существует: {ing_data['name']}")
+            # Ingredient might already exist, rollback and search for it
+            db.rollback()
+            existing_list = ingredient_service.search_ingredients(ing_data["name"])
+            if existing_list:
+                existing = existing_list[0]
+                created_ingredients[ing_data["name"]] = existing
+                print(f"  ⚠ Ингредиент уже существует: {ing_data['name']}")
+            else:
+                print(f"  ✗ Ошибка создания ингредиента {ing_data['name']}: {e}")
     
     # Create sample recipes
     recipes_data = [
