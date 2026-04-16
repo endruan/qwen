@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% set active_page = "planner" %}
+
+{% block content %}
+<h1>Планировщик питания</h1>
+
+<div class="planner-header">
+    <form method="GET" class="date-selector">
+        <label>Дата:</label>
+        <input type="date" name="date" value="{{ current_date }}" onchange="this.form.submit()">
+    </form>
+    <div class="navigation">
+        <a href="/meal-planner?date={{ (current_date - timedelta(days=1)) }}" class="btn-secondary">← Предыдущий день</a>
+        <a href="/meal-planner?date={{ (current_date + timedelta(days=1)) }}" class="btn-secondary">Следующий день →</a>
+    </div>
+</div>
+
+<div class="week-view">
+    <h2>Неделя с {{ week_start.strftime('%d.%m') }} по {{ week_end.strftime('%d.%m') }}</h2>
+    <div class="week-grid">
+        {% for i in range(7) %}
+            {% set day = week_start + timedelta(days=i) %}
+            <div class="day-card {% if day == current_date %}active{% endif %}">
+                <a href="/meal-planner?date={{ day }}" class="day-link">
+                    <strong>{{ day.strftime('%A')[:3] }}</strong>
+                    <span>{{ day.strftime('%d.%m') }}</span>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% for meal_type, title in meal_titles.items() %}
+<div class="card meal-section">
+    <h3>{{ title }}</h3>
+    
+    {% if plans_by_meal.get(meal_type) %}
+        <div class="meal-items">
+            {% for plan in plans_by_meal[meal_type] %}
+            <div class="food-item">
+                <div class="food-info">
+                    <strong>{{ plan.recipe.name }}</strong>
+                    <span class="servings">{{ plan.servings_count }} порц.</span>
+                </div>
+                <div class="food-actions">
+                    <form action="/meal-planner/delete/{{ plan.id }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn-danger btn-small">✕</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-data">Нет блюд</p>
+    {% endif %}
+    
+    <button onclick="openAddMealModal('{{ meal_type }}')" class="btn-secondary btn-small">+ Добавить блюдо</button>
+</div>
+{% endfor %}
+
+<!-- Модальное окно добавления блюда -->
+<div id="addMealModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="document.getElementById('addMealModal').style.display='none'">&times;</span>
+        <h2>Добавить в план</h2>
+        <form action="/meal-planner/add" method="POST">
+            <input type="hidden" name="date_str" value="{{ current_date }}">
+            <input type="hidden" name="meal_type" id="modal_meal_type">
+            
+            <div class="form-group">
+                <label>Прием пищи</label>
+                <input type="text" id="modal_meal_title" disabled>
+            </div>
+            
+            <div class="form-group">
+                <label>Рецепт</label>
+                <select name="recipe_id" required>
+                    <option value="">Выберите рецепт</option>
+                    {% for recipe in recipes %}
+                    <option value="{{ recipe.id }}">{{ recipe.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Количество порций</label>
+                <input type="number" name="servings_count" value="1" step="0.5" min="0.5" required>
+            </div>
+            
+            <button type="submit" class="btn-primary">Добавить</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const weekStart = new Date('{{ week_start }}');
+const weekEnd = new Date('{{ week_end }}');
+
+function openAddMealModal(mealType) {
+    document.getElementById('modal_meal_type').value = mealType;
+    const titles = {{ meal_titles | tojson }};
+    document.getElementById('modal_meal_title').value = titles[mealType];
+    document.getElementById('addMealModal').style.display = 'block';
+}
+
+// Закрытие модального окна при клике вне его
+window.onclick = function(event) {
+    const modal = document.getElementById('addMealModal');
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+}
+</script>
+{% endblock %}
