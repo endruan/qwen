@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Список покупок - Nutrition Planner{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🛒 Список покупок</h1>
+    <button class="btn-primary" onclick="exportToTelegram()">📤 Экспорт в Telegram</button>
+</div>
+
+<div class="card">
+    {% if shopping_list %}
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Продукт</th>
+                <th>Количество</th>
+                <th>Ед. изм.</th>
+                <th>Примерная стоимость</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in shopping_list %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.quantity|round|int }}</td>
+                <td>{{ item.unit_type }}</td>
+                <td>{{ item.estimated_cost|round|int }} ₽</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3"><strong>Итого:</strong></td>
+                <td><strong>{{ total_cost|round|int }} ₽</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+    {% else %}
+    <p class="empty-state">Список покупок пуст. Добавьте рецепты в планировщик!</p>
+    {% endif %}
+</div>
+{% endblock %}

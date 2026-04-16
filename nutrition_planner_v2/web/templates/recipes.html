@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}Рецепты - Nutrition Planner{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🍳 Рецепты</h1>
+    <button class="btn-primary" onclick="openModal('addRecipeModal')">+ Добавить рецепт</button>
+</div>
+
+<div class="recipes-grid">
+    {% for recipe in recipes %}
+    <div class="recipe-card">
+        {% if recipe.image_url %}
+        <img src="{{ recipe.image_url }}" alt="{{ recipe.name }}" class="recipe-image">
+        {% else %}
+        <div class="recipe-image" style="background: #e0e0e0; display: flex; align-items: center; justify-content: center; font-size: 48px;">🍽️</div>
+        {% endif %}
+        <div class="recipe-info">
+            <h3>{{ recipe.name }}</h3>
+            <p>{{ recipe.description[:100] }}...</p>
+            <div class="recipe-meta">
+                <span>🔥 {{ recipe.total_calories|round|int }} ккал</span>
+                <span>👥 {{ recipe.servings }} порц.</span>
+                <span>💰 {{ recipe.total_cost|round|int }} ₽</span>
+            </div>
+            <div class="recipe-actions" style="margin-top: 15px;">
+                <button class="btn-danger btn-small" onclick="deleteRecipe({{ recipe.id }})">Удалить</button>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if not recipes %}
+<p class="empty-state">Рецепты не добавлены</p>
+{% endif %}
+
+<!-- Add Recipe Modal -->
+<div id="addRecipeModal" class="modal">
+    <div class="modal-content" style="max-width: 800px;">
+        <div class="modal-header">
+            <h2>➕ Добавить рецепт</h2>
+            <button class="close-modal" onclick="closeModal('addRecipeModal')">&times;</button>
+        </div>
+        <form id="addRecipeForm">
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label>Название *</label>
+                <input type="text" name="name" required placeholder="Например: Овсяная каша">
+            </div>
+            
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label>Описание (поддерживает HTML)</label>
+                <textarea name="description" rows="3" placeholder="Краткое описание блюда"></textarea>
+            </div>
+            
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label>Инструкция приготовления</label>
+                <textarea name="instructions" rows="5" placeholder="Пошаговая инструкция"></textarea>
+            </div>
+            
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label>Количество порций</label>
+                <input type="number" name="servings" value="1" min="1">
+            </div>
+            
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label>URL изображения (опционально)</label>
+                <input type="text" name="image_url" placeholder="https://...">
+            </div>
+            
+            <h3 style="margin: 20px 0 15px;">Ингредиенты</h3>
+            <div id="ingredientsList" class="ingredients-list"></div>
+            
+            <button type="button" class="btn-primary" onclick="addIngredientRow()" style="margin-bottom: 20px;">+ Добавить ингредиент</button>
+            
+            <input type="hidden" name="ingredients_json" id="ingredientsJson">
+            
+            <button type="submit" class="btn-primary">Сохранить рецепт</button>
+        </form>
+    </div>
+</div>
+
+<script>
+let addedIngredients = [];
+
+async function loadIngredients() {
+    const response = await fetch('/api/ingredients');
+    return await response.json();
+}
+
+function addIngredientRow() {
+    loadIngredients().then(ingredients => {
+        const container = document.getElementById('ingredientsList');
+        const row = document.createElement('div');
+        row.className = 'ingredient-row';
+        
+        let options = ingredients.map(ing => 
+            `<option value="${ing.id}" data-calories="${ing.calories}" data-protein="${ing.protein}" data-fat="${ing.fat}" data-carbs="${ing.carbs}" data-price="${ing.price_per_unit}" data-package="${ing.package_size}">${ing.name}</option>`
+        ).join('');
+        
+        row.innerHTML = `
+            <select name="ingredient_id" required>${options}</select>
+            <input type="number" name="quantity" placeholder="г" value="100" min="0" step="1" required>
+            <button type="button" onclick="this.parentElement.remove()">✕</button>
+        `;
+        
+        container.appendChild(row);
+    });
+}
+
+document.getElementById('addRecipeForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    
+    // Collect ingredients
+    const ingredientRows = document.querySelectorAll('.ingredient-row');
+    const ingredients = [];
+    
+    ingredientRows.forEach(row => {
+        const select = row.querySelector('select[name="ingredient_id"]');
+        const quantity = row.querySelector('input[name="quantity"]').value;
+        
+        if (select.value && quantity) {
+            const option = select.options[select.selectedIndex];
+            ingredients.push({
+                id: parseInt(select.value),
+                quantity: parseFloat(quantity),
+                calories: parseFloat(option.dataset.calories),
+                protein: parseFloat(option.dataset.protein),
+                fat: parseFloat(option.dataset.fat),
+                carbs: parseFloat(option.dataset.carbs)
+            });
+        }
+    });
+    
+    formData.set('ingredients_json', JSON.stringify(ingredients));
+    
+    try {
+        const response = await fetch('/api/recipes/create', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (response.ok) {
+            showNotification('✅ Рецепт добавлен!');
+            closeModal('addRecipeModal');
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            const error = await response.json();
+            throw new Error(error.detail || 'Ошибка сохранения');
+        }
+    } catch (error) {
+        showNotification('❌ Ошибка: ' + error.message, 'error');
+    }
+});
+
+async function deleteRecipe(id) {
+    if (!confirm('Удалить этот рецепт?')) return;
+    
+    try {
+        const response = await fetch(`/api/recipes/delete/${id}`, {
+            method: 'DELETE'
+        });
+        
+        if (response.ok) {
+            showNotification('✅ Рецепт удален!');
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            throw new Error('Ошибка удаления');
+        }
+    } catch (error) {
+        showNotification('❌ Ошибка: ' + error.message, 'error');
+    }
+}
+</script>
+{% endblock %}

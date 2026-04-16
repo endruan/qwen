@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block title %}Панель управления - Nutrition Planner{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>📊 Панель управления</h1>
+    <p class="subtitle">{{ today.strftime('%d.%m.%Y') }}</p>
+</div>
+
+<!-- Stats Cards -->
+<div class="stats-grid">
+    <div class="stat-card calories">
+        <div class="stat-icon">🔥</div>
+        <div class="stat-info">
+            <h3>{{ daily_totals.calories|round|int }} / {{ profile.target_calories }}</h3>
+            <p>Ккал сегодня</p>
+            <div class="progress-bar">
+                <div class="progress" style="width: {{ [daily_totals.calories / profile.target_calories * 100, 100]|min|int }}%"></div>
+            </div>
+            <small>{{ (profile.target_calories - daily_totals.calories)|round|int }} осталось</small>
+        </div>
+    </div>
+    
+    <div class="stat-card protein">
+        <div class="stat-icon">🥩</div>
+        <div class="stat-info">
+            <h3>{{ daily_totals.protein|round|int }} / {{ profile.target_protein|int }}</h3>
+            <p>Белки (г)</p>
+            <div class="progress-bar">
+                <div class="progress" style="width: {{ (daily_totals.protein / profile.target_protein * 100)|round|int }}%"></div>
+            </div>
+            <small>{{ (profile.target_protein - daily_totals.protein)|round|int }} г осталось</small>
+        </div>
+    </div>
+    
+    <div class="stat-card fat">
+        <div class="stat-icon">🥑</div>
+        <div class="stat-info">
+            <h3>{{ daily_totals.fat|round|int }} / {{ profile.target_fat|int }}</h3>
+            <p>Жиры (г)</p>
+            <div class="progress-bar">
+                <div class="progress" style="width: {{ (daily_totals.fat / profile.target_fat * 100)|round|int }}%"></div>
+            </div>
+            <small>{{ (profile.target_fat - daily_totals.fat)|round|int }} г осталось</small>
+        </div>
+    </div>
+    
+    <div class="stat-card carbs">
+        <div class="stat-icon">🍞</div>
+        <div class="stat-info">
+            <h3>{{ daily_totals.carbs|round|int }} / {{ profile.target_carbs|int }}</h3>
+            <p>Углеводы (г)</p>
+            <div class="progress-bar">
+                <div class="progress" style="width: {{ (daily_totals.carbs / profile.target_carbs * 100)|round|int }}%"></div>
+            </div>
+            <small>{{ (profile.target_carbs - daily_totals.carbs)|round|int }} г осталось</small>
+        </div>
+    </div>
+    
+    <div class="stat-card cost">
+        <div class="stat-icon">💰</div>
+        <div class="stat-info">
+            <h3>{{ daily_totals.cost|round|int }} ₽</h3>
+            <p>Стоимость дня</p>
+        </div>
+    </div>
+    
+    <div class="stat-card bmi">
+        <div class="stat-icon">⚖️</div>
+        <div class="stat-info">
+            <h3>{{ bmi }}</h3>
+            <p>ИМТ</p>
+            <small>{{ profile.current_weight }} кг / {{ profile.height }} см</small>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Section -->
+<div class="charts-grid">
+    <div class="chart-card">
+        <h3>📈 Динамика веса</h3>
+        <canvas id="weightChart"></canvas>
+    </div>
+    
+    <div class="chart-card">
+        <h3>🎯 БЖУ за день</h3>
+        <canvas id="macrosChart"></canvas>
+    </div>
+</div>
+
+<!-- Today's Meals -->
+<div class="meals-section">
+    <h2>🍽️ Приемы пищи сегодня</h2>
+    <div class="meals-grid">
+        {% for meal_type in ['breakfast', 'snack1', 'lunch', 'snack2', 'dinner', 'snack3'] %}
+        <div class="meal-card">
+            <h4>
+                {% if meal_type == 'breakfast' %}🌅 Завтрак
+                {% elif meal_type == 'snack1' %}🍎 Второй завтрак
+                {% elif meal_type == 'lunch' %}🍲 Обед
+                {% elif meal_type == 'snack2' %}☕ Перекус
+                {% elif meal_type == 'dinner' %}🌙 Ужин
+                {% else %}🥛 Второй перекус
+                {% endif %}
+            </h4>
+            <div class="meal-items">
+                {% if plan and plan.items %}
+                    {% for item in plan.items %}
+                        {% if item.meal_type == meal_type %}
+                        <div class="meal-item">
+                            <span>{{ item.recipe.name }}</span>
+                            <small>{{ item.recipe.total_calories|int }} ккал</small>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                <p class="empty-meal">Нет рецептов</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Supplements -->
+<div class="supplements-section">
+    <h2>💊 Добавки</h2>
+    <div class="supplements-list">
+        {% if supplements %}
+            {% for supp in supplements %}
+            <div class="supplement-item">
+                <strong>{{ supp.name }}</strong>
+                <span>{{ supp.dosage }}</span>
+                <small>{{ supp.timing }}</small>
+            </div>
+            {% endfor %}
+        {% else %}
+        <p class="empty-state">Добавки не настроены</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Weight Chart
+const weightData = {{ weight_data|safe }};
+if (weightData.length > 0) {
+    const ctx = document.getElementById('weightChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: weightData.map(d => d.date),
+            datasets: [{
+                label: 'Вес (кг)',
+                data: weightData.map(d => d.weight),
+                borderColor: '#4CAF50',
+                tension: 0.4,
+                fill: true,
+                backgroundColor: 'rgba(76, 175, 80, 0.1)'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: false } }
+        }
+    });
+}
+
+// Macros Chart
+const macrosCtx = document.getElementById('macrosChart').getContext('2d');
+new Chart(macrosCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Белки', 'Жиры', 'Углеводы'],
+        datasets: [{
+            data: [{{ daily_totals.protein|round|int }}, {{ daily_totals.fat|round|int }}, {{ daily_totals.carbs|round|int }}],
+            backgroundColor: ['#FF6384', '#FFCE56', '#36A2EB']
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { 
+            legend: { position: 'bottom' },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return context.label + ': ' + context.parsed + 'г';
+                    }
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

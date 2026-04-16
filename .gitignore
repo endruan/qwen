@@ -1,22 +1,6 @@
 ```
-# Windows-specific files
-*.bat
-*.cmd
-*.exe
-
-# Logs and temp files
-*.log
-*.tmp
-*.swp
-
-# Environment variables
-.env
-.env.local
-*.env.*
-
-# Editors
-.vscode/
-.idea/
+# Database files
+*.db
 
 # Python
 __pycache__/
@@ -27,25 +11,48 @@ __pycache__/
 env/
 venv/
 .venv/
+.ENV
+.ENV.local
+.env
+.env.local
+.env.*
+.python-version
 pip-log.txt
 pip-delete-this-directory.txt
-
-# Build artifacts
-build/
-dist/
-*.egg-info/
+.tox/
 .coverage
-htmlcov/
 .coverage.*
-.nyc_output
-coverage-final.json
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+*.pot
+*.po
+*~
+.pytest_cache/
+.mypy_cache/
+.hypothesis/
 
-# OS generated files
+# Web
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dist/
+build/
+coverage/
+*.min.js
+*.min.css
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# OS
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
 ```

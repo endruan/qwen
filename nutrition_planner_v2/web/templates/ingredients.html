@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}Ингредиенты - Nutrition Planner{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>🥦 Ингредиенты</h1>
+    <button class="btn-primary" onclick="openModal('addIngredientModal')">+ Добавить ингредиент</button>
+</div>
+
+<!-- Ingredients Table -->
+<div class="card">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Ккал/100г</th>
+                <th>Белки</th>
+                <th>Жиры</th>
+                <th>Углеводы</th>
+                <th>Цена за уп.</th>
+                <th>Размер уп.</th>
+                <th>Ед. изм.</th>
+                <th>Цена/100г</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ing in ingredients %}
+            <tr>
+                <td>{{ ing.name }}</td>
+                <td>{{ ing.calories|round|int }}</td>
+                <td>{{ ing.protein|round(1) }}</td>
+                <td>{{ ing.fat|round(1) }}</td>
+                <td>{{ ing.carbs|round(1) }}</td>
+                <td>{{ ing.price_per_unit|round|int }} ₽</td>
+                <td>{{ ing.package_size }} {{ ing.unit_type }}</td>
+                <td>{{ ing.unit_type }}</td>
+                <td>{{ (ing.price_per_unit / ing.package_size * 100)|round(1) if ing.package_size > 0 else 0 }} ₽</td>
+                <td>
+                    <button class="btn-danger btn-small" onclick="deleteIngredient({{ ing.id }})">Удалить</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% if not ingredients %}
+    <p class="empty-state">Ингредиенты не добавлены</p>
+    {% endif %}
+</div>
+
+<!-- Add Ingredient Modal -->
+<div id="addIngredientModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>➕ Добавить ингредиент</h2>
+            <button class="close-modal" onclick="closeModal('addIngredientModal')">&times;</button>
+        </div>
+        <form id="addIngredientForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Название *</label>
+                    <input type="text" name="name" required placeholder="Например: Куриная грудка">
+                </div>
+                <div class="form-group">
+                    <label>Ккал на 100г</label>
+                    <input type="number" step="0.1" name="calories" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Белки (г)</label>
+                    <input type="number" step="0.1" name="protein" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Жиры (г)</label>
+                    <input type="number" step="0.1" name="fat" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Углеводы (г)</label>
+                    <input type="number" step="0.1" name="carbs" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Цена за упаковку (₽)</label>
+                    <input type="number" step="0.1" name="price_per_unit" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Размер упаковки</label>
+                    <input type="number" step="0.1" name="package_size" value="100">
+                </div>
+                <div class="form-group">
+                    <label>Единица измерения</label>
+                    <select name="unit_type">
+                        <option value="г">граммы (г)</option>
+                        <option value="кг">килограммы (кг)</option>
+                        <option value="мл">миллилитры (мл)</option>
+                        <option value="л">литры (л)</option>
+                        <option value="шт">штуки (шт)</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn-primary" style="margin-top: 20px;">Сохранить</button>
+        </form>
+    </div>
+</div>
+
+<script>
+// Add ingredient
+document.getElementById('addIngredientForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    
+    try {
+        const response = await fetch('/api/ingredients/add', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (response.ok) {
+            showNotification('✅ Ингредиент добавлен!');
+            closeModal('addIngredientModal');
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            const error = await response.json();
+            throw new Error(error.detail || 'Ошибка сохранения');
+        }
+    } catch (error) {
+        showNotification('❌ Ошибка: ' + error.message, 'error');
+    }
+});
+
+// Delete ingredient
+async function deleteIngredient(id) {
+    if (!confirm('Удалить этот ингредиент?')) return;
+    
+    try {
+        const response = await fetch(`/api/ingredients/delete/${id}`, {
+            method: 'DELETE'
+        });
+        
+        if (response.ok) {
+            showNotification('✅ Ингредиент удален!');
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            throw new Error('Ошибка удаления');
+        }
+    } catch (error) {
+        showNotification('❌ Ошибка: ' + error.message, 'error');
+    }
+}
+</script>
+{% endblock %}
