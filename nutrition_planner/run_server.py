@@ -18,9 +18,9 @@ if __name__ == "__main__":
     print("\nPress Ctrl+C to stop the server\n")
     
     uvicorn.run(
-        app,
+        "api.main:app",
         host="0.0.0.0",
         port=8000,
-        reload=True,
+        reload=False,
         log_level="info"
     )
