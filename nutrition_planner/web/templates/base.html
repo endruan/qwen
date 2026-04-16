@@ -4,76 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Nutrition Planner{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    {% block extra_css %}{% endblock %}
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="app-container">
-        <!-- Sidebar Navigation -->
+        <!-- Боковая навигация -->
         <aside class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <span class="logo-icon">🥗</span>
-                    <span class="logo-text">NutriPlan</span>
-                </div>
+            <div class="logo">
+                <h1>🍽️ Nutrition Planner</h1>
             </div>
-            
-            <nav class="sidebar-nav">
+            <nav class="nav-menu">
                 <a href="/" class="nav-item {% if active_page == 'dashboard' %}active{% endif %}">
-                    <span class="nav-icon">📊</span>
-                    <span class="nav-text">Панель управления</span>
+                    <span class="icon">📊</span>
+                    <span>Панель управления</span>
+                </a>
+                <a href="/profile" class="nav-item {% if active_page == 'profile' %}active{% endif %}">
+                    <span class="icon">👤</span>
+                    <span>Профиль</span>
                 </a>
                 <a href="/ingredients" class="nav-item {% if active_page == 'ingredients' %}active{% endif %}">
-                    <span class="nav-icon">🥕</span>
-                    <span class="nav-text">Ингредиенты</span>
+                    <span class="icon">🥗</span>
+                    <span>Ингредиенты</span>
                 </a>
                 <a href="/recipes" class="nav-item {% if active_page == 'recipes' %}active{% endif %}">
-                    <span class="nav-icon">📖</span>
-                    <span class="nav-text">Рецепты</span>
+                    <span class="icon">📖</span>
+                    <span>Рецепты</span>
                 </a>
                 <a href="/meal-planner" class="nav-item {% if active_page == 'meal-planner' %}active{% endif %}">
-                    <span class="nav-icon">📅</span>
-                    <span class="nav-text">Планировщик</span>
+                    <span class="icon">📅</span>
+                    <span>Планировщик</span>
                 </a>
                 <a href="/shopping-list" class="nav-item {% if active_page == 'shopping-list' %}active{% endif %}">
-                    <span class="nav-icon">🛒</span>
-                    <span class="nav-text">Список покупок</span>
+                    <span class="icon">🛒</span>
+                    <span>Список покупок</span>
                 </a>
             </nav>
-            
-            <div class="sidebar-footer">
-                <div class="user-info">
-                    <div class="user-avatar">👤</div>
-                    <div class="user-details">
-                        <div class="user-name">Пользователь</div>
-                        <div class="user-status">Premium</div>
-                    </div>
-                </div>
+            <div class="user-info">
+                <p>{{ user.name }}</p>
+                <small>{{ user.weight }} кг | {{ bmi|default(0) }} ИМТ</small>
             </div>
         </aside>
-        
-        <!-- Main Content Area -->
+
+        <!-- Основной контент -->
         <main class="main-content">
-            <header class="top-bar">
-                <h1 class="page-title">{% block page_title %}Dashboard{% endblock %}</h1>
-                <div class="top-actions">
-                    <button class="btn btn-secondary" id="notification-btn">
-                        🔔
-                    </button>
-                    <button class="btn btn-primary" id="add-new-btn">
-                        + Добавить
-                    </button>
-                </div>
-            </header>
-            
-            <div class="content-area">
-                {% block content %}{% endblock %}
-            </div>
+            {% block content %}{% endblock %}
         </main>
     </div>
-    
-    <script src="{{ url_for('static', path='/js/main.js') }}"></script>
-    {% block extra_js %}{% endblock %}
+
+    <script src="/static/js/main.js"></script>
+    {% block scripts %}{% endblock %}
 </body>
 </html>

@@ -1,240 +1,212 @@
-// Main JavaScript for Nutrition Planner Web Interface
+// Основной JavaScript для Nutrition Planner
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize tooltips
-    initTooltips();
+    console.log('Nutrition Planner loaded');
     
-    // Setup mobile menu toggle
-    setupMobileMenu();
-    
-    // Add smooth scrolling
-    setupSmoothScrolling();
+    // Инициализация всех компонентов
+    initIngredientSelector();
+    initRecipeForm();
+    initMealPlanner();
 });
 
-// Tooltip functionality
-function initTooltips() {
-    const tooltipElements = document.querySelectorAll('[data-tooltip]');
+// Селектор ингредиентов для рецептов
+function initIngredientSelector() {
+    const addIngredientBtn = document.getElementById('add-ingredient-btn');
+    if (!addIngredientBtn) return;
     
-    tooltipElements.forEach(el => {
-        el.addEventListener('mouseenter', (e) => {
-            const tooltip = document.createElement('div');
-            tooltip.className = 'tooltip';
-            tooltip.textContent = el.getAttribute('data-tooltip');
-            tooltip.style.cssText = `
-                position: absolute;
-                background: #1e293b;
-                color: white;
-                padding: 8px 12px;
-                border-radius: 6px;
-                font-size: 12px;
-                z-index: 1000;
-                pointer-events: none;
-            `;
-            document.body.appendChild(tooltip);
-            
-            const rect = el.getBoundingClientRect();
-            tooltip.style.top = `${rect.bottom + 5}px`;
-            tooltip.style.left = `${rect.left}px`;
-            
-            el._tooltip = tooltip;
-        });
+    addIngredientBtn.addEventListener('click', function() {
+        const ingredientSelect = document.getElementById('ingredient-select');
+        const quantityInput = document.getElementById('ingredient-quantity');
         
-        el.addEventListener('mouseleave', () => {
-            if (el._tooltip) {
-                el._tooltip.remove();
-                el._tooltip = null;
-            }
-        });
+        if (!ingredientSelect || !quantityInput) return;
+        
+        const ingredientId = ingredientSelect.value;
+        const ingredientName = ingredientSelect.options[ingredientSelect.selectedIndex]?.text;
+        const quantity = parseFloat(quantityInput.value);
+        
+        if (!ingredientId || !quantity || quantity <= 0) {
+            alert('Выберите ингредиент и укажите количество');
+            return;
+        }
+        
+        // Добавляем в список выбранных ингредиентов
+        addIngredientToList(ingredientId, ingredientName, quantity);
+        
+        // Очищаем поля
+        ingredientSelect.value = '';
+        quantityInput.value = '';
     });
 }
 
-// Mobile menu toggle
-function setupMobileMenu() {
-    const menuToggle = document.getElementById('mobile-menu-toggle');
-    const sidebar = document.querySelector('.sidebar');
+function addIngredientToList(id, name, quantity) {
+    const ingredientsList = document.getElementById('selected-ingredients-list');
+    if (!ingredientsList) return;
     
-    if (menuToggle && sidebar) {
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('mobile-open');
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
-                sidebar.classList.remove('mobile-open');
-            }
-        });
+    // Проверяем, есть ли уже такой ингредиент
+    const existingItem = ingredientsList.querySelector(`[data-ingredient-id="${id}"]`);
+    if (existingItem) {
+        const qtySpan = existingItem.querySelector('.ingredient-quantity');
+        const currentQty = parseFloat(qtySpan.textContent);
+        qtySpan.textContent = (currentQty + quantity).toFixed(1);
+        return;
     }
-}
-
-// Smooth scrolling for anchor links
-function setupSmoothScrolling() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-}
-
-// Notification system
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.textContent = message;
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 16px 24px;
-        background: ${type === 'success' ? '#22c55e' : type === 'error' ? '#ef4444' : '#6366f1'};
-        color: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 10000;
-        animation: slideIn 0.3s ease;
+    
+    const item = document.createElement('div');
+    item.className = 'selected-ingredient-item';
+    item.dataset.ingredientId = id;
+    item.innerHTML = `
+        <span class="ingredient-name">${name}</span>
+        <span class="ingredient-quantity">${quantity.toFixed(1)}</span>
+        <button type="button" class="btn-remove-ingredient" onclick="removeIngredient(${id})">×</button>
     `;
     
-    document.body.appendChild(notification);
+    ingredientsList.appendChild(item);
     
-    setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease';
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
+    // Обновляем скрытое поле с JSON
+    updateIngredientsJson();
 }
 
-// Format currency
-function formatCurrency(amount) {
-    return new Intl.NumberFormat('ru-RU', {
-        style: 'currency',
-        currency: 'RUB'
-    }).format(amount);
+function removeIngredient(id) {
+    const item = document.querySelector(`[data-ingredient-id="${id}"]`);
+    if (item) {
+        item.remove();
+        updateIngredientsJson();
+    }
 }
 
-// Format date
-function formatDate(dateStr) {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('ru-RU', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
+function updateIngredientsJson() {
+    const ingredientsList = document.getElementById('selected-ingredients-list');
+    const jsonInput = document.getElementById('ingredients-json');
+    
+    if (!ingredientsList || !jsonInput) return;
+    
+    const items = ingredientsList.querySelectorAll('.selected-ingredient-item');
+    const ingredients = [];
+    
+    items.forEach(item => {
+        const id = parseInt(item.dataset.ingredientId);
+        const quantity = parseFloat(item.querySelector('.ingredient-quantity').textContent);
+        ingredients.push({ ingredient_id: id, quantity: quantity });
+    });
+    
+    jsonInput.value = JSON.stringify(ingredients);
+}
+
+// Форма рецепта
+function initRecipeForm() {
+    const recipeForm = document.getElementById('recipe-form');
+    if (!recipeForm) return;
+    
+    recipeForm.addEventListener('submit', function(e) {
+        updateIngredientsJson();
+        
+        const jsonInput = document.getElementById('ingredients-json');
+        if (jsonInput && jsonInput.value === '[]') {
+            if (!confirm('Вы не добавили ни одного ингредиента. Продолжить?')) {
+                e.preventDefault();
+            }
+        }
     });
 }
 
-// Debounce function for search inputs
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
+// Планировщик питания
+function initMealPlanner() {
+    // Обработка модальных окон для добавления рецептов
+    const mealPlanForms = document.querySelectorAll('.meal-plan-form');
+    
+    mealPlanForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            const recipeSelect = form.querySelector('select[name="recipe_id"]');
+            if (recipeSelect && !recipeSelect.value) {
+                e.preventDefault();
+                alert('Выберите рецепт');
+            }
+        });
+    });
 }
 
-// Local storage helpers
-const Storage = {
-    get(key) {
-        try {
-            return JSON.parse(localStorage.getItem(key));
-        } catch {
-            return null;
-        }
-    },
-    
-    set(key, value) {
-        localStorage.setItem(key, JSON.stringify(value));
-    },
-    
-    remove(key) {
-        localStorage.removeItem(key);
-    }
-};
+// Утилиты
+function formatNumber(num, decimals = 1) {
+    return parseFloat(num).toFixed(decimals);
+}
 
-// Animation utilities
-const Animations = {
-    fadeIn(element, duration = 300) {
-        element.style.opacity = '0';
-        element.style.transition = `opacity ${duration}ms ease`;
-        
-        requestAnimationFrame(() => {
-            element.style.opacity = '1';
-        });
-    },
-    
-    fadeOut(element, duration = 300) {
-        element.style.opacity = '1';
-        element.style.transition = `opacity ${duration}ms ease`;
-        
-        requestAnimationFrame(() => {
-            element.style.opacity = '0';
-        });
-    },
-    
-    slideDown(element, duration = 300) {
-        element.style.height = '0';
-        element.style.overflow = 'hidden';
-        element.style.transition = `height ${duration}ms ease`;
-        
-        requestAnimationFrame(() => {
-            element.style.height = `${element.scrollHeight}px`;
-        });
-    },
-    
-    slideUp(element, duration = 300) {
-        element.style.height = `${element.scrollHeight}px`;
-        element.style.overflow = 'hidden';
-        element.style.transition = `height ${duration}ms ease`;
-        
-        requestAnimationFrame(() => {
-            element.style.height = '0';
-        });
-    }
-};
+function calculateBMI(weight, height) {
+    if (!weight || !height) return 0;
+    return (weight / Math.pow(height / 100, 2)).toFixed(1);
+}
 
-// Add CSS animations
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
+// Экспорт списка покупок в Telegram
+async function exportToTelegram() {
+    try {
+        const response = await fetch('/shopping-list/export');
+        const data = await response.json();
+        
+        if (data.message) {
+            // Копируем в буфер обмена
+            navigator.clipboard.writeText(data.message).then(() => {
+                alert('Список покупок скопирован в буфер обмена!\n\nТеперь вы можете вставить его в Telegram.');
+            });
         }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
+    } catch (error) {
+        console.error('Ошибка экспорта:', error);
+        alert('Произошла ошибка при экспорте списка покупок');
     }
+}
+
+// Графики (Chart.js)
+function initWeightChart(canvasId, data) {
+    const ctx = document.getElementById(canvasId);
+    if (!ctx) return;
     
-    @keyframes slideOut {
-        from {
-            transform: translateX(0);
-            opacity: 1;
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data.labels,
+            datasets: [{
+                label: 'Вес (кг)',
+                data: data.values,
+                borderColor: '#4CAF50',
+                backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false
+                }
+            }
         }
-        to {
-            transform: translateX(100%);
-            opacity: 0;
+    });
+}
+
+function initMacroChart(canvasId, calories, protein, fat, carbs) {
+    const ctx = document.getElementById(canvasId);
+    if (!ctx) return;
+    
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Белки', 'Жиры', 'Углеводы'],
+            datasets: [{
+                data: [protein * 4, fat * 9, carbs * 4],
+                backgroundColor: ['#2196F3', '#ff9800', '#4CAF50']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
         }
-    }
-`;
-document.head.appendChild(style);
-
-// Export for use in other scripts
-window.NutriPlan = {
-    showNotification,
-    formatCurrency,
-    formatDate,
-    debounce,
-    Storage,
-    Animations
-};
-
-console.log('Nutrition Planner Web initialized');
+    });
+}
