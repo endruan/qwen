@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль - Nutrition Planner{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>👤 Профиль пользователя</h2>
+</div>
+
+<div class="profile-grid">
+    <!-- Основная информация -->
+    <div class="profile-card">
+        <h3>📝 Личные данные</h3>
+        <form action="/profile/update" method="POST" class="profile-form">
+            <div class="form-group">
+                <label for="name">Имя:</label>
+                <input type="text" id="name" name="name" value="{{ user.name }}">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="weight">Вес (кг):</label>
+                    <input type="number" id="weight" name="weight" value="{{ user.weight or '' }}" step="0.1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="height">Рост (см):</label>
+                    <input type="number" id="height" name="height" value="{{ user.height or '' }}">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="age">Возраст:</label>
+                    <input type="number" id="age" name="age" value="{{ user.age or '' }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="gender">Пол:</label>
+                    <select id="gender" name="gender">
+                        <option value="male" {% if user.gender == 'male' %}selected{% endif %}>Мужской</option>
+                        <option value="female" {% if user.gender == 'female' %}selected{% endif %}>Женский</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="activity_level">Уровень активности:</label>
+                <select id="activity_level" name="activity_level">
+                    <option value="low" {% if user.activity_level == 'low' %}selected{% endif %}>Низкий</option>
+                    <option value="moderate" {% if user.activity_level == 'moderate' %}selected{% endif %}>Средний</option>
+                    <option value="high" {% if user.activity_level == 'high' %}selected{% endif %}>Высокий</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </form>
+        
+        <div class="bmi-display">
+            <h4>Ваш ИМТ: <span class="highlight">{{ bmi }}</span></h4>
+            <p>{{ user.weight and user.height and 'Нормальный вес' or 'Укажите вес и рост' }}</p>
+        </div>
+    </div>
+
+    <!-- Цели по КБЖУ -->
+    <div class="profile-card">
+        <h3>🎯 Цели по питанию</h3>
+        <form action="/profile/update" method="POST" class="goals-form">
+            <div class="form-group">
+                <label for="target_calories">Калории (ккал):</label>
+                <input type="number" id="target_calories" name="target_calories" value="{{ user.target_calories }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="target_protein">Белки (г):</label>
+                <input type="number" id="target_protein" name="target_protein" value="{{ user.target_protein }}" step="0.1">
+            </div>
+            
+            <div class="form-group">
+                <label for="target_fat">Жиры (г):</label>
+                <input type="number" id="target_fat" name="target_fat" value="{{ user.target_fat }}" step="0.1">
+            </div>
+            
+            <div class="form-group">
+                <label for="target_carbs">Углеводы (г):</label>
+                <input type="number" id="target_carbs" name="target_carbs" value="{{ user.target_carbs }}" step="0.1">
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Сохранить цели</button>
+        </form>
+        
+        <div class="recommendations">
+            <h4>💡 Рекомендации:</h4>
+            <ul>
+                <li>Белок: 1.6-2.2 г на кг веса тела</li>
+                <li>Жиры: 0.8-1.2 г на кг веса тела</li>
+                <li>Углеводы: остальное от суточной калорийности</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- История замеров -->
+<div class="measurements-section">
+    <h3>📏 История замеров</h3>
+    
+    <div class="add-measurement-card">
+        <button class="btn btn-primary" onclick="toggleMeasurementForm()">+ Добавить замер</button>
+        
+        <form id="measurement-form" action="/profile/add-measurement" method="POST" style="display:none;" class="measurement-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="m-date">Дата:</label>
+                    <input type="date" id="m-date" name="date_str" value="{{ today.strftime('%Y-%m-%d') }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="m-weight">Вес (кг):</label>
+                    <input type="number" id="m-weight" name="weight" step="0.1">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="m-chest">Грудь (см):</label>
+                    <input type="number" id="m-chest" name="chest" step="0.5">
+                </div>
+                
+                <div class="form-group">
+                    <label for="m-waist">Талия (см):</label>
+                    <input type="number" id="m-waist" name="waist" step="0.5">
+                </div>
+                
+                <div class="form-group">
+                    <label for="m-hips">Бедра (см):</label>
+                    <input type="number" id="m-hips" name="hips" step="0.5">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="m-bicep">Бицепс (см):</label>
+                    <input type="number" id="m-bicep" name="bicep" step="0.5">
+                </div>
+                
+                <div class="form-group">
+                    <label for="m-thigh">Бедро (см):</label>
+                    <input type="number" id="m-thigh" name="thigh" step="0.5">
+                </div>
+                
+                <div class="form-group">
+                    <label for="m-neck">Шея (см):</label>
+                    <input type="number" id="m-neck" name="neck" step="0.5">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="m-notes">Заметки:</label>
+                <textarea id="m-notes" name="notes" rows="2"></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-success">Сохранить замер</button>
+        </form>
+    </div>
+    
+    {% if measurements %}
+    <div class="measurements-table-container">
+        <table class="measurements-table">
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Вес</th>
+                    <th>Грудь</th>
+                    <th>Талия</th>
+                    <th>Бедра</th>
+                    <th>Бицепс</th>
+                    <th>Заметки</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in measurements %}
+                <tr>
+                    <td>{{ m.date.strftime('%d.%m.%Y') }}</td>
+                    <td>{{ m.weight or '-' }} кг</td>
+                    <td>{{ m.chest or '-' }} см</td>
+                    <td>{{ m.waist or '-' }} см</td>
+                    <td>{{ m.hips or '-' }} см</td>
+                    <td>{{ m.bicep or '-' }} см</td>
+                    <td>{{ m.notes or '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="empty-state">Замеры еще не добавлены</p>
+    {% endif %}
+</div>
+
+<!-- Добавки -->
+<div class="supplements-section">
+    <h3>💊 Спортивные добавки</h3>
+    
+    <div class="add-supplement-card">
+        <button class="btn btn-primary" onclick="toggleSupplementForm()">+ Добавить добавку</button>
+        
+        <form id="supplement-form" action="/profile/add-supplement" method="POST" style="display:none;" class="supplement-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="s-name">Название:</label>
+                    <input type="text" id="s-name" name="name" placeholder="Например: Омега-3, D3, Креатин" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="s-dosage">Дозировка:</label>
+                    <input type="text" id="s-dosage" name="dosage" placeholder="Например: 1000 ME, 5г">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="s-frequency">Как часто:</label>
+                    <input type="text" id="s-frequency" name="frequency" placeholder="Ежедневно, 3 раза в неделю">
+                </div>
+                
+                <div class="form-group">
+                    <label for="s-time">Когда принимать:</label>
+                    <select id="s-time" name="time_of_day">
+                        <option value="morning">Утро</option>
+                        <option value="afternoon">День</option>
+                        <option value="evening">Вечер</option>
+                        <option value="before_workout">Перед тренировкой</option>
+                        <option value="after_workout">После тренировки</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="s-notes">Заметки:</label>
+                <textarea id="s-notes" name="notes" rows="2" placeholder="Особенности приема"></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-success">Добавить добавку</button>
+        </form>
+    </div>
+    
+    {% if supplements %}
+    <div class="supplements-grid">
+        {% for supp in supplements %}
+        <div class="supplement-card">
+            <h4>{{ supp.name }}</h4>
+            <p><strong>Дозировка:</strong> {{ supp.dosage or 'не указана' }}</p>
+            <p><strong>Частота:</strong> {{ supp.frequency or 'не указана' }}</p>
+            <p><strong>Время:</strong> 
+                {% if supp.time_of_day == 'morning' %}Утро
+                {% elif supp.time_of_day == 'afternoon' %}День
+                {% elif supp.time_of_day == 'evening' %}Вечер
+                {% elif supp.time_of_day == 'before_workout' %}Перед тренировкой
+                {% elif supp.time_of_day == 'after_workout' %}После тренировки
+                {% else %}Не указано{% endif %}
+            </p>
+            {% if supp.notes %}
+            <p class="notes">{{ supp.notes }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">Добавки еще не добавлены</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function toggleMeasurementForm() {
+    const form = document.getElementById('measurement-form');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+
+function toggleSupplementForm() {
+    const form = document.getElementById('supplement-form');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+</script>
+{% endblock %}

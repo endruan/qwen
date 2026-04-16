@@ -1,291 +1,161 @@
 {% extends "base.html" %}
 
-{% block page_title %}Панель управления{% endblock %}
+{% block title %}Панель управления - Nutrition Planner{% endblock %}
 
 {% block content %}
-<!-- Stats Overview -->
+<div class="page-header">
+    <h2>📊 Панель управления</h2>
+    <p class="subtitle">{{ today.strftime('%d.%m.%Y') }}</p>
+</div>
+
+<!-- Карточки с целями и прогрессом -->
 <div class="stats-grid">
-    <div class="stat-card fade-in">
-        <div class="stat-header">
-            <div>
-                <div class="stat-value">{{ stats.total_recipes }}</div>
-                <div class="stat-label">Всего рецептов</div>
-            </div>
-            <div class="stat-icon primary">📖</div>
+    <div class="stat-card calories">
+        <div class="stat-icon">🔥</div>
+        <div class="stat-info">
+            <h3>Калории</h3>
+            <p class="stat-value">{{ today_plan._totals.calories|default(0)|int }} / {{ targets.calories }}</p>
+            <p class="stat-remaining {% if remaining.calories < 0 %}over{% elif remaining.calories < 200 %}warning{% endif %}">
+                {% if remaining.calories >= 0 %}
+                    Осталось: {{ remaining.calories|int }} ккал
+                {% else %}
+                    Превышение: {{ (-remaining.calories)|int }} ккал
+                {% endif %}
+            </p>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {{ [today_plan._totals.calories / targets.calories * 100, 100]|min }}%"></div>
         </div>
     </div>
-    
-    <div class="stat-card fade-in">
-        <div class="stat-header">
-            <div>
-                <div class="stat-value">{{ stats.total_ingredients }}</div>
-                <div class="stat-label">Ингредиентов</div>
-            </div>
-            <div class="stat-icon secondary">🥕</div>
+
+    <div class="stat-card protein">
+        <div class="stat-icon">🥩</div>
+        <div class="stat-info">
+            <h3>Белки</h3>
+            <p class="stat-value">{{ today_plan._totals.protein|default(0)|round(1) }} / {{ targets.protein }} г</p>
+            <p class="stat-remaining">Осталось: {{ (targets.protein - today_plan._totals.protein)|round(1) }} г</p>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {{ [today_plan._totals.protein / targets.protein * 100, 100]|min }}%"></div>
         </div>
     </div>
-    
-    <div class="stat-card fade-in">
-        <div class="stat-header">
-            <div>
-                <div class="stat-value">{{ stats.planned_days }}</div>
-                <div class="stat-label">Запланировано дней</div>
-            </div>
-            <div class="stat-icon warning">📅</div>
+
+    <div class="stat-card fat">
+        <div class="stat-icon">🥑</div>
+        <div class="stat-info">
+            <h3>Жиры</h3>
+            <p class="stat-value">{{ today_plan._totals.fat|default(0)|round(1) }} / {{ targets.fat }} г</p>
+            <p class="stat-remaining">Осталось: {{ (targets.fat - today_plan._totals.fat)|round(1) }} г</p>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {{ [today_plan._totals.fat / targets.fat * 100, 100]|min }}%"></div>
         </div>
     </div>
-    
-    <div class="stat-card fade-in">
-        <div class="stat-header">
-            <div>
-                <div class="stat-value">{{ "%.2f"|format(stats.week_cost) }} ₽</div>
-                <div class="stat-label">Стоимость недели</div>
-            </div>
-            <div class="stat-icon danger">💰</div>
+
+    <div class="stat-card carbs">
+        <div class="stat-icon">🍞</div>
+        <div class="stat-info">
+            <h3>Углеводы</h3>
+            <p class="stat-value">{{ today_plan._totals.carbs|default(0)|round(1) }} / {{ targets.carbs }} г</p>
+            <p class="stat-remaining">Осталось: {{ (targets.carbs - today_plan._totals.carbs)|round(1) }} г</p>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {{ [today_plan._totals.carbs / targets.carbs * 100, 100]|min }}%"></div>
         </div>
     </div>
 </div>
 
-<!-- Weekly Overview -->
-<div class="grid-2">
-    <div class="card fade-in">
-        <div class="card-header">
-            <h2 class="card-title">План на неделю</h2>
-            <a href="/meal-planner" class="btn btn-secondary">Открыть планировщик</a>
+<!-- Информация о пользователе -->
+<div class="info-grid">
+    <div class="info-card">
+        <h3>📈 Ваш прогресс</h3>
+        <div class="bmi-info">
+            <p><strong>ИМТ:</strong> {{ bmi }} ({{ bmi_category }})</p>
+            <p><strong>Вес:</strong> {{ user.weight|default('не указан') }} кг</p>
+            <p><strong>Рост:</strong> {{ user.height|default('не указан') }} см</p>
         </div>
-        <div class="calendar-grid">
-            {% for day in week_days %}
-            <div class="calendar-day {% if day.is_today %}today{% endif %} {% if day.has_plan %}has-plan{% endif %}" 
-                 onclick="window.location.href='/meal-planner?date={{ day.date }}'">
-                <div class="day-number">{{ day.day_num }}</div>
-                <div class="day-meals">{{ day.meal_count }} приемов</div>
-            </div>
-            {% endfor %}
-        </div>
+        <a href="/profile" class="btn btn-secondary">Подробнее в профиле</a>
     </div>
-    
-    <div class="card fade-in">
-        <div class="card-header">
-            <h2 class="card-title">Быстрые действия</h2>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-            <button class="btn btn-primary" onclick="showModal('add-recipe-modal')">
-                📝 Добавить рецепт
-            </button>
-            <button class="btn btn-secondary" onclick="showModal('add-ingredient-modal')">
-                🥕 Добавить ингредиент
-            </button>
-            <button class="btn btn-secondary" onclick="generateShoppingList()">
-                🛒 Создать список покупок
-            </button>
-            <button class="btn btn-secondary" onclick="window.location.href='/shopping-list'">
-                📋 Просмотреть покупки
-            </button>
-        </div>
-    </div>
-</div>
 
-<!-- Today's Meals Preview -->
-<div class="card fade-in mt-4">
-    <div class="card-header">
-        <h2 class="card-title">Сегодняшнее меню</h2>
-        <span class="badge badge-primary">{{ today_date }}</span>
-    </div>
-    <div class="grid-3">
-        {% for meal_type, meals in today_meals.items() %}
-        {% if meals %}
-        <div class="meal-type-card">
-            <div class="meal-type-header">
-                <span class="meal-type-icon">{{ meal_icons.get(meal_type, '🍽️') }}</span>
-                <span class="meal-type-title">{{ meal_names.get(meal_type, meal_type) }}</span>
-            </div>
-            {% for meal in meals %}
-            <div style="margin-bottom: 8px;">
-                <div style="font-weight: 500; font-size: 14px;">{{ meal.name }}</div>
-                <div style="font-size: 12px; color: var(--text-secondary);">
-                    {{ meal.nutrition.calories|round }} ккал
-                </div>
-            </div>
-            {% endfor %}
-        </div>
+    <div class="info-card">
+        <h3>💊 Добавки на сегодня</h3>
+        {% if supplements %}
+            <ul class="supplements-list">
+                {% for supp in supplements %}
+                    <li>
+                        <strong>{{ supp.name }}</strong>
+                        <small>{{ supp.dosage }} {% if supp.time_of_day %}({{ supp.time_of_day }}){% endif %}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-state">Добавки не настроены</p>
         {% endif %}
+        <a href="/profile" class="btn btn-secondary">Управление добавками</a>
+    </div>
+</div>
+
+<!-- Приемы пищи за день -->
+<div class="meals-section">
+    <h3>🍽️ Приемы пищи за сегодня</h3>
+    
+    <div class="meals-grid">
+        {% for meal_type, meal_name in [('breakfast', '🌅 Завтрак'), ('second_breakfast', '☕ Второй завтрак'), ('lunch', '🍲 Обед'), ('snack', '🥜 Перекус'), ('dinner', '🌙 Ужин'), ('second_snack', '🍵 Второй перекус')] %}
+        <div class="meal-card">
+            <div class="meal-header">
+                <h4>{{ meal_name }}</h4>
+                {% if today_plan[meal_type].recipes %}
+                    <span class="meal-calories">
+                        {{ today_plan[meal_type].recipes|sum(attribute='calories')|int }} ккал
+                    </span>
+                {% endif %}
+            </div>
+            
+            {% if today_plan[meal_type].recipes %}
+                <ul class="meal-recipes">
+                    {% for recipe in today_plan[meal_type].recipes %}
+                        <li>
+                            <span>{{ recipe.name }}</span>
+                            <small>{{ recipe.calories|round|int }} ккал | {{ recipe.cost|round(2) }}₽</small>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="empty-meal">Нет рецептов</p>
+            {% endif %}
+            
+            <a href="/meal-planner?date={{ today.strftime('%Y-%m-%d') }}&meal={{ meal_type }}" class="btn btn-small">
+                {% if today_plan[meal_type].recipes %}Редактировать{% else %}Добавить{% endif %}
+            </a>
+        </div>
         {% endfor %}
     </div>
 </div>
 
-<!-- Modals -->
-<!-- Add Recipe Modal -->
-<div class="modal-overlay" id="add-recipe-modal">
-    <div class="modal">
-        <div class="modal-header">
-            <h3 class="modal-title">Добавить новый рецепт</h3>
-            <button class="modal-close" onclick="hideModal('add-recipe-modal')">&times;</button>
+<!-- Итого за день -->
+<div class="daily-summary">
+    <h3>💰 Итого за день</h3>
+    <div class="summary-stats">
+        <div class="summary-item">
+            <span class="label">Калории:</span>
+            <span class="value">{{ today_plan._totals.calories|default(0)|int }} ккал</span>
         </div>
-        <form id="add-recipe-form" action="/api/recipes/" method="POST">
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Название рецепта</label>
-                    <input type="text" name="name" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Описание</label>
-                    <textarea name="description" class="form-textarea" rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Инструкция приготовления</label>
-                    <textarea name="instructions" class="form-textarea" rows="5"></textarea>
-                </div>
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label class="form-label">Время приготовления (мин)</label>
-                        <input type="number" name="prep_time_minutes" class="form-input" value="0">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Порции</label>
-                        <input type="number" name="servings" class="form-input" value="1">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="hideModal('add-recipe-modal')">Отмена</button>
-                <button type="submit" class="btn btn-primary">Сохранить</button>
-            </div>
-        </form>
+        <div class="summary-item">
+            <span class="label">Белки:</span>
+            <span class="value">{{ today_plan._totals.protein|default(0)|round(1) }} г</span>
+        </div>
+        <div class="summary-item">
+            <span class="label">Жиры:</span>
+            <span class="value">{{ today_plan._totals.fat|default(0)|round(1) }} г</span>
+        </div>
+        <div class="summary-item">
+            <span class="label">Углеводы:</span>
+            <span class="value">{{ today_plan._totals.carbs|default(0)|round(1) }} г</span>
+        </div>
+        <div class="summary-item cost">
+            <span class="label">Стоимость:</span>
+            <span class="value">{{ today_plan._totals.cost|default(0)|round(2) }}₽</span>
+        </div>
     </div>
 </div>
-
-<!-- Add Ingredient Modal -->
-<div class="modal-overlay" id="add-ingredient-modal">
-    <div class="modal">
-        <div class="modal-header">
-            <h3 class="modal-title">Добавить ингредиент</h3>
-            <button class="modal-close" onclick="hideModal('add-ingredient-modal')">&times;</button>
-        </div>
-        <form id="add-ingredient-form" action="/api/ingredients/" method="POST">
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Название</label>
-                    <input type="text" name="name" class="form-input" required>
-                </div>
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label class="form-label">Калории (на 100г)</label>
-                        <input type="number" step="0.1" name="calories" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Цена за 100г (₽)</label>
-                        <input type="number" step="0.01" name="price_per_100g" class="form-input" required>
-                    </div>
-                </div>
-                <div class="grid-4">
-                    <div class="form-group">
-                        <label class="form-label">Белки (г)</label>
-                        <input type="number" step="0.1" name="protein" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Жиры (г)</label>
-                        <input type="number" step="0.1" name="fat" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Углеводы (г)</label>
-                        <input type="number" step="0.1" name="carbohydrates" class="form-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Ед. измерения</label>
-                        <input type="text" name="unit" class="form-input" value="г">
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="hideModal('add-ingredient-modal')">Отмена</button>
-                <button type="submit" class="btn btn-primary">Сохранить</button>
-            </div>
-        </form>
-    </div>
-</div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-function showModal(modalId) {
-    document.getElementById(modalId).classList.add('active');
-}
-
-function hideModal(modalId) {
-    document.getElementById(modalId).classList.remove('active');
-}
-
-// Close modal on overlay click
-document.querySelectorAll('.modal-overlay').forEach(overlay => {
-    overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) {
-            overlay.classList.remove('active');
-        }
-    });
-});
-
-// Form submissions
-document.getElementById('add-recipe-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData);
-    
-    try {
-        const response = await fetch('/api/recipes/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-        
-        if (response.ok) {
-            hideModal('add-recipe-modal');
-            location.reload();
-        }
-    } catch (error) {
-        alert('Ошибка при сохранении рецепта');
-    }
-});
-
-document.getElementById('add-ingredient-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData);
-    
-    // Convert to numbers
-    ['calories', 'protein', 'fat', 'carbohydrates', 'price_per_100g'].forEach(key => {
-        data[key] = parseFloat(data[key]);
-    });
-    
-    try {
-        const response = await fetch('/api/ingredients/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-        
-        if (response.ok) {
-            hideModal('add-ingredient-modal');
-            location.reload();
-        }
-    } catch (error) {
-        alert('Ошибка при сохранении ингредиента');
-    }
-});
-
-async function generateShoppingList() {
-    const today = new Date().toISOString().split('T')[0];
-    try {
-        const response = await fetch(`/api/shopping-list/generate/${today}`);
-        const data = await response.json();
-        
-        if (data.shopping_list && data.shopping_list.length > 0) {
-            window.location.href = '/shopping-list';
-        } else {
-            alert('Нет данных для формирования списка покупок. Сначала составьте план питания на неделю.');
-        }
-    } catch (error) {
-        alert('Ошибка при генерации списка покупок');
-    }
-}
-</script>
 {% endblock %}
