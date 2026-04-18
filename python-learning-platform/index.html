@@ -370,6 +370,15 @@ for i in range(5):
             <!-- Прогресс -->
             <div class="progress-section" id="dashboard-progress">
                 <h3 data-i18n="learning_progress">Прогресс обучения</h3>
+                
+                <div class="continue-learning-box">
+                    <h4 data-i18n="ready_to_continue">Готов продолжить?</h4>
+                    <p data-i18n="start_lessons_desc">Переходи к урокам и начинай изучение Python прямо сейчас!</p>
+                    <button class="btn-primary btn-large" onclick="app.navigateTo('lessons')">
+                        📚 <span data-i18n="go_to_lessons">Перейти к урокам</span>
+                    </button>
+                </div>
+                
                 <div class="progress-overview">
                     <div class="progress-card">
                         <div class="progress-info">
