@@ -1,17 +1,217 @@
 // Main Application JavaScript
 
+const app = {
+    currentUser: null,
+    
+    init() {
+        this.loadUserData();
+        this.setupEventListeners();
+    },
+    
+    navigateTo(section) {
+        // Hide all sections
+        document.querySelectorAll('section').forEach(s => {
+            s.classList.remove('active-section');
+            s.classList.add('hidden-section');
+        });
+        
+        // Show target section
+        const targetSection = document.getElementById(`${section}-section`);
+        if (targetSection) {
+            targetSection.classList.remove('hidden-section');
+            targetSection.classList.add('active-section');
+        }
+        
+        // Load lessons if navigating to lessons
+        if (section === 'lessons' && lessonManager) {
+            lessonManager.renderModules();
+        }
+        
+        // Hide dashboard if navigating away
+        if (section !== 'dashboard') {
+            const dashboard = document.getElementById('userDashboard');
+            if (dashboard) {
+                dashboard.style.display = 'none';
+            }
+        }
+    },
+    
+    setTheme(theme) {
+        const body = document.body;
+        body.classList.remove('light-theme', 'dark-theme');
+        body.classList.add(`${theme}-theme`);
+        localStorage.setItem('theme', theme);
+    },
+    
+    loadUserData() {
+        const userData = localStorage.getItem('currentUser');
+        if (userData) {
+            this.currentUser = JSON.parse(userData);
+            this.updateDashboard(this.currentUser);
+        }
+    },
+    
+    updateDashboard(user) {
+        // Update user name
+        const userNameDisplay = document.getElementById('userName');
+        if (userNameDisplay) {
+            userNameDisplay.textContent = user.username || 'Student';
+        }
+        
+        // Update progress stats
+        const completedLessons = user.completedLessons?.length || 0;
+        const totalPoints = user.totalPoints || 0;
+        const level = Math.floor(totalPoints / 500) + 1;
+        
+        // Update dashboard values
+        const dashXP = document.getElementById('dash-xp');
+        const dashLevel = document.getElementById('dash-level');
+        const dashCompleted = document.getElementById('dash-completed');
+        
+        if (dashXP) dashXP.textContent = totalPoints;
+        if (dashLevel) dashLevel.textContent = level;
+        if (dashCompleted) {
+            const totalLessons = 18; // Total lessons in course
+            const percentage = Math.round((completedLessons / totalLessons) * 100);
+            dashCompleted.textContent = `${percentage}%`;
+        }
+        
+        // Update progress bars
+        const progressBars = document.querySelectorAll('.progress-fill');
+        if (progressBars.length >= 3) {
+            progressBars[0].style.width = `${(completedLessons / 18) * 100}%`;
+            progressBars[0].previousElementSibling.querySelector('.progress-value').textContent = `${completedLessons}/18`;
+            
+            progressBars[2].style.width = `${Math.min((totalPoints / 1000) * 100, 100)}%`;
+            progressBars[2].previousElementSibling.querySelector('.progress-value').textContent = `${totalPoints} XP`;
+        }
+    },
+    
+    setupEventListeners() {
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                const body = document.body;
+                const isDark = body.classList.contains('dark-theme');
+                this.setTheme(isDark ? 'light' : 'dark');
+            });
+        }
+        
+        // Language toggle
+        const langToggle = document.getElementById('langToggle');
+        if (langToggle) {
+            langToggle.addEventListener('click', () => {
+                const newLang = currentLang === 'ru' ? 'en' : 'ru';
+                updateLanguage(newLang);
+                const langBtn = document.querySelector('.lang-icon');
+                if (langBtn) {
+                    langBtn.textContent = newLang === 'ru' ? 'EN' : 'RU';
+                }
+            });
+        }
+        
+        // Login button
+        const loginBtn = document.getElementById('loginBtn');
+        if (loginBtn) {
+            loginBtn.addEventListener('click', () => {
+                document.getElementById('authModal').classList.add('active');
+            });
+        }
+        
+        // Close modal
+        const closeModal = document.getElementById('closeModal');
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                document.getElementById('authModal').classList.remove('active');
+            });
+        }
+        
+        // Auth forms
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', this.handleLogin.bind(this));
+        }
+        
+        const registerForm = document.getElementById('registerForm');
+        if (registerForm) {
+            registerForm.addEventListener('submit', this.handleRegister.bind(this));
+        }
+    },
+    
+    handleLogin(e) {
+        e.preventDefault();
+        const email = e.target.querySelector('input[type="email"]').value;
+        
+        const user = {
+            username: email.split('@')[0],
+            email: email,
+            level: 1,
+            completedLessons: [],
+            completedProjects: 0,
+            totalPoints: 0,
+            achievements: []
+        };
+        
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUser = user;
+        document.getElementById('authModal').classList.remove('active');
+        this.showDashboard(user);
+        
+        alert(currentLang === 'ru' ? 'Успешный вход!' : 'Login successful!');
+    },
+    
+    handleRegister(e) {
+        e.preventDefault();
+        const username = e.target.querySelector('input[type="text"]').value;
+        const email = e.target.querySelector('input[type="email"]').value;
+        
+        const user = {
+            username: username,
+            email: email,
+            level: 1,
+            completedLessons: [],
+            completedProjects: 0,
+            totalPoints: 0,
+            achievements: []
+        };
+        
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUser = user;
+        document.getElementById('authModal').classList.remove('active');
+        this.showDashboard(user);
+        
+        alert(currentLang === 'ru' ? 'Регистрация успешна!' : 'Registration successful!');
+    },
+    
+    showDashboard(user) {
+        const dashboard = document.getElementById('userDashboard');
+        if (dashboard) {
+            dashboard.style.display = 'flex';
+        }
+        
+        // Hide main content initially
+        document.querySelectorAll('section').forEach(s => {
+            s.classList.remove('active-section');
+            s.classList.add('hidden-section');
+        });
+        
+        this.updateDashboard(user);
+    },
+    
+    resetProgress() {
+        if (confirm(currentLang === 'ru' ? 'Вы уверены, что хотите сбросить весь прогресс?' : 'Are you sure you want to reset all progress?')) {
+            localStorage.removeItem('currentUser');
+            location.reload();
+        }
+    }
+};
+
+// Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize language
+    app.init();
     initLanguage();
-    
-    // Initialize theme
     initTheme();
-    
-    // Setup event listeners
-    setupEventListeners();
-    
-    // Load user data if logged in
-    loadUserData();
 });
 
 // Theme Management
