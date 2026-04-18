@@ -1,0 +1,202 @@
+{
+    "courseStructure": {
+        "levels": [
+            {
+                "id": "beginner",
+                "name": {
+                    "ru": "Новичок",
+                    "en": "Beginner"
+                },
+                "modules": [
+                    {
+                        "id": "module1",
+                        "name": {
+                            "ru": "Введение в Python",
+                            "en": "Introduction to Python"
+                        },
+                        "lessons": [
+                            {
+                                "id": "lesson1_1",
+                                "title": {
+                                    "ru": "Что такое Python? Установка и настройка",
+                                    "en": "What is Python? Installation and Setup"
+                                },
+                                "duration": 15,
+                                "xp": 50,
+                                "content": {
+                                    "ru": {
+                                        "introduction": "Python — это высокоуровневый язык программирования общего назначения. Он был создан Гвидо ван Россумом в 1991 году и стал одним из самых популярных языков в мире благодаря своей простоте и читаемости.",
+                                        "sections": [
+                                            {
+                                                "title": "Почему Python?",
+                                                "text": "Python имеет множество преимуществ:\n• Легко изучать - синтаксис похож на обычный английский язык\n• Универсальность - подходит для веб-разработки, анализа данных, ИИ, автоматизации\n• Огромное сообщество - тысячи библиотек и готовых решений\n• Высокая востребованность - один из самых оплачиваемых навыков на рынке труда"
+                                            },
+                                            {
+                                                "title": "Установка Python",
+                                                "text": "Шаг 1: Перейдите на официальный сайт python.org\nШаг 2: Скачайте последнюю версию (Python 3.x)\nШаг 3: Запустите установщик\nШаг 4: ✓ Обязательно отметьте галочку 'Add Python to PATH'\nШаг 5: Нажмите 'Install Now'\n\nПроверка установки:\nОткройте терминал/командную строку и введите:\npython --version\n\nЕсли отображается версия Python - установка успешна!"
+                                            },
+                                            {
+                                                "title": "Первая программа",
+                                                "text": "Создайте файл hello.py и напишите:\n\nprint('Hello, World!')\n\nЗапустите его командой:\npython hello.py\n\nПоздравляем! Вы написали свою первую программу на Python!"
+                                            }
+                                        ],
+                                        "codeExample": "# Это комментарий в Python\nprint('Привет, мир!')\n\n# Переменные\nname = 'Алекс'\nage = 25\nprint(f'Меня зовут {name}, мне {age} лет')",
+                                        "quiz": [
+                                            {
+                                                "question": "В каком году был создан Python?",
+                                                "options": ["1989", "1991", "1995", "2000"],
+                                                "correct": 1
+                                            },
+                                            {
+                                                "question": "Как называется функция для вывода текста на экран?",
+                                                "options": ["echo()", "write()", "print()", "display()"],
+                                                "correct": 2
+                                            },
+                                            {
+                                                "question": "Что нужно сделать при установке Python в Windows?",
+                                                "options": ["Ничего", "Добавить Python в PATH", "Перезагрузить компьютер", "Удалить старые версии"],
+                                                "correct": 1
+                                            }
+                                        ],
+                                        "task": {
+                                            "ru": "Установите Python и напишите программу, которая выводит ваше имя и возраст",
+                                            "en": "Install Python and write a program that prints your name and age"
+                                        }
+                                    },
+                                    "en": {
+                                        "introduction": "Python is a high-level, general-purpose programming language. It was created by Guido van Rossum in 1991 and has become one of the most popular languages in the world due to its simplicity and readability.",
+                                        "sections": [
+                                            {
+                                                "title": "Why Python?",
+                                                "text": "Python has many advantages:\n• Easy to learn - syntax resembles plain English\n• Versatility - suitable for web development, data analysis, AI, automation\n• Huge community - thousands of libraries and ready-made solutions\n• High demand - one of the highest-paid skills in the job market"
+                                            },
+                                            {
+                                                "title": "Installing Python",
+                                                "text": "Step 1: Go to the official website python.org\nStep 2: Download the latest version (Python 3.x)\nStep 3: Run the installer\nStep 4: ✓ Be sure to check 'Add Python to PATH'\nStep 5: Click 'Install Now'\n\nVerifying installation:\nOpen terminal/command prompt and type:\npython --version\n\nIf Python version is displayed - installation successful!"
+                                            },
+                                            {
+                                                "title": "First Program",
+                                                "text": "Create a file hello.py and write:\n\nprint('Hello, World!')\n\nRun it with command:\npython hello.py\n\nCongratulations! You've written your first Python program!"
+                                            }
+                                        ],
+                                        "codeExample": "# This is a comment in Python\nprint('Hello, World!')\n\n# Variables\nname = 'Alex'\nage = 25\nprint(f'My name is {name}, I am {age} years old')",
+                                        "quiz": [
+                                            {
+                                                "question": "When was Python created?",
+                                                "options": ["1989", "1991", "1995", "2000"],
+                                                "correct": 1
+                                            },
+                                            {
+                                                "question": "What function is used to display text on screen?",
+                                                "options": ["echo()", "write()", "print()", "display()"],
+                                                "correct": 2
+                                            },
+                                            {
+                                                "question": "What should you do when installing Python on Windows?",
+                                                "options": ["Nothing", "Add Python to PATH", "Restart computer", "Remove old versions"],
+                                                "correct": 1
+                                            }
+                                        ],
+                                        "task": {
+                                            "ru": "Установите Python и напишите программу, которая выводит ваше имя и возраст",
+                                            "en": "Install Python and write a program that prints your name and age"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "id": "lesson1_2",
+                                "title": {
+                                    "ru": "Переменные и типы данных",
+                                    "en": "Variables and Data Types"
+                                },
+                                "duration": 20,
+                                "xp": 75,
+                                "content": {
+                                    "ru": {
+                                        "introduction": "Переменные - это именованные контейнеры для хранения данных. В Python вам не нужно объявлять тип переменной заранее - он определяется автоматически.",
+                                        "sections": [
+                                            {
+                                                "title": "Основные типы данных",
+                                                "text": "Python поддерживает несколько основных типов данных:\n\n• int (целые числа): 5, -10, 1000\n• float (дробные числа): 3.14, -0.5, 2.0\n• str (строки): 'Hello', \"Python\"\n• bool (булевы значения): True, False\n• list (списки): [1, 2, 3]\n• dict (словари): {'key': 'value'}\n• tuple (кортежи): (1, 2, 3)\n• set (множества): {1, 2, 3}"
+                                            },
+                                            {
+                                                "title": "Создание переменных",
+                                                "text": "В Python переменные создаются простым присваиванием:\n\nname = 'Alice'        # строка\nage = 25              # целое число\nheight = 1.75         # дробное число\nis_student = False    # булево значение\n\nИмена переменных могут содержать буквы, цифры и подчеркивание,\nно не могут начинаться с цифры."
+                                            },
+                                            {
+                                                "title": "Операции с данными",
+                                                "text": "Вы можете выполнять различные операции:\n\n# Арифметические\nx = 10 + 5    # сложение: 15\ny = 10 - 5    # вычитание: 5\nz = 10 * 5    # умножение: 50\nw = 10 / 3    # деление: 3.333...\n\n# Со строками\nfull_name = 'John' + ' ' + 'Doe'  # конкатенация\nrepeated = 'Hi' * 3  # 'HiHiHi'"
+                                            }
+                                        ],
+                                        "codeExample": "# Различные типы данных\nname = 'Alice'           # str\nage = 25                 # int\nheight = 1.68            # float\nis_student = True        # bool\nhobbies = ['reading', 'coding']  # list\ncoordinates = (10, 20)   # tuple\n\nprint(type(name))        # <class 'str'>\nprint(type(age))         # <class 'int'>\n\n# Преобразование типов\nage_str = str(age)       # '25'\nprice = float('19.99')   # 19.99\ncount = int('42')        # 42\n\nprint(f'{name} будет {age + 1} лет через год')",
+                                        "quiz": [
+                                            {
+                                                "question": "Какой тип данных у значения 3.14?",
+                                                "options": ["int", "float", "str", "decimal"],
+                                                "correct": 1
+                                            },
+                                            {
+                                                "question": "Какое из этих имен переменной недопустимо?",
+                                                "options": ["my_var", "var1", "1var", "_var"],
+                                                "correct": 2
+                                            },
+                                            {
+                                                "question": "Что выведет print('5' + '3')?",
+                                                "options": ["8", "53", "Ошибка", "None"],
+                                                "correct": 1
+                                            }
+                                        ],
+                                        "task": {
+                                            "ru": "Создайте переменные с вашим именем, возрастом и хобби, затем выведите их на экран",
+                                            "en": "Create variables with your name, age, and hobby, then print them"
+                                        }
+                                    },
+                                    "en": {
+                                        "introduction": "Variables are named containers for storing data. In Python, you don't need to declare variable types in advance - they are determined automatically.",
+                                        "sections": [
+                                            {
+                                                "title": "Basic Data Types",
+                                                "text": "Python supports several basic data types:\n\n• int (integers): 5, -10, 1000\n• float (floating-point numbers): 3.14, -0.5, 2.0\n• str (strings): 'Hello', \"Python\"\n• bool (boolean values): True, False\n• list (lists): [1, 2, 3]\n• dict (dictionaries): {'key': 'value'}\n• tuple (tuples): (1, 2, 3)\n• set (sets): {1, 2, 3}"
+                                            },
+                                            {
+                                                "title": "Creating Variables",
+                                                "text": "In Python, variables are created by simple assignment:\n\nname = 'Alice'        # string\nage = 25              # integer\nheight = 1.75         # float\nis_student = False    # boolean\n\nVariable names can contain letters, digits, and underscores,\nbut cannot start with a digit."
+                                            },
+                                            {
+                                                "title": "Operations with Data",
+                                                "text": "You can perform various operations:\n\n# Arithmetic\nx = 10 + 5    # addition: 15\ny = 10 - 5    # subtraction: 5\nz = 10 * 5    # multiplication: 50\nw = 10 / 3    # division: 3.333...\n\n# With strings\nfull_name = 'John' + ' ' + 'Doe'  # concatenation\nrepeated = 'Hi' * 3  # 'HiHiHi'"
+                                            }
+                                        ],
+                                        "codeExample": "# Different data types\nname = 'Alice'           # str\nage = 25                 # int\nheight = 1.68            # float\nis_student = True        # bool\nhobbies = ['reading', 'coding']  # list\ncoordinates = (10, 20)   # tuple\n\nprint(type(name))        # <class 'str'>\nprint(type(age))         # <class 'int'>\n\n# Type conversion\nage_str = str(age)       # '25'\nprice = float('19.99')   # 19.99\ncount = int('42')        # 42\n\nprint(f'{name} will be {age + 1} years old next year')",
+                                        "quiz": [
+                                            {
+                                                "question": "What data type is 3.14?",
+                                                "options": ["int", "float", "str", "decimal"],
+                                                "correct": 1
+                                            },
+                                            {
+                                                "question": "Which of these variable names is invalid?",
+                                                "options": ["my_var", "var1", "1var", "_var"],
+                                                "correct": 2
+                                            },
+                                            {
+                                                "question": "What will print('5' + '3') output?",
+                                                "options": ["8", "53", "Error", "None"],
+                                                "correct": 1
+                                            }
+                                        ],
+                                        "task": {
+                                            "ru": "Создайте переменные с вашим именем, возрастом и хобби, затем выведите их на экран",
+                                            "en": "Create variables with your name, age, and hobby, then print them"
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
