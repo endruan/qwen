@@ -1,12 +1,44 @@
 ```
 # Dependencies
 node_modules/
-
-# Editors
-.vscode/
-
-# Environment
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 .env
 .env.local
 .env.*
+
+# Build artifacts
+dist/
+build/
+target/
+*.egg-info/
+
+# Logs
+*.log
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+
+# Python specific
+*.py[cod]
+*$py.class
+*.so
+.Python
 ```
