@@ -23,7 +23,7 @@ const app = {
         }
         
         // Load lessons if navigating to lessons
-        if (section === 'lessons' && lessonManager) {
+        if (section === 'lessons' && typeof lessonManager !== 'undefined' && lessonManager) {
             lessonManager.renderModules();
         }
         
@@ -47,17 +47,32 @@ const app = {
         const userData = localStorage.getItem('currentUser');
         if (userData) {
             this.currentUser = JSON.parse(userData);
-            this.updateDashboard(this.currentUser);
+            this.showDashboard(this.currentUser);
         }
     },
     
-    updateDashboard(user) {
-        // Update user name
+    showDashboard(user) {
+        const dashboard = document.getElementById('userDashboard');
+        if (dashboard) {
+            dashboard.style.display = 'flex';
+        }
+        
+        // Hide main content initially
+        document.querySelectorAll('section').forEach(s => {
+            s.classList.remove('active-section');
+            s.classList.add('hidden-section');
+        });
+        
+        // Update user info
         const userNameDisplay = document.getElementById('userName');
         if (userNameDisplay) {
             userNameDisplay.textContent = user.username || 'Student';
         }
         
+        this.updateDashboard(user);
+    },
+    
+    updateDashboard(user) {
         // Update progress stats
         const completedLessons = user.completedLessons?.length || 0;
         const totalPoints = user.totalPoints || 0;
@@ -71,7 +86,7 @@ const app = {
         if (dashXP) dashXP.textContent = totalPoints;
         if (dashLevel) dashLevel.textContent = level;
         if (dashCompleted) {
-            const totalLessons = 18; // Total lessons in course
+            const totalLessons = 18;
             const percentage = Math.round((completedLessons / totalLessons) * 100);
             dashCompleted.textContent = `${percentage}%`;
         }
@@ -80,10 +95,12 @@ const app = {
         const progressBars = document.querySelectorAll('.progress-fill');
         if (progressBars.length >= 3) {
             progressBars[0].style.width = `${(completedLessons / 18) * 100}%`;
-            progressBars[0].previousElementSibling.querySelector('.progress-value').textContent = `${completedLessons}/18`;
+            const progressValue = progressBars[0].previousElementSibling?.querySelector('.progress-value');
+            if (progressValue) progressValue.textContent = `${completedLessons}/18`;
             
             progressBars[2].style.width = `${Math.min((totalPoints / 1000) * 100, 100)}%`;
-            progressBars[2].previousElementSibling.querySelector('.progress-value').textContent = `${totalPoints} XP`;
+            const pointsValue = progressBars[2].previousElementSibling?.querySelector('.progress-value');
+            if (pointsValue) pointsValue.textContent = `${totalPoints} XP`;
         }
     },
     
@@ -114,7 +131,8 @@ const app = {
         // Login button
         const loginBtn = document.getElementById('loginBtn');
         if (loginBtn) {
-            loginBtn.addEventListener('click', () => {
+            loginBtn.addEventListener('click', (e) => {
+                e.preventDefault();
                 document.getElementById('authModal').classList.add('active');
             });
         }
@@ -127,6 +145,24 @@ const app = {
             });
         }
         
+        // Close modal on outside click
+        const authModal = document.getElementById('authModal');
+        if (authModal) {
+            authModal.addEventListener('click', (e) => {
+                if (e.target.id === 'authModal') {
+                    authModal.classList.remove('active');
+                }
+            });
+        }
+        
+        // Auth tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const tab = e.target.dataset.tab;
+                this.switchAuthTab(tab);
+            });
+        });
+        
         // Auth forms
         const loginForm = document.getElementById('loginForm');
         if (loginForm) {
@@ -136,6 +172,75 @@ const app = {
         const registerForm = document.getElementById('registerForm');
         if (registerForm) {
             registerForm.addEventListener('submit', this.handleRegister.bind(this));
+        }
+        
+        // Code editor
+        const runCodeBtn = document.getElementById('runCode');
+        if (runCodeBtn) {
+            runCodeBtn.addEventListener('click', runCode);
+        }
+        
+        const clearOutputBtn = document.getElementById('clearOutput');
+        if (clearOutputBtn) {
+            clearOutputBtn.addEventListener('click', clearOutput);
+        }
+        
+        // Example filters
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', filterExamples);
+        });
+        
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+        
+        // Start learning button
+        const startLearningBtn = document.getElementById('startLearning');
+        if (startLearningBtn) {
+            startLearningBtn.addEventListener('click', () => {
+                const coursesSection = document.getElementById('courses');
+                if (coursesSection) {
+                    coursesSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
+        
+        // View courses button
+        const viewCoursesBtn = document.getElementById('viewCourses');
+        if (viewCoursesBtn) {
+            viewCoursesBtn.addEventListener('click', () => {
+                const coursesSection = document.getElementById('courses');
+                if (coursesSection) {
+                    coursesSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
+    },
+    
+    switchAuthTab(tab) {
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const tabs = document.querySelectorAll('.tab-btn');
+        
+        tabs.forEach(t => t.classList.remove('active'));
+        const activeTab = document.querySelector(`[data-tab="${tab}"]`);
+        if (activeTab) activeTab.classList.add('active');
+        
+        if (loginForm && registerForm) {
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+            } else {
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+            }
         }
     },
     
@@ -165,6 +270,14 @@ const app = {
         e.preventDefault();
         const username = e.target.querySelector('input[type="text"]').value;
         const email = e.target.querySelector('input[type="email"]').value;
+        const passwords = e.target.querySelectorAll('input[type="password"]');
+        const password = passwords[0]?.value;
+        const confirmPassword = passwords[1]?.value;
+        
+        if (password !== confirmPassword) {
+            alert(currentLang === 'ru' ? 'Пароли не совпадают!' : 'Passwords do not match!');
+            return;
+        }
         
         const user = {
             username: username,
@@ -182,21 +295,6 @@ const app = {
         this.showDashboard(user);
         
         alert(currentLang === 'ru' ? 'Регистрация успешна!' : 'Registration successful!');
-    },
-    
-    showDashboard(user) {
-        const dashboard = document.getElementById('userDashboard');
-        if (dashboard) {
-            dashboard.style.display = 'flex';
-        }
-        
-        // Hide main content initially
-        document.querySelectorAll('section').forEach(s => {
-            s.classList.remove('active-section');
-            s.classList.add('hidden-section');
-        });
-        
-        this.updateDashboard(user);
     },
     
     resetProgress() {
@@ -227,10 +325,8 @@ function applyTheme(theme) {
     body.classList.remove('light-theme', 'dark-theme');
     body.classList.add(`${theme}-theme`);
     
-    if (theme === 'dark') {
-        themeIcon.textContent = '☀️';
-    } else {
-        themeIcon.textContent = '🌙';
+    if (themeIcon) {
+        themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
     }
     
     localStorage.setItem('theme', theme);
@@ -243,243 +339,12 @@ function toggleTheme() {
     applyTheme(newTheme);
 }
 
-// Language Toggle
-function toggleLanguage() {
-    const newLang = currentLang === 'ru' ? 'en' : 'ru';
-    updateLanguage(newLang);
-    
-    // Update language button text
-    const langBtn = document.querySelector('.lang-icon');
-    langBtn.textContent = newLang === 'ru' ? 'EN' : 'RU';
-}
-
-// Event Listeners Setup
-function setupEventListeners() {
-    // Theme toggle
-    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-    
-    // Language toggle
-    document.getElementById('langToggle').addEventListener('click', toggleLanguage);
-    
-    // Login button
-    document.getElementById('loginBtn').addEventListener('click', () => {
-        document.getElementById('authModal').classList.add('active');
-    });
-    
-    // Close modal
-    document.getElementById('closeModal').addEventListener('click', () => {
-        document.getElementById('authModal').classList.remove('active');
-    });
-    
-    // Close modal on outside click
-    document.getElementById('authModal').addEventListener('click', (e) => {
-        if (e.target.id === 'authModal') {
-            document.getElementById('authModal').classList.remove('active');
-        }
-    });
-    
-    // Auth tabs
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const tab = e.target.dataset.tab;
-            switchAuthTab(tab);
-        });
-    });
-    
-    // Auth forms
-    document.getElementById('loginForm').addEventListener('submit', handleLogin);
-    document.getElementById('registerForm').addEventListener('submit', handleRegister);
-    
-    // Code editor
-    document.getElementById('runCode').addEventListener('click', runCode);
-    document.getElementById('clearOutput').addEventListener('click', clearOutput);
-    
-    // Example filters
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', filterExamples);
-    });
-    
-    // Dashboard navigation
-    document.querySelectorAll('.dashboard-nav a').forEach(link => {
-        link.addEventListener('click', handleDashboardNav);
-    });
-    
-    // Smooth scrolling
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    });
-    
-    // Start learning button
-    document.getElementById('startLearning').addEventListener('click', () => {
-        document.querySelector('#courses').scrollIntoView({ behavior: 'smooth' });
-    });
-    
-    // View courses button
-    document.getElementById('viewCourses').addEventListener('click', () => {
-        document.querySelector('#courses').scrollIntoView({ behavior: 'smooth' });
-    });
-}
-
-// Auth Tab Switching
-function switchAuthTab(tab) {
-    const loginForm = document.getElementById('loginForm');
-    const registerForm = document.getElementById('registerForm');
-    const tabs = document.querySelectorAll('.tab-btn');
-    
-    tabs.forEach(t => t.classList.remove('active'));
-    document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
-    
-    if (tab === 'login') {
-        loginForm.classList.remove('hidden');
-        registerForm.classList.add('hidden');
-    } else {
-        loginForm.classList.add('hidden');
-        registerForm.classList.remove('hidden');
-    }
-}
-
-// Handle Login (Mock)
-function handleLogin(e) {
-    e.preventDefault();
-    const email = e.target.querySelector('input[type="email"]').value;
-    const password = e.target.querySelector('input[type="password"]').value;
-    
-    // Mock authentication - in real app, this would call an API
-    const user = {
-        username: email.split('@')[0],
-        email: email,
-        level: 1,
-        completedLessons: 0,
-        completedProjects: 0,
-        totalPoints: 0,
-        achievements: []
-    };
-    
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    document.getElementById('authModal').classList.remove('active');
-    showDashboard(user);
-    
-    // Show success message
-    alert(currentLang === 'ru' ? 'Успешный вход!' : 'Login successful!');
-}
-
-// Handle Register (Mock)
-function handleRegister(e) {
-    e.preventDefault();
-    const username = e.target.querySelector('input[type="text"]').value;
-    const email = e.target.querySelector('input[type="email"]').value;
-    const password = e.target.querySelector('input[type="password"]').value;
-    const confirmPassword = e.target.querySelectorAll('input[type="password"]')[1].value;
-    
-    if (password !== confirmPassword) {
-        alert(currentLang === 'ru' ? 'Пароли не совпадают!' : 'Passwords do not match!');
-        return;
-    }
-    
-    // Mock registration
-    const user = {
-        username: username,
-        email: email,
-        level: 1,
-        completedLessons: 0,
-        completedProjects: 0,
-        totalPoints: 0,
-        achievements: []
-    };
-    
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    document.getElementById('authModal').classList.remove('active');
-    showDashboard(user);
-    
-    // Show success message
-    alert(currentLang === 'ru' ? 'Регистрация успешна!' : 'Registration successful!');
-}
-
-// Show Dashboard
-function showDashboard(user) {
-    document.getElementById('userName').textContent = user.username;
-    document.getElementById('userDashboard').classList.add('active');
-    document.querySelector('.navbar').style.display = 'none';
-    
-    // Hide main content sections
-    document.querySelectorAll('section').forEach(section => {
-        section.style.display = 'none';
-    });
-    document.querySelector('.footer').style.display = 'none';
-}
-
-// Load User Data
-function loadUserData() {
-    const userData = localStorage.getItem('currentUser');
-    if (userData) {
-        const user = JSON.parse(userData);
-        showDashboard(user);
-        updateDashboard(user);
-    }
-}
-
-// Update Dashboard with User Data
-function updateDashboard(user) {
-    // Update progress
-    const lessonProgress = (user.completedLessons / 50) * 100;
-    const projectProgress = (user.completedProjects / 20) * 100;
-    const pointsProgress = Math.min((user.totalPoints / 1000) * 100, 100);
-    
-    const progressCards = document.querySelectorAll('.progress-card');
-    progressCards[0].querySelector('.progress-fill').style.width = `${lessonProgress}%`;
-    progressCards[0].querySelector('.progress-value').textContent = `${user.completedLessons}/50`;
-    
-    progressCards[1].querySelector('.progress-fill').style.width = `${projectProgress}%`;
-    progressCards[1].querySelector('.progress-value').textContent = `${user.completedProjects}/20`;
-    
-    progressCards[2].querySelector('.progress-fill').style.width = `${pointsProgress}%`;
-    progressCards[2].querySelector('.progress-value').textContent = `${user.totalPoints} XP`;
-    
-    // Update achievements
-    user.achievements.forEach(achId => {
-        const achCard = document.querySelector(`[data-achievement="${achId}"]`);
-        if (achCard) {
-            achCard.classList.remove('locked');
-            achCard.classList.add('unlocked');
-        }
-    });
-}
-
-// Dashboard Navigation
-function handleDashboardNav(e) {
-    e.preventDefault();
-    
-    // Update active state
-    document.querySelectorAll('.dashboard-nav a').forEach(link => {
-        link.classList.remove('active');
-    });
-    e.target.classList.add('active');
-    
-    // Show/hide sections
-    const target = e.target.getAttribute('href');
-    document.querySelectorAll('.dashboard-content > div').forEach(section => {
-        section.classList.add('hidden');
-    });
-    
-    if (target.includes('progress')) {
-        document.getElementById('dashboard-progress').classList.remove('hidden');
-    } else if (target.includes('achievements')) {
-        document.getElementById('dashboard-achievements').classList.remove('hidden');
-    } else if (target.includes('settings')) {
-        document.getElementById('dashboard-settings').classList.remove('hidden');
-    }
-}
-
 // Run Code (Mock Python execution)
 function runCode() {
     const code = document.getElementById('codeInput').value;
     const output = document.getElementById('codeOutput');
+    
+    if (!output) return;
     
     output.textContent = currentLang === 'ru' ? 'Запуск кода...\n' : 'Running code...\n';
     
@@ -520,7 +385,10 @@ function runCode() {
 
 // Clear Output
 function clearOutput() {
-    document.getElementById('codeOutput').textContent = '';
+    const output = document.getElementById('codeOutput');
+    if (output) {
+        output.textContent = '';
+    }
 }
 
 // Filter Examples
@@ -558,10 +426,13 @@ document.addEventListener('click', (e) => {
 });
 
 // Save settings
-document.querySelector('.settings-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-    alert(currentLang === 'ru' ? 'Настройки сохранены!' : 'Settings saved!');
-});
+const settingsForm = document.querySelector('.settings-form');
+if (settingsForm) {
+    settingsForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert(currentLang === 'ru' ? 'Настройки сохранены!' : 'Settings saved!');
+    });
+}
 
 // Course buttons
 document.querySelectorAll('.btn-course').forEach(btn => {
