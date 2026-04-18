@@ -3,193 +3,735 @@
         "levels": [
             {
                 "id": "beginner",
-                "name": {
-                    "ru": "Новичок",
-                    "en": "Beginner"
-                },
+                "name": {"ru": "Новичок", "en": "Beginner"},
                 "modules": [
                     {
                         "id": "module1",
-                        "name": {
-                            "ru": "Введение в Python",
-                            "en": "Introduction to Python"
-                        },
+                        "name": {"ru": "Введение в Python", "en": "Introduction to Python"},
                         "lessons": [
                             {
                                 "id": "lesson1_1",
-                                "title": {
-                                    "ru": "Что такое Python? Установка и настройка",
-                                    "en": "What is Python? Installation and Setup"
-                                },
+                                "title": {"ru": "Что такое Python? Установка и настройка", "en": "What is Python? Installation and Setup"},
                                 "duration": 15,
                                 "xp": 50,
                                 "content": {
                                     "ru": {
-                                        "introduction": "Python — это высокоуровневый язык программирования общего назначения. Он был создан Гвидо ван Россумом в 1991 году и стал одним из самых популярных языков в мире благодаря своей простоте и читаемости.",
+                                        "introduction": "Python — это высокоуровневый язык программирования общего назначения. Он был создан Гвидо ван Россумом в 1991 году и стал одним из самых популярных языков в мире.",
                                         "sections": [
-                                            {
-                                                "title": "Почему Python?",
-                                                "text": "Python имеет множество преимуществ:\n• Легко изучать - синтаксис похож на обычный английский язык\n• Универсальность - подходит для веб-разработки, анализа данных, ИИ, автоматизации\n• Огромное сообщество - тысячи библиотек и готовых решений\n• Высокая востребованность - один из самых оплачиваемых навыков на рынке труда"
-                                            },
-                                            {
-                                                "title": "Установка Python",
-                                                "text": "Шаг 1: Перейдите на официальный сайт python.org\nШаг 2: Скачайте последнюю версию (Python 3.x)\nШаг 3: Запустите установщик\nШаг 4: ✓ Обязательно отметьте галочку 'Add Python to PATH'\nШаг 5: Нажмите 'Install Now'\n\nПроверка установки:\nОткройте терминал/командную строку и введите:\npython --version\n\nЕсли отображается версия Python - установка успешна!"
-                                            },
-                                            {
-                                                "title": "Первая программа",
-                                                "text": "Создайте файл hello.py и напишите:\n\nprint('Hello, World!')\n\nЗапустите его командой:\npython hello.py\n\nПоздравляем! Вы написали свою первую программу на Python!"
-                                            }
+                                            {"title": "Почему Python?", "text": "Python имеет множество преимуществ:\n• Легко изучать - синтаксис похож на обычный английский язык\n• Универсальность - подходит для веб-разработки, анализа данных, ИИ, автоматизации\n• Огромное сообщество - тысячи библиотек и готовых решений\n• Высокая востребованность - один из самых оплачиваемых навыков"},
+                                            {"title": "Установка Python", "text": "Шаг 1: Перейдите на официальный сайт python.org\nШаг 2: Скачайте последнюю версию (Python 3.x)\nШаг 3: Запустите установщик\nШаг 4: ✓ Обязательно отметьте галочку 'Add Python to PATH'\nШаг 5: Нажмите 'Install Now'\n\nПроверка установки:\nОткройте терминал и введите: python --version"},
+                                            {"title": "Первая программа", "text": "Создайте файл hello.py и напишите:\nprint('Hello, World!')\n\nЗапустите его командой: python hello.py\n\nПоздравляем! Вы написали свою первую программу!"}
                                         ],
                                         "codeExample": "# Это комментарий в Python\nprint('Привет, мир!')\n\n# Переменные\nname = 'Алекс'\nage = 25\nprint(f'Меня зовут {name}, мне {age} лет')",
                                         "quiz": [
-                                            {
-                                                "question": "В каком году был создан Python?",
-                                                "options": ["1989", "1991", "1995", "2000"],
-                                                "correct": 1
-                                            },
-                                            {
-                                                "question": "Как называется функция для вывода текста на экран?",
-                                                "options": ["echo()", "write()", "print()", "display()"],
-                                                "correct": 2
-                                            },
-                                            {
-                                                "question": "Что нужно сделать при установке Python в Windows?",
-                                                "options": ["Ничего", "Добавить Python в PATH", "Перезагрузить компьютер", "Удалить старые версии"],
-                                                "correct": 1
-                                            }
+                                            {"question": "В каком году был создан Python?", "options": ["1989", "1991", "1995", "2000"], "correct": 1},
+                                            {"question": "Кто создал Python?", "options": ["Билл Гейтс", "Линус Торвальдс", "Гвидо ван Россум", "Стив Джобс"], "correct": 2},
+                                            {"question": "Какая функция используется для вывода текста?", "options": ["echo()", "write()", "print()", "display()"], "correct": 2}
                                         ],
-                                        "task": {
-                                            "ru": "Установите Python и напишите программу, которая выводит ваше имя и возраст",
-                                            "en": "Install Python and write a program that prints your name and age"
-                                        }
+                                        "practice": {"task": "Напишите программу, которая выводит ваше имя и возраст", "starterCode": "# Напишите ваш код здесь\n", "expectedOutput": ""}
                                     },
                                     "en": {
-                                        "introduction": "Python is a high-level, general-purpose programming language. It was created by Guido van Rossum in 1991 and has become one of the most popular languages in the world due to its simplicity and readability.",
+                                        "introduction": "Python is a high-level, general-purpose programming language. It was created by Guido van Rossum in 1991 and has become one of the most popular languages in the world.",
                                         "sections": [
-                                            {
-                                                "title": "Why Python?",
-                                                "text": "Python has many advantages:\n• Easy to learn - syntax resembles plain English\n• Versatility - suitable for web development, data analysis, AI, automation\n• Huge community - thousands of libraries and ready-made solutions\n• High demand - one of the highest-paid skills in the job market"
-                                            },
-                                            {
-                                                "title": "Installing Python",
-                                                "text": "Step 1: Go to the official website python.org\nStep 2: Download the latest version (Python 3.x)\nStep 3: Run the installer\nStep 4: ✓ Be sure to check 'Add Python to PATH'\nStep 5: Click 'Install Now'\n\nVerifying installation:\nOpen terminal/command prompt and type:\npython --version\n\nIf Python version is displayed - installation successful!"
-                                            },
-                                            {
-                                                "title": "First Program",
-                                                "text": "Create a file hello.py and write:\n\nprint('Hello, World!')\n\nRun it with command:\npython hello.py\n\nCongratulations! You've written your first Python program!"
-                                            }
+                                            {"title": "Why Python?", "text": "Python has many advantages:\n• Easy to learn - syntax similar to plain English\n• Versatility - suitable for web development, data analysis, AI, automation\n• Huge community - thousands of libraries and ready-made solutions\n• High demand - one of the highest-paid skills"},
+                                            {"title": "Installing Python", "text": "Step 1: Go to python.org\nStep 2: Download the latest version (Python 3.x)\nStep 3: Run the installer\nStep 4: ✓ Check 'Add Python to PATH'\nStep 5: Click 'Install Now'\n\nVerify installation:\nOpen terminal and type: python --version"},
+                                            {"title": "First Program", "text": "Create a file hello.py and write:\nprint('Hello, World!')\n\nRun it with: python hello.py\n\nCongratulations! You wrote your first program!"}
                                         ],
                                         "codeExample": "# This is a comment in Python\nprint('Hello, World!')\n\n# Variables\nname = 'Alex'\nage = 25\nprint(f'My name is {name}, I am {age} years old')",
                                         "quiz": [
-                                            {
-                                                "question": "When was Python created?",
-                                                "options": ["1989", "1991", "1995", "2000"],
-                                                "correct": 1
-                                            },
-                                            {
-                                                "question": "What function is used to display text on screen?",
-                                                "options": ["echo()", "write()", "print()", "display()"],
-                                                "correct": 2
-                                            },
-                                            {
-                                                "question": "What should you do when installing Python on Windows?",
-                                                "options": ["Nothing", "Add Python to PATH", "Restart computer", "Remove old versions"],
-                                                "correct": 1
-                                            }
+                                            {"question": "In what year was Python created?", "options": ["1989", "1991", "1995", "2000"], "correct": 1},
+                                            {"question": "Who created Python?", "options": ["Bill Gates", "Linus Torvalds", "Guido van Rossum", "Steve Jobs"], "correct": 2},
+                                            {"question": "Which function is used to output text?", "options": ["echo()", "write()", "print()", "display()"], "correct": 2}
                                         ],
-                                        "task": {
-                                            "ru": "Установите Python и напишите программу, которая выводит ваше имя и возраст",
-                                            "en": "Install Python and write a program that prints your name and age"
-                                        }
+                                        "practice": {"task": "Write a program that prints your name and age", "starterCode": "# Write your code here\n", "expectedOutput": ""}
                                     }
                                 }
                             },
                             {
                                 "id": "lesson1_2",
-                                "title": {
-                                    "ru": "Переменные и типы данных",
-                                    "en": "Variables and Data Types"
-                                },
+                                "title": {"ru": "Переменные и типы данных", "en": "Variables and Data Types"},
                                 "duration": 20,
-                                "xp": 75,
+                                "xp": 60,
                                 "content": {
                                     "ru": {
-                                        "introduction": "Переменные - это именованные контейнеры для хранения данных. В Python вам не нужно объявлять тип переменной заранее - он определяется автоматически.",
+                                        "introduction": "Переменные - это именованные контейнеры для хранения данных. В Python не нужно объявлять тип переменной заранее.",
                                         "sections": [
-                                            {
-                                                "title": "Основные типы данных",
-                                                "text": "Python поддерживает несколько основных типов данных:\n\n• int (целые числа): 5, -10, 1000\n• float (дробные числа): 3.14, -0.5, 2.0\n• str (строки): 'Hello', \"Python\"\n• bool (булевы значения): True, False\n• list (списки): [1, 2, 3]\n• dict (словари): {'key': 'value'}\n• tuple (кортежи): (1, 2, 3)\n• set (множества): {1, 2, 3}"
-                                            },
-                                            {
-                                                "title": "Создание переменных",
-                                                "text": "В Python переменные создаются простым присваиванием:\n\nname = 'Alice'        # строка\nage = 25              # целое число\nheight = 1.75         # дробное число\nis_student = False    # булево значение\n\nИмена переменных могут содержать буквы, цифры и подчеркивание,\nно не могут начинаться с цифры."
-                                            },
-                                            {
-                                                "title": "Операции с данными",
-                                                "text": "Вы можете выполнять различные операции:\n\n# Арифметические\nx = 10 + 5    # сложение: 15\ny = 10 - 5    # вычитание: 5\nz = 10 * 5    # умножение: 50\nw = 10 / 3    # деление: 3.333...\n\n# Со строками\nfull_name = 'John' + ' ' + 'Doe'  # конкатенация\nrepeated = 'Hi' * 3  # 'HiHiHi'"
-                                            }
+                                            {"title": "Основные типы данных", "text": "В Python есть несколько основных типов данных:\n• int - целые числа (42, -17, 0)\n• float - числа с плавающей точкой (3.14, -2.5)\n• str - строки ('Привет', \"Мир\")\n• bool - логические значения (True, False)\n• None - отсутствие значения"},
+                                            {"title": "Создание переменных", "text": "Для создания переменной просто присвойте значение:\nname = 'Алекс'\nage = 25\nheight = 1.75\nis_student = True\n\nPython автоматически определит тип переменной по значению."},
+                                            {"title": "Преобразование типов", "text": "Вы можете преобразовывать типы данных:\nnum_str = '42'\nnum_int = int(num_str)  # 42\n\npi_str = str(3.14)  # '3.14'\n\nbool_val = bool(1)  # True"}
                                         ],
-                                        "codeExample": "# Различные типы данных\nname = 'Alice'           # str\nage = 25                 # int\nheight = 1.68            # float\nis_student = True        # bool\nhobbies = ['reading', 'coding']  # list\ncoordinates = (10, 20)   # tuple\n\nprint(type(name))        # <class 'str'>\nprint(type(age))         # <class 'int'>\n\n# Преобразование типов\nage_str = str(age)       # '25'\nprice = float('19.99')   # 19.99\ncount = int('42')        # 42\n\nprint(f'{name} будет {age + 1} лет через год')",
+                                        "codeExample": "# Разные типы данных\nname = 'Алекс'          # str\nage = 25                # int\nheight = 1.75           # float\nis_student = True       # bool\nnothing = None          # NoneType\n\nprint(type(name))       # <class 'str'>\nprint(type(age))        # <class 'int'>\n\n# Преобразование типов\nage_str = str(age)\nprint('Мне ' + age_str + ' лет')",
                                         "quiz": [
-                                            {
-                                                "question": "Какой тип данных у значения 3.14?",
-                                                "options": ["int", "float", "str", "decimal"],
-                                                "correct": 1
-                                            },
-                                            {
-                                                "question": "Какое из этих имен переменной недопустимо?",
-                                                "options": ["my_var", "var1", "1var", "_var"],
-                                                "correct": 2
-                                            },
-                                            {
-                                                "question": "Что выведет print('5' + '3')?",
-                                                "options": ["8", "53", "Ошибка", "None"],
-                                                "correct": 1
-                                            }
+                                            {"question": "Какой тип данных у числа 3.14?", "options": ["int", "float", "str", "bool"], "correct": 1},
+                                            {"question": "Как преобразовать строку '42' в число?", "options": ["str(42)", "int('42')", "float('42')", "num('42')"], "correct": 1},
+                                            {"question": "Какое значение у bool(0)?", "options": ["True", "False", "None", "Error"], "correct": 1}
                                         ],
-                                        "task": {
-                                            "ru": "Создайте переменные с вашим именем, возрастом и хобби, затем выведите их на экран",
-                                            "en": "Create variables with your name, age, and hobby, then print them"
-                                        }
+                                        "practice": {"task": "Создайте переменные разных типов и выведите их типы функцией type()", "starterCode": "# Создайте переменные\nname = \nage = \nheight = \nis_active = \n\n# Выведите типы\n", "expectedOutput": ""}
                                     },
                                     "en": {
-                                        "introduction": "Variables are named containers for storing data. In Python, you don't need to declare variable types in advance - they are determined automatically.",
+                                        "introduction": "Variables are named containers for storing data. In Python, you don't need to declare variable types in advance.",
                                         "sections": [
-                                            {
-                                                "title": "Basic Data Types",
-                                                "text": "Python supports several basic data types:\n\n• int (integers): 5, -10, 1000\n• float (floating-point numbers): 3.14, -0.5, 2.0\n• str (strings): 'Hello', \"Python\"\n• bool (boolean values): True, False\n• list (lists): [1, 2, 3]\n• dict (dictionaries): {'key': 'value'}\n• tuple (tuples): (1, 2, 3)\n• set (sets): {1, 2, 3}"
-                                            },
-                                            {
-                                                "title": "Creating Variables",
-                                                "text": "In Python, variables are created by simple assignment:\n\nname = 'Alice'        # string\nage = 25              # integer\nheight = 1.75         # float\nis_student = False    # boolean\n\nVariable names can contain letters, digits, and underscores,\nbut cannot start with a digit."
-                                            },
-                                            {
-                                                "title": "Operations with Data",
-                                                "text": "You can perform various operations:\n\n# Arithmetic\nx = 10 + 5    # addition: 15\ny = 10 - 5    # subtraction: 5\nz = 10 * 5    # multiplication: 50\nw = 10 / 3    # division: 3.333...\n\n# With strings\nfull_name = 'John' + ' ' + 'Doe'  # concatenation\nrepeated = 'Hi' * 3  # 'HiHiHi'"
-                                            }
+                                            {"title": "Basic Data Types", "text": "Python has several basic data types:\n• int - integers (42, -17, 0)\n• float - floating point numbers (3.14, -2.5)\n• str - strings ('Hello', \"World\")\n• bool - boolean values (True, False)\n• None - absence of value"},
+                                            {"title": "Creating Variables", "text": "To create a variable, simply assign a value:\nname = 'Alex'\nage = 25\nheight = 1.75\nis_student = True\n\nPython automatically determines the variable type from the value."},
+                                            {"title": "Type Conversion", "text": "You can convert data types:\nnum_str = '42'\nnum_int = int(num_str)  # 42\n\npi_str = str(3.14)  # '3.14'\n\nbool_val = bool(1)  # True"}
                                         ],
-                                        "codeExample": "# Different data types\nname = 'Alice'           # str\nage = 25                 # int\nheight = 1.68            # float\nis_student = True        # bool\nhobbies = ['reading', 'coding']  # list\ncoordinates = (10, 20)   # tuple\n\nprint(type(name))        # <class 'str'>\nprint(type(age))         # <class 'int'>\n\n# Type conversion\nage_str = str(age)       # '25'\nprice = float('19.99')   # 19.99\ncount = int('42')        # 42\n\nprint(f'{name} will be {age + 1} years old next year')",
+                                        "codeExample": "# Different data types\nname = 'Alex'           # str\nage = 25                # int\nheight = 1.75           # float\nis_student = True       # bool\nnothing = None          # NoneType\n\nprint(type(name))       # <class 'str'>\nprint(type(age))        # <class 'int'>\n\n# Type conversion\nage_str = str(age)\nprint('I am ' + age_str + ' years old')",
                                         "quiz": [
-                                            {
-                                                "question": "What data type is 3.14?",
-                                                "options": ["int", "float", "str", "decimal"],
-                                                "correct": 1
-                                            },
-                                            {
-                                                "question": "Which of these variable names is invalid?",
-                                                "options": ["my_var", "var1", "1var", "_var"],
-                                                "correct": 2
-                                            },
-                                            {
-                                                "question": "What will print('5' + '3') output?",
-                                                "options": ["8", "53", "Error", "None"],
-                                                "correct": 1
-                                            }
+                                            {"question": "What data type is 3.14?", "options": ["int", "float", "str", "bool"], "correct": 1},
+                                            {"question": "How to convert string '42' to number?", "options": ["str(42)", "int('42')", "float('42')", "num('42')"], "correct": 1},
+                                            {"question": "What is bool(0)?", "options": ["True", "False", "None", "Error"], "correct": 1}
                                         ],
-                                        "task": {
-                                            "ru": "Создайте переменные с вашим именем, возрастом и хобби, затем выведите их на экран",
-                                            "en": "Create variables with your name, age, and hobby, then print them"
-                                        }
+                                        "practice": {"task": "Create variables of different types and print their types using type()", "starterCode": "# Create variables\nname = \nage = \nheight = \nis_active = \n\n# Print types\n", "expectedOutput": ""}
+                                    }
+                                }
+                            },
+                            {
+                                "id": "lesson1_3",
+                                "title": {"ru": "Операторы: арифметические и сравнения", "en": "Operators: Arithmetic and Comparison"},
+                                "duration": 20,
+                                "xp": 60,
+                                "content": {
+                                    "ru": {
+                                        "introduction": "Операторы позволяют выполнять вычисления и сравнения над данными.",
+                                        "sections": [
+                                            {"title": "Арифметические операторы", "text": "+ сложение\n- вычитание\n* умножение\n/ деление\n// целочисленное деление\n% остаток от деления\n** возведение в степень"},
+                                            {"title": "Операторы сравнения", "text": "== равно\n!= не равно\n> больше\n< меньше\n>= больше или равно\n<= меньше или равно\n\nРезультат сравнения - True или False"},
+                                            {"title": "Логические операторы", "text": "and - И (оба условия истинны)\nor - ИЛИ (хотя бы одно условие истинно)\nnot - НЕ (инвертирует значение)"}
+                                        ],
+                                        "codeExample": "# Арифметика\na = 10\nb = 3\nprint(a + b)   # 13\nprint(a * b)   # 30\nprint(a ** b)  # 1000\nprint(a % b)   # 1\n\n# Сравнение\nprint(a > b)    # True\nprint(a == b)   # False\n\n# Логика\nprint(a > 5 and b < 5)  # True\nprint(not (a == b))     # True",
+                                        "quiz": [
+                                            {"question": "Чему равен результат 10 // 3?", "options": ["3.33", "3", "4", "1"], "correct": 1},
+                                            {"question": "Что вернет выражение 5 != 5?", "options": ["True", "False", "Error", "None"], "correct": 1},
+                                            {"question": "Чему равен результат 2 ** 3?", "options": ["6", "8", "9", "5"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Вычислите площадь круга радиусом 5 (π ≈ 3.14)", "starterCode": "radius = 5\npi = 3.14\n\n# Вычислите площадь\narea = \n\nprint('Площадь круга:', area)", "expectedOutput": "Площадь круга: 78.5"}
+                                    },
+                                    "en": {
+                                        "introduction": "Operators allow you to perform calculations and comparisons on data.",
+                                        "sections": [
+                                            {"title": "Arithmetic Operators", "text": "+ addition\n- subtraction\n* multiplication\n/ division\n// integer division\n% modulo (remainder)\n** exponentiation"},
+                                            {"title": "Comparison Operators", "text": "== equal\n!= not equal\n> greater than\n< less than\n>= greater than or equal\n<= less than or equal\n\nComparison result is True or False"},
+                                            {"title": "Logical Operators", "text": "and - AND (both conditions true)\nor - OR (at least one condition true)\nnot - NOT (inverts value)"}
+                                        ],
+                                        "codeExample": "# Arithmetic\na = 10\nb = 3\nprint(a + b)   # 13\nprint(a * b)   # 30\nprint(a ** b)  # 1000\nprint(a % b)   # 1\n\n# Comparison\nprint(a > b)    # True\nprint(a == b)   # False\n\n# Logic\nprint(a > 5 and b < 5)  # True\nprint(not (a == b))     # True",
+                                        "quiz": [
+                                            {"question": "What is 10 // 3?", "options": ["3.33", "3", "4", "1"], "correct": 1},
+                                            {"question": "What does 5 != 5 return?", "options": ["True", "False", "Error", "None"], "correct": 1},
+                                            {"question": "What is 2 ** 3?", "options": ["6", "8", "9", "5"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Calculate the area of a circle with radius 5 (π ≈ 3.14)", "starterCode": "radius = 5\npi = 3.14\n\n# Calculate area\narea = \n\nprint('Circle area:', area)", "expectedOutput": "Circle area: 78.5"}
+                                    }
+                                }
+                            },
+                            {
+                                "id": "lesson1_4",
+                                "title": {"ru": "Условные конструкции: if, elif, else", "en": "Conditional Statements: if, elif, else"},
+                                "duration": 25,
+                                "xp": 70,
+                                "content": {
+                                    "ru": {
+                                        "introduction": "Условные конструкции позволяют выполнять разный код в зависимости от условий.",
+                                        "sections": [
+                                            {"title": "Конструкция if", "text": "if условие:\n    # код выполняется если условие истинно\n\nВажно: отступы обязательны! Код внутри if должен иметь отступ (обычно 4 пробела)."},
+                                            {"title": "Конструкция if-else", "text": "if условие:\n    # код если истина\nelse:\n    # код если ложь"},
+                                            {"title": "Конструкция if-elif-else", "text": "if условие1:\n    # код если условие1 истинно\nelif условие2:\n    # код если условие2 истинно\nelse:\n    # код если все условия ложны\n\nМожно использовать сколько угодно elif."}
+                                        ],
+                                        "codeExample": "age = 18\n\nif age < 13:\n    print('Ребёнок')\nelif age < 18:\n    print('Подросток')\nelif age < 60:\n    print('Взрослый')\nelse:\n    print('Пожилой')\n\n# Вложенные условия\ntemperature = 25\nif temperature > 20:\n    if temperature > 30:\n        print('Жарко!')\n    else:\n        print('Тепло')\nelse:\n    print('Холодно')",
+                                        "quiz": [
+                                            {"question": "Что выведет код: if False: print('A') else: print('B')", "options": ["A", "B", "AB", "Ничего"], "correct": 1},
+                                            {"question": "Сколько elif можно использовать в одной конструкции?", "options": ["1", "2", "5", "Сколько угодно"], "correct": 3},
+                                            {"question": "Что важно соблюдать внутри блоков if?", "options": ["Точки с запятой", "Отступы", "Скобки", "Комментарии"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Напишите программу, которая определяет оценку по баллам (90+ = A, 80+ = B, 70+ = C, иначе D)", "starterCode": "score = 85\n\n# Определите оценку\n", "expectedOutput": "Оценка: B"}
+                                    },
+                                    "en": {
+                                        "introduction": "Conditional statements allow you to execute different code based on conditions.",
+                                        "sections": [
+                                            {"title": "if Statement", "text": "if condition:\n    # code executes if condition is true\n\nImportant: indentation is required! Code inside if must be indented (usually 4 spaces)."},
+                                            {"title": "if-else Statement", "text": "if condition:\n    # code if true\nelse:\n    # code if false"},
+                                            {"title": "if-elif-else Statement", "text": "if condition1:\n    # code if condition1 is true\nelif condition2:\n    # code if condition2 is true\nelse:\n    # code if all conditions are false\n\nYou can use as many elif as needed."}
+                                        ],
+                                        "codeExample": "age = 18\n\nif age < 13:\n    print('Child')\nelif age < 18:\n    print('Teenager')\nelif age < 60:\n    print('Adult')\nelse:\n    print('Senior')\n\n# Nested conditions\ntemperature = 25\nif temperature > 20:\n    if temperature > 30:\n        print('Hot!')\n    else:\n        print('Warm')\nelse:\n    print('Cold')",
+                                        "quiz": [
+                                            {"question": "What does this print: if False: print('A') else: print('B')", "options": ["A", "B", "AB", "Nothing"], "correct": 1},
+                                            {"question": "How many elif can you use in one construct?", "options": ["1", "2", "5", "As many as needed"], "correct": 3},
+                                            {"question": "What's important inside if blocks?", "options": ["Semicolons", "Indentation", "Brackets", "Comments"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Write a program that determines grade by score (90+ = A, 80+ = B, 70+ = C, else D)", "starterCode": "score = 85\n\n# Determine grade\n", "expectedOutput": "Grade: B"}
+                                    }
+                                }
+                            },
+                            {
+                                "id": "lesson1_5",
+                                "title": {"ru": "Цикл for: перебор элементов", "en": "for Loop: Iterating Elements"},
+                                "duration": 25,
+                                "xp": 70,
+                                "content": {
+                                    "ru": {
+                                        "introduction": "Цикл for используется для перебора элементов последовательности (списков, строк, диапазонов).",
+                                        "sections": [
+                                            {"title": "Синтаксис цикла for", "text": "for элемент in последовательность:\n    # код выполняется для каждого элемента\n\nПример:\nfor i in [1, 2, 3]:\n    print(i)"},
+                                            {"title": "Функция range()", "text": "range() создаёт последовательность чисел:\nrange(5)      # 0, 1, 2, 3, 4\nrange(2, 6)   # 2, 3, 4, 5\nrange(0, 10, 2)  # 0, 2, 4, 6, 8 (шаг 2)"},
+                                            {"title": "Перебор строк", "text": "Можно перебирать символы строки:\nfor char in 'Привет':\n    print(char)\n\nВыведет каждую букву отдельно."}
+                                        ],
+                                        "codeExample": "# Перебор списка\nfruits = ['яблоко', 'банан', 'вишня']\nfor fruit in fruits:\n    print(fruit)\n\n# Использование range()\nfor i in range(5):\n    print(i)  # 0, 1, 2, 3, 4\n\n# Сумма чисел от 1 до 10\ntotal = 0\nfor num in range(1, 11):\n    total += num\nprint('Сумма:', total)  # 55\n\n# Перебор строки\nword = 'Python'\nfor letter in word:\n    print(letter)",
+                                        "quiz": [
+                                            {"question": "Что выведет range(3)?", "options": ["1, 2, 3", "0, 1, 2, 3", "0, 1, 2", "1, 2"], "correct": 2},
+                                            {"question": "Как перебрать числа от 1 до 5 включительно?", "options": ["range(5)", "range(1, 5)", "range(1, 6)", "range(0, 5)"], "correct": 2},
+                                            {"question": "Что делает range(0, 10, 2)?", "options": ["0-9", "0, 2, 4, 6, 8", "2, 4, 6, 8, 10", "0, 1, 2"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Найдите сумму всех чётных чисел от 1 до 20", "starterCode": "total = 0\n\n# Найдите сумму чётных чисел\nfor num in range(1, 21):\n    \nprint('Сумма чётных:', total)", "expectedOutput": "Сумма чётных: 110"}
+                                    },
+                                    "en": {
+                                        "introduction": "The for loop is used to iterate over elements of a sequence (lists, strings, ranges).",
+                                        "sections": [
+                                            {"title": "for Loop Syntax", "text": "for element in sequence:\n    # code executes for each element\n\nExample:\nfor i in [1, 2, 3]:\n    print(i)"},
+                                            {"title": "range() Function", "text": "range() creates a sequence of numbers:\nrange(5)      # 0, 1, 2, 3, 4\nrange(2, 6)   # 2, 3, 4, 5\nrange(0, 10, 2)  # 0, 2, 4, 6, 8 (step 2)"},
+                                            {"title": "Iterating Strings", "text": "You can iterate over string characters:\nfor char in 'Hello':\n    print(char)\n\nPrints each letter separately."}
+                                        ],
+                                        "codeExample": "# Iterate list\nfruits = ['apple', 'banana', 'cherry']\nfor fruit in fruits:\n    print(fruit)\n\n# Using range()\nfor i in range(5):\n    print(i)  # 0, 1, 2, 3, 4\n\n# Sum from 1 to 10\ntotal = 0\nfor num in range(1, 11):\n    total += num\nprint('Sum:', total)  # 55\n\n# Iterate string\nword = 'Python'\nfor letter in word:\n    print(letter)",
+                                        "quiz": [
+                                            {"question": "What does range(3) output?", "options": ["1, 2, 3", "0, 1, 2, 3", "0, 1, 2", "1, 2"], "correct": 2},
+                                            {"question": "How to iterate numbers 1 to 5 inclusive?", "options": ["range(5)", "range(1, 5)", "range(1, 6)", "range(0, 5)"], "correct": 2},
+                                            {"question": "What does range(0, 10, 2) do?", "options": ["0-9", "0, 2, 4, 6, 8", "2, 4, 6, 8, 10", "0, 1, 2"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Find the sum of all even numbers from 1 to 20", "starterCode": "total = 0\n\n# Find sum of even numbers\nfor num in range(1, 21):\n    \nprint('Sum of evens:', total)", "expectedOutput": "Sum of evens: 110"}
+                                    }
+                                }
+                            },
+                            {
+                                "id": "lesson1_6",
+                                "title": {"ru": "Цикл while: цикл с условием", "en": "while Loop: Condition-based Loop"},
+                                "duration": 25,
+                                "xp": 70,
+                                "content": {
+                                    "ru": {
+                                        "introduction": "Цикл while выполняет код пока условие истинно. Полезен когда количество итераций неизвестно заранее.",
+                                        "sections": [
+                                            {"title": "Синтаксис while", "text": "while условие:\n    # код выполняется пока условие истинно\n\nВажно убедиться что условие станет ложным, иначе будет бесконечный цикл!"},
+                                            {"title": "break и continue", "text": "break - немедленно завершает цикл\ncontinue - пропускает текущую итерацию и переходит к следующей"},
+                                            {"title": "else в цикле", "text": "Цикл может иметь блок else:\nwhile условие:\n    # код\nelse:\n    # код выполняется когда цикл завершился нормально (не через break)"}
+                                        ],
+                                        "codeExample": "# Простой while\ncount = 0\nwhile count < 5:\n    print(count)\n    count += 1\n\n# Использование break\ncount = 0\nwhile True:\n    if count >= 5:\n        break\n    print(count)\n    count += 1\n\n# Использование continue\nfor i in range(10):\n    if i % 2 == 0:\n        continue\n    print(i)  # Только нечётные",
+                                        "quiz": [
+                                            {"question": "Что произойдёт если условие while всегда True?", "options": ["Цикл выполнится 1 раз", "Бесконечный цикл", "Ошибка", "Цикл не выполнится"], "correct": 1},
+                                            {"question": "Что делает break?", "options": ["Пропускает итерацию", "Завершает цикл", "Перезапускает цикл", "Ничего"], "correct": 1},
+                                            {"question": "Когда выполняется else в цикле?", "options": ["Всегда", "Когда цикл завершился без break", "Никогда", "При ошибке"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Напишите цикл который считает сумму чисел пока она не превысит 100", "starterCode": "total = 0\nnum = 1\n\n# Считайте сумму пока total <= 100\nwhile total <= 100:\n    \nprint('Итоговая сумма:', total)", "expectedOutput": "Итоговая сумма: 105"}
+                                    },
+                                    "en": {
+                                        "introduction": "The while loop executes code as long as the condition is true. Useful when the number of iterations is unknown.",
+                                        "sections": [
+                                            {"title": "while Syntax", "text": "while condition:\n    # code executes while condition is true\n\nMake sure the condition becomes false, otherwise there will be an infinite loop!"},
+                                            {"title": "break and continue", "text": "break - immediately terminates the loop\ncontinue - skips current iteration and moves to next"},
+                                            {"title": "else in loops", "text": "Loop can have an else block:\nwhile condition:\n    # code\nelse:\n    # code executes when loop ends normally (not via break)"}
+                                        ],
+                                        "codeExample": "# Simple while\ncount = 0\nwhile count < 5:\n    print(count)\n    count += 1\n\n# Using break\ncount = 0\nwhile True:\n    if count >= 5:\n        break\n    print(count)\n    count += 1\n\n# Using continue\nfor i in range(10):\n    if i % 2 == 0:\n        continue\n    print(i)  # Only odd",
+                                        "quiz": [
+                                            {"question": "What happens if while condition is always True?", "options": ["Loop runs once", "Infinite loop", "Error", "Loop doesn't run"], "correct": 1},
+                                            {"question": "What does break do?", "options": ["Skips iteration", "Terminates loop", "Restarts loop", "Nothing"], "correct": 1},
+                                            {"question": "When does else in loop execute?", "options": ["Always", "When loop ends without break", "Never", "On error"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Write a loop that sums numbers until sum exceeds 100", "starterCode": "total = 0\nnum = 1\n\n# Sum while total <= 100\nwhile total <= 100:\n    \nprint('Final sum:', total)", "expectedOutput": "Final sum: 105"}
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "id": "module2",
+                        "name": {"ru": "Структуры данных", "en": "Data Structures"},
+                        "lessons": [
+                            {
+                                "id": "lesson2_1",
+                                "title": {"ru": "Списки (Lists): создание и методы", "en": "Lists: Creation and Methods"},
+                                "duration": 30,
+                                "xp": 80,
+                                "content": {
+                                    "ru": {
+                                        "introduction": "Список - это упорядоченная изменяемая коллекция элементов. Один из самых важных типов данных в Python.",
+                                        "sections": [
+                                            {"title": "Создание списков", "text": "numbers = [1, 2, 3, 4, 5]\nmixed = [1, 'текст', 3.14, True]\nempty = []\n\nДоступ к элементам по индексу (начинается с 0):\nfirst = numbers[0]  # 1\nlast = numbers[-1]  # 5"},
+                                            {"title": "Основные методы списков", "text": "append(x) - добавить элемент в конец\ninsert(i, x) - вставить по индексу\nremove(x) - удалить элемент\npop() - удалить и вернуть последний элемент\nclear() - очистить список\ncount(x) - посчитать вхождения"},
+                                            {"title": "Срезы (Slicing)", "text": "list[start:end] - срез от start до end-1\nlist[:end] - от начала до end\nlist[start:] - от start до конца\nlist[::-1] - развернуть список"}
+                                        ],
+                                        "codeExample": "# Создание и доступ\nfruits = ['яблоко', 'банан', 'вишня']\nprint(fruits[0])      # яблоко\nprint(fruits[-1])     # вишня\n\n# Методы\nfruits.append('апельсин')\nfruits.insert(1, 'груша')\nfruits.remove('банан')\nlast = fruits.pop()\n\n# Срезы\nnumbers = [0, 1, 2, 3, 4, 5]\nprint(numbers[2:4])   # [2, 3]\nprint(numbers[:3])    # [0, 1, 2]\nprint(numbers[::-1])  # [5, 4, 3, 2, 1, 0]\n\n# Длина списка\nprint(len(fruits))",
+                                        "quiz": [
+                                            {"question": "Какой индекс у первого элемента списка?", "options": ["1", "0", "-1", "Любой"], "correct": 1},
+                                            {"question": "Что делает append()?", "options": ["Удаляет элемент", "Добавляет в конец", "Вставляет по индексу", "Сортирует"], "correct": 1},
+                                            {"question": "Что вернёт numbers[::-1]?", "options": ["Первый элемент", "Последний элемент", "Развёрнутый список", "Ошибка"], "correct": 2}
+                                        ],
+                                        "practice": {"task": "Создайте список из 5 чисел, добавьте ещё 2, удалите третье, выведите результат", "starterCode": "numbers = [1, 2, 3, 4, 5]\n\n# Добавьте два числа\n# Удалите третье\n# Выведите результат\n", "expectedOutput": ""}
+                                    },
+                                    "en": {
+                                        "introduction": "A list is an ordered mutable collection of elements. One of the most important data types in Python.",
+                                        "sections": [
+                                            {"title": "Creating Lists", "text": "numbers = [1, 2, 3, 4, 5]\nmixed = [1, 'text', 3.14, True]\nempty = []\n\nAccess elements by index (starts at 0):\nfirst = numbers[0]  # 1\nlast = numbers[-1]  # 5"},
+                                            {"title": "Basic List Methods", "text": "append(x) - add element to end\ninsert(i, x) - insert at index\nremove(x) - remove element\npop() - remove and return last element\nclear() - clear list\ncount(x) - count occurrences"},
+                                            {"title": "Slicing", "text": "list[start:end] - slice from start to end-1\nlist[:end] - from start to end\nlist[start:] - from start to end\nlist[::-1] - reverse list"}
+                                        ],
+                                        "codeExample": "# Creation and access\nfruits = ['apple', 'banana', 'cherry']\nprint(fruits[0])      # apple\nprint(fruits[-1])     # cherry\n\n# Methods\nfruits.append('orange')\nfruits.insert(1, 'pear')\nfruits.remove('banana')\nlast = fruits.pop()\n\n# Slices\nnumbers = [0, 1, 2, 3, 4, 5]\nprint(numbers[2:4])   # [2, 3]\nprint(numbers[:3])    # [0, 1, 2]\nprint(numbers[::-1])  # [5, 4, 3, 2, 1, 0]\n\n# List length\nprint(len(fruits))",
+                                        "quiz": [
+                                            {"question": "What index does the first element have?", "options": ["1", "0", "-1", "Any"], "correct": 1},
+                                            {"question": "What does append() do?", "options": ["Removes element", "Adds to end", "Inserts at index", "Sorts"], "correct": 1},
+                                            {"question": "What does numbers[::-1] return?", "options": ["First element", "Last element", "Reversed list", "Error"], "correct": 2}
+                                        ],
+                                        "practice": {"task": "Create a list of 5 numbers, add 2 more, remove the third, print result", "starterCode": "numbers = [1, 2, 3, 4, 5]\n\n# Add two numbers\n# Remove third\n# Print result\n", "expectedOutput": ""}
+                                    }
+                                }
+                            },
+                            {
+                                "id": "lesson2_2",
+                                "title": {"ru": "Кортежи (Tuples) и множества (Sets)", "en": "Tuples and Sets"},
+                                "duration": 25,
+                                "xp": 70,
+                                "content": {
+                                    "ru": {
+                                        "introduction": "Кортежи и множества - ещё две важные структуры данных в Python со своими особенностями.",
+                                        "sections": [
+                                            {"title": "Кортежи (Tuples)", "text": "Кортеж - неизменяемый список.\npoint = (10, 20)\ncolors = ('red', 'green', 'blue')\n\nПреимущества:\n• Быстрее списков\n• Можно использовать как ключи словаря\n• Защищают данные от изменений"},
+                                            {"title": "Множества (Sets)", "text": "Множество - неупорядоченная коллекция уникальных элементов.\nunique_numbers = {1, 2, 3, 3, 2}  # {1, 2, 3}\n\nОперации:\nunion (|) - объединение\nintersection (&) - пересечение\ndifference (-) - разница"},
+                                            {"title": "Преобразование типов", "text": "list_to_tuple = tuple([1, 2, 3])\ntuple_to_list = list((1, 2, 3))\nlist_to_set = set([1, 2, 2, 3])  # {1, 2, 3}"}
+                                        ],
+                                        "codeExample": "# Кортежи\npoint = (10, 20)\nx, y = point  # Распаковка\nprint(x, y)   # 10 20\n\n# Множества\nset1 = {1, 2, 3, 4}\nset2 = {3, 4, 5, 6}\n\nprint(set1 | set2)  # {1, 2, 3, 4, 5, 6} объединение\nprint(set1 & set2)  # {3, 4} пересечение\nprint(set1 - set2)  # {1, 2} разница\n\n# Уникальные элементы\nnumbers = [1, 2, 2, 3, 3, 3]\nunique = set(numbers)\nprint(unique)  # {1, 2, 3}",
+                                        "quiz": [
+                                            {"question": "Можно ли изменить кортеж после создания?", "options": ["Да", "Нет", "Только частично", "Зависит от версии"], "correct": 1},
+                                            {"question": "Что делает множество с дубликатами?", "options": ["Сохраняет", "Удаляет", "Скрывает", "Ошибка"], "correct": 1},
+                                            {"question": "Какой оператор для объединения множеств?", "options": ["+", "&", "|", "-"], "correct": 2}
+                                        ],
+                                        "practice": {"task": "Найдите общие элементы между двумя списками используя множества", "starterCode": "list1 = [1, 2, 3, 4, 5]\nlist2 = [4, 5, 6, 7, 8]\n\n# Найдите общие элементы\ncommon = \nprint('Общие:', common)", "expectedOutput": "Общие: {4, 5}"}
+                                    },
+                                    "en": {
+                                        "introduction": "Tuples and sets are two more important data structures in Python with their own features.",
+                                        "sections": [
+                                            {"title": "Tuples", "text": "Tuple is an immutable list.\npoint = (10, 20)\ncolors = ('red', 'green', 'blue')\n\nAdvantages:\n• Faster than lists\n• Can be used as dictionary keys\n• Protect data from changes"},
+                                            {"title": "Sets", "text": "Set is an unordered collection of unique elements.\nunique_numbers = {1, 2, 3, 3, 2}  # {1, 2, 3}\n\nOperations:\nunion (|) - combine\nintersection (&) - common elements\ndifference (-) - difference"},
+                                            {"title": "Type Conversion", "text": "list_to_tuple = tuple([1, 2, 3])\ntuple_to_list = list((1, 2, 3))\nlist_to_set = set([1, 2, 2, 3])  # {1, 2, 3}"}
+                                        ],
+                                        "codeExample": "# Tuples\npoint = (10, 20)\nx, y = point  # Unpacking\nprint(x, y)   # 10 20\n\n# Sets\nset1 = {1, 2, 3, 4}\nset2 = {3, 4, 5, 6}\n\nprint(set1 | set2)  # {1, 2, 3, 4, 5, 6} union\nprint(set1 & set2)  # {3, 4} intersection\nprint(set1 - set2)  # {1, 2} difference\n\n# Unique elements\nnumbers = [1, 2, 2, 3, 3, 3]\nunique = set(numbers)\nprint(unique)  # {1, 2, 3}",
+                                        "quiz": [
+                                            {"question": "Can you modify a tuple after creation?", "options": ["Yes", "No", "Partially", "Depends on version"], "correct": 1},
+                                            {"question": "What does set do with duplicates?", "options": ["Keeps", "Removes", "Hides", "Error"], "correct": 1},
+                                            {"question": "Which operator for set union?", "options": ["+", "&", "|", "-"], "correct": 2}
+                                        ],
+                                        "practice": {"task": "Find common elements between two lists using sets", "starterCode": "list1 = [1, 2, 3, 4, 5]\nlist2 = [4, 5, 6, 7, 8]\n\n# Find common elements\ncommon = \nprint('Common:', common)", "expectedOutput": "Common: {4, 5}"}
+                                    }
+                                }
+                            },
+                            {
+                                "id": "lesson2_3",
+                                "title": {"ru": "Словари (Dictionaries): ключи и значения", "en": "Dictionaries: Keys and Values"},
+                                "duration": 30,
+                                "xp": 80,
+                                "content": {
+                                    "ru": {
+                                        "introduction": "Словарь - это неупорядоченная коллекция пар ключ-значение. Позволяет хранить данные структурированно.",
+                                        "sections": [
+                                            {"title": "Создание словарей", "text": "person = {'name': 'Алекс', 'age': 25, 'city': 'Москва'}\nempty = {}\n\nДоступ к значению:\nname = person['name']\nage = person.get('age')  # Безопасный доступ"},
+                                            {"title": "Методы словарей", "text": "keys() - получить все ключи\nvalues() - получить все значения\nitems() - получить пары (ключ, значение)\npop(key) - удалить по ключу\nclear() - очистить словарь"},
+                                            {"title": "Перебор словаря", "text": "for key in person:\n    print(key)\n\nfor key, value in person.items():\n    print(key, value)"}
+                                        ],
+                                        "codeExample": "# Создание и доступ\nperson = {'name': 'Алекс', 'age': 25, 'city': 'Москва'}\nprint(person['name'])      # Алекс\nprint(person.get('age'))   # 25\n\n# Добавление и изменение\nperson['email'] = 'alex@example.com'\nperson['age'] = 26\n\n# Перебор\nfor key, value in person.items():\n    print(f'{key}: {value}')\n\n# Методы\nprint(person.keys())    # Все ключи\nprint(person.values())  # Все значения\nprint(person.items())   # Все пары",
+                                        "quiz": [
+                                            {"question": "Как получить значение по ключу?", "options": ["dict.key", "dict[key]", "dict.get(key)", "Оба варианта"], "correct": 3},
+                                            {"question": "Что возвращает items()?", "options": ["Ключи", "Значения", "Пары (ключ, значение)", "Длину"], "correct": 2},
+                                            {"question": "Может ли ключ повторяться?", "options": ["Да", "Нет", "Иногда", "Зависит от типа"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Создайте словарь с информацией о книге (название, автор, год) и выведите все данные", "starterCode": "book = {\n    \n}\n\n# Выведите информацию о книге\n", "expectedOutput": ""}
+                                    },
+                                    "en": {
+                                        "introduction": "Dictionary is an unordered collection of key-value pairs. Allows storing data in a structured way.",
+                                        "sections": [
+                                            {"title": "Creating Dictionaries", "text": "person = {'name': 'Alex', 'age': 25, 'city': 'Moscow'}\nempty = {}\n\nAccess value:\nname = person['name']\nage = person.get('age')  # Safe access"},
+                                            {"title": "Dictionary Methods", "text": "keys() - get all keys\nvalues() - get all values\nitems() - get (key, value) pairs\npop(key) - remove by key\nclear() - clear dictionary"},
+                                            {"title": "Iterating Dictionary", "text": "for key in person:\n    print(key)\n\nfor key, value in person.items():\n    print(key, value)"}
+                                        ],
+                                        "codeExample": "# Creation and access\nperson = {'name': 'Alex', 'age': 25, 'city': 'Moscow'}\nprint(person['name'])      # Alex\nprint(person.get('age'))   # 25\n\n# Add and modify\nperson['email'] = 'alex@example.com'\nperson['age'] = 26\n\n# Iterate\nfor key, value in person.items():\n    print(f'{key}: {value}')\n\n# Methods\nprint(person.keys())    # All keys\nprint(person.values())  # All values\nprint(person.items())   # All pairs",
+                                        "quiz": [
+                                            {"question": "How to get value by key?", "options": ["dict.key", "dict[key]", "dict.get(key)", "Both options"], "correct": 3},
+                                            {"question": "What does items() return?", "options": ["Keys", "Values", "(key, value) pairs", "Length"], "correct": 2},
+                                            {"question": "Can keys repeat?", "options": ["Yes", "No", "Sometimes", "Depends on type"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Create a dictionary with book info (title, author, year) and print all data", "starterCode": "book = {\n    \n}\n\n# Print book info\n", "expectedOutput": ""}
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "intermediate",
+                "name": {"ru": "Средний уровень", "en": "Intermediate"},
+                "modules": [
+                    {
+                        "id": "module3",
+                        "name": {"ru": "Функции", "en": "Functions"},
+                        "lessons": [
+                            {
+                                "id": "lesson3_1",
+                                "title": {"ru": "Создание и вызов функций", "en": "Creating and Calling Functions"},
+                                "duration": 30,
+                                "xp": 80,
+                                "content": {
+                                    "ru": {
+                                        "introduction": "Функции - это блоки кода которые выполняют определённую задачу. Позволяют организовать код и избежать повторений.",
+                                        "sections": [
+                                            {"title": "Синтаксис функции", "text": "def название(параметры):\n    # тело функции\n    return результат\n\ndef - ключевое слово для определения функции"},
+                                            {"title": "Параметры и аргументы", "text": "Параметры - переменные в объявлении функции\nАргументы - значения передаваемые при вызове\n\ndef greet(name):\n    return f'Привет, {name}!'\n\nresult = greet('Алекс')"},
+                                            {"title": "Возврат значения", "text": "return завершает функцию и возвращает значение.\nЕсли return без значения - возвращается None.\nЕсли нет return - функция тоже возвращает None."}
+                                        ],
+                                        "codeExample": "# Простая функция\ndef greet(name):\n    return f'Привет, {name}!'\n\nmessage = greet('Алекс')\nprint(message)  # Привет, Алекс!\n\n# Функция с несколькими параметрами\ndef add(a, b):\n    return a + b\n\nresult = add(5, 3)\nprint(result)  # 8\n\n# Функция без параметров\ndef say_hello():\n    print('Hello!')\n\nsay_hello()",
+                                        "quiz": [
+                                            {"question": "Какое ключевое слово для создания функции?", "options": ["function", "def", "func", "define"], "correct": 1},
+                                            {"question": "Что возвращает функция без return?", "options": ["0", "False", "None", "Ошибка"], "correct": 2},
+                                            {"question": "Может ли функция принимать несколько параметров?", "options": ["Нет", "Да, до 5", "Да, сколько угодно", "Только 1"], "correct": 2}
+                                        ],
+                                        "practice": {"task": "Создайте функцию которая принимает имя и возраст, возвращает строку с информацией", "starterCode": "def create_profile(name, age):\n    # Верните строку вида: 'Меня зовут ..., мне ... лет'\n    \nprofile = create_profile('Алекс', 25)\nprint(profile)", "expectedOutput": "Меня зовут Алекс, мне 25 лет"}
+                                    },
+                                    "en": {
+                                        "introduction": "Functions are blocks of code that perform a specific task. They help organize code and avoid repetition.",
+                                        "sections": [
+                                            {"title": "Function Syntax", "text": "def name(parameters):\n    # function body\n    return result\n\ndef is the keyword for defining functions"},
+                                            {"title": "Parameters and Arguments", "text": "Parameters - variables in function definition\nArguments - values passed when calling\n\ndef greet(name):\n    return f'Hello, {name}!'\n\nresult = greet('Alex')"},
+                                            {"title": "Return Value", "text": "return ends the function and returns a value.\nIf return without value - returns None.\nIf no return - function also returns None."}
+                                        ],
+                                        "codeExample": "# Simple function\ndef greet(name):\n    return f'Hello, {name}!'\n\nmessage = greet('Alex')\nprint(message)  # Hello, Alex!\n\n# Function with multiple parameters\ndef add(a, b):\n    return a + b\n\nresult = add(5, 3)\nprint(result)  # 8\n\n# Function without parameters\ndef say_hello():\n    print('Hello!')\n\nsay_hello()",
+                                        "quiz": [
+                                            {"question": "What keyword creates a function?", "options": ["function", "def", "func", "define"], "correct": 1},
+                                            {"question": "What does a function without return return?", "options": ["0", "False", "None", "Error"], "correct": 2},
+                                            {"question": "Can a function take multiple parameters?", "options": ["No", "Yes, up to 5", "Yes, any number", "Only 1"], "correct": 2}
+                                        ],
+                                        "practice": {"task": "Create a function that takes name and age, returns info string", "starterCode": "def create_profile(name, age):\n    # Return string like: 'My name is ..., I am ... years old'\n    \nprofile = create_profile('Alex', 25)\nprint(profile)", "expectedOutput": "My name is Alex, I am 25 years old"}
+                                    }
+                                }
+                            },
+                            {
+                                "id": "lesson3_2",
+                                "title": {"ru": "Параметры по умолчанию и *args, **kwargs", "en": "Default Parameters and *args, **kwargs"},
+                                "duration": 30,
+                                "xp": 80,
+                                "content": {
+                                    "ru": {
+                                        "introduction": "Python позволяет создавать гибкие функции с параметрами по умолчанию и переменным количеством аргументов.",
+                                        "sections": [
+                                            {"title": "Параметры по умолчанию", "text": "def greet(name, greeting='Привет'):\n    return f'{greeting}, {name}!'\n\ngreet('Алекс')           # Привет, Алекс!\ngreet('Алекс', 'Здравствуйте')  # Здравствуйте, Алекс!"},
+                                            {"title": "*args - позиционные аргументы", "text": "Позволяет передать любое количество позиционных аргументов:\n\ndef sum_all(*args):\n    return sum(args)\n\nsum_all(1, 2, 3)  # 6\nsum_all(1, 2, 3, 4, 5)  # 15"},
+                                            {"title": "**kwargs - именованные аргументы", "text": "Позволяет передать любое количество именованных аргументов:\n\ndef print_info(**kwargs):\n    for key, value in kwargs.items():\n        print(f'{key}: {value}')\n\nprint_info(name='Алекс', age=25)"}
+                                        ],
+                                        "codeExample": "# Параметры по умолчанию\ndef power(base, exp=2):\n    return base ** exp\n\nprint(power(3))      # 9\nprint(power(3, 3))   # 27\n\n# *args\ndef multiply(*numbers):\n    result = 1\n    for num in numbers:\n        result *= num\n    return result\n\nprint(multiply(2, 3, 4))  # 24\n\n# **kwargs\ndef create_user(**info):\n    user = {}\n    for key, value in info.items():\n        user[key] = value\n    return user\n\nuser = create_user(name='Алекс', age=25, city='Москва')\nprint(user)",
+                                        "quiz": [
+                                            {"question": "Что означает *args?", "options": ["Именованные аргументы", "Позиционные аргументы", "Аргументы по умолчанию", "Обязательные аргументы"], "correct": 1},
+                                            {"question": "Что означает **kwargs?", "options": ["Позиционные аргументы", "Именованные аргументы", "Аргументы по умолчанию", "Список аргументов"], "correct": 1},
+                                            {"question": "Можно ли комбинировать *args и **kwargs?", "options": ["Нет", "Да, *args перед **kwargs", "Да, **kwargs перед *args", "Только по отдельности"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Создайте функцию которая принимает любое количество чисел и возвращает их среднее", "starterCode": "def average(*numbers):\n    # Посчитайте среднее значение\n    \nresult = average(10, 20, 30, 40)\nprint('Среднее:', result)", "expectedOutput": "Среднее: 25.0"}
+                                    },
+                                    "en": {
+                                        "introduction": "Python allows creating flexible functions with default parameters and variable number of arguments.",
+                                        "sections": [
+                                            {"title": "Default Parameters", "text": "def greet(name, greeting='Hello'):\n    return f'{greeting}, {name}!'\n\ngreet('Alex')           # Hello, Alex!\ngreet('Alex', 'Hi')  # Hi, Alex!"},
+                                            {"title": "*args - Positional Arguments", "text": "Allows passing any number of positional arguments:\n\ndef sum_all(*args):\n    return sum(args)\n\nsum_all(1, 2, 3)  # 6\nsum_all(1, 2, 3, 4, 5)  # 15"},
+                                            {"title": "**kwargs - Keyword Arguments", "text": "Allows passing any number of keyword arguments:\n\ndef print_info(**kwargs):\n    for key, value in kwargs.items():\n        print(f'{key}: {value}')\n\nprint_info(name='Alex', age=25)"}
+                                        ],
+                                        "codeExample": "# Default parameters\ndef power(base, exp=2):\n    return base ** exp\n\nprint(power(3))      # 9\nprint(power(3, 3))   # 27\n\n# *args\ndef multiply(*numbers):\n    result = 1\n    for num in numbers:\n        result *= num\n    return result\n\nprint(multiply(2, 3, 4))  # 24\n\n# **kwargs\ndef create_user(**info):\n    user = {}\n    for key, value in info.items():\n        user[key] = value\n    return user\n\nuser = create_user(name='Alex', age=25, city='Moscow')\nprint(user)",
+                                        "quiz": [
+                                            {"question": "What does *args mean?", "options": ["Keyword arguments", "Positional arguments", "Default arguments", "Required arguments"], "correct": 1},
+                                            {"question": "What does **kwargs mean?", "options": ["Positional arguments", "Keyword arguments", "Default arguments", "List of arguments"], "correct": 1},
+                                            {"question": "Can you combine *args and **kwargs?", "options": ["No", "Yes, *args before **kwargs", "Yes, **kwargs before *args", "Only separately"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Create a function that takes any number of numbers and returns their average", "starterCode": "def average(*numbers):\n    # Calculate average\n    \nresult = average(10, 20, 30, 40)\nprint('Average:', result)", "expectedOutput": "Average: 25.0"}
+                                    }
+                                }
+                            },
+                            {
+                                "id": "lesson3_3",
+                                "title": {"ru": "Лямбда-функции и области видимости", "en": "Lambda Functions and Scope"},
+                                "duration": 25,
+                                "xp": 70,
+                                "content": {
+                                    "ru": {
+                                        "introduction": "Лямбда-функции - это анонимные функции для простых операций. Области видимости определяют где доступны переменные.",
+                                        "sections": [
+                                            {"title": "Лямбда-функции", "text": "lambda параметры: выражение\n\nsquare = lambda x: x ** 2\nadd = lambda a, b: a + b\n\nИспользуются часто с map(), filter(), sorted()"},
+                                            {"title": "Области видимости", "text": "LEGB правило:\nLocal - внутри функции\nEnclosing - во внешней функции\nGlobal - на уровне модуля\nBuilt-in - встроенные имена"},
+                                            {"title": "global и nonlocal", "text": "global - объявляет глобальную переменную\nnonlocal - объявляет переменную из внешней функции"}
+                                        ],
+                                        "codeExample": "# Лямбда-функции\nsquare = lambda x: x ** 2\nprint(square(5))  # 25\n\n# С sort()\npoints = [(1, 5), (3, 2), (2, 8)]\npoints.sort(key=lambda p: p[1])\nprint(points)  # [(3, 2), (1, 5), (2, 8)]\n\n# Области видимости\nglobal_var = 'глобальная'\n\ndef outer():\n    outer_var = 'внешняя'\n    def inner():\n        inner_var = 'локальная'\n        print(inner_var)\n        print(outer_var)\n        print(global_var)\n    inner()\n\nouter()",
+                                        "quiz": [
+                                            {"question": "Что такое лямбда-функция?", "options": ["Именованная функция", "Анонимная функция", "Класс", "Модуль"], "correct": 1},
+                                            {"question": "Что означает L в LEGB?", "options": ["Long", "Local", "Large", "Last"], "correct": 1},
+                                            {"question": "Для чего нужно global?", "options": ["Создать локальную", "Изменить глобальную", "Удалить переменную", "Ничего"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Используйте лямбда-функцию с filter() чтобы отфильтровать чётные числа", "starterCode": "numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n\n# Отфильтруйте чётные\nevens = list(filter(lambda x: , numbers))\nprint('Чётные:', evens)", "expectedOutput": "Чётные: [2, 4, 6, 8, 10]"}
+                                    },
+                                    "en": {
+                                        "introduction": "Lambda functions are anonymous functions for simple operations. Scope determines where variables are accessible.",
+                                        "sections": [
+                                            {"title": "Lambda Functions", "text": "lambda parameters: expression\n\nsquare = lambda x: x ** 2\nadd = lambda a, b: a + b\n\nOften used with map(), filter(), sorted()"},
+                                            {"title": "Scope", "text": "LEGB rule:\nLocal - inside function\nEnclosing - in outer function\nGlobal - at module level\nBuilt-in - built-in names"},
+                                            {"title": "global and nonlocal", "text": "global - declares global variable\nnonlocal - declares variable from outer function"}
+                                        ],
+                                        "codeExample": "# Lambda functions\nsquare = lambda x: x ** 2\nprint(square(5))  # 25\n\n# With sort()\npoints = [(1, 5), (3, 2), (2, 8)]\npoints.sort(key=lambda p: p[1])\nprint(points)  # [(3, 2), (1, 5), (2, 8)]\n\n# Scope\nglobal_var = 'global'\n\ndef outer():\n    outer_var = 'outer'\n    def inner():\n        inner_var = 'local'\n        print(inner_var)\n        print(outer_var)\n        print(global_var)\n    inner()\n\nouter()",
+                                        "quiz": [
+                                            {"question": "What is a lambda function?", "options": ["Named function", "Anonymous function", "Class", "Module"], "correct": 1},
+                                            {"question": "What does L in LEGB stand for?", "options": ["Long", "Local", "Large", "Last"], "correct": 1},
+                                            {"question": "What is global for?", "options": ["Create local", "Modify global", "Delete variable", "Nothing"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Use lambda with filter() to filter even numbers", "starterCode": "numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n\n# Filter evens\nevens = list(filter(lambda x: , numbers))\nprint('Evens:', evens)", "expectedOutput": "Evens: [2, 4, 6, 8, 10]"}
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "id": "module4",
+                        "name": {"ru": "Работа с файлами", "en": "File Handling"},
+                        "lessons": [
+                            {
+                                "id": "lesson4_1",
+                                "title": {"ru": "Чтение и запись файлов", "en": "Reading and Writing Files"},
+                                "duration": 25,
+                                "xp": 70,
+                                "content": {
+                                    "ru": {
+                                        "introduction": "Python позволяет легко работать с файлами: читать, записывать и модифицировать содержимое.",
+                                        "sections": [
+                                            {"title": "Открытие файла", "text": "file = open('file.txt', 'r')  # чтение\nfile = open('file.txt', 'w')  # запись\nfile = open('file.txt', 'a')  # добавление\n\nВсегда закрывайте файл: file.close()"},
+                                            {"title": "Контекстный менеджер", "text": "Лучше использовать with:\nwith open('file.txt', 'r') as f:\n    content = f.read()\n\nФайл закроется автоматически."},
+                                            {"title": "Режимы доступа", "text": "'r' - чтение (по умолчанию)\n'w' - запись (создаёт или перезаписывает)\n'a' - добавление в конец\n'b' - бинарный режим\n'+' - чтение и запись"}
+                                        ],
+                                        "codeExample": "# Запись в файл\nwith open('test.txt', 'w', encoding='utf-8') as f:\n    f.write('Привет, мир!\\n')\n    f.write('Вторая строка\\n')\n\n# Чтение всего файла\nwith open('test.txt', 'r', encoding='utf-8') as f:\n    content = f.read()\n    print(content)\n\n# Чтение по строкам\nwith open('test.txt', 'r', encoding='utf-8') as f:\n    for line in f:\n        print(line.strip())\n\n# Чтение всех строк в список\nwith open('test.txt', 'r', encoding='utf-8') as f:\n    lines = f.readlines()",
+                                        "quiz": [
+                                            {"question": "Какой режим открывает файл для записи?", "options": ["'r'", "'w'", "'a'", "'x'"], "correct": 1},
+                                            {"question": "Зачем использовать with?", "options": ["Быстрее", "Автоматически закрывает файл", "Красивее", "Нужно обязательно"], "correct": 1},
+                                            {"question": "Что делает readlines()?", "options": ["Читает одну строку", "Читает весь файл", "Читает строки в список", "Считает строки"], "correct": 2}
+                                        ],
+                                        "practice": {"task": "Создайте файл, запишите в него 5 чисел (каждое с новой строки), затем прочитайте и выведите сумму", "starterCode": "# Запишите числа в файл\nwith open('numbers.txt', 'w') as f:\n    \n# Прочитайте и посчитайте сумму\ntotal = 0\nwith open('numbers.txt', 'r') as f:\n    \nprint('Сумма:', total)", "expectedOutput": "Сумма: 15"}
+                                    },
+                                    "en": {
+                                        "introduction": "Python makes it easy to work with files: read, write, and modify content.",
+                                        "sections": [
+                                            {"title": "Opening Files", "text": "file = open('file.txt', 'r')  # read\nfile = open('file.txt', 'w')  # write\nfile = open('file.txt', 'a')  # append\n\nAlways close file: file.close()"},
+                                            {"title": "Context Manager", "text": "Better to use with:\nwith open('file.txt', 'r') as f:\n    content = f.read()\n\nFile closes automatically."},
+                                            {"title": "Access Modes", "text": "'r' - read (default)\n'w' - write (creates or overwrites)\n'a' - append to end\n'b' - binary mode\n'+' - read and write"}
+                                        ],
+                                        "codeExample": "# Write to file\nwith open('test.txt', 'w', encoding='utf-8') as f:\n    f.write('Hello, World!\\n')\n    f.write('Second line\\n')\n\n# Read entire file\nwith open('test.txt', 'r', encoding='utf-8') as f:\n    content = f.read()\n    print(content)\n\n# Read line by line\nwith open('test.txt', 'r', encoding='utf-8') as f:\n    for line in f:\n        print(line.strip())\n\n# Read all lines to list\nwith open('test.txt', 'r', encoding='utf-8') as f:\n    lines = f.readlines()",
+                                        "quiz": [
+                                            {"question": "Which mode opens file for writing?", "options": ["'r'", "'w'", "'a'", "'x'"], "correct": 1},
+                                            {"question": "Why use with?", "options": ["Faster", "Automatically closes file", "Prettier", "Required"], "correct": 1},
+                                            {"question": "What does readlines() do?", "options": ["Reads one line", "Reads entire file", "Reads lines to list", "Counts lines"], "correct": 2}
+                                        ],
+                                        "practice": {"task": "Create file, write 5 numbers (each on new line), then read and print sum", "starterCode": "# Write numbers to file\nwith open('numbers.txt', 'w') as f:\n    \n# Read and calculate sum\ntotal = 0\nwith open('numbers.txt', 'r') as f:\n    \nprint('Sum:', total)", "expectedOutput": "Sum: 15"}
+                                    }
+                                }
+                            },
+                            {
+                                "id": "lesson4_2",
+                                "title": {"ru": "Работа с CSV и JSON", "en": "Working with CSV and JSON"},
+                                "duration": 30,
+                                "xp": 80,
+                                "content": {
+                                    "ru": {
+                                        "introduction": "CSV и JSON - популярные форматы для хранения и обмена данными. Python имеет встроенные модули для работы с ними.",
+                                        "sections": [
+                                            {"title": "CSV файлы", "text": "CSV (Comma-Separated Values) - текстовый формат где значения разделены запятыми.\n\nimport csv\nwith open('data.csv', 'w') as f:\n    writer = csv.writer(f)\n    writer.writerow(['Name', 'Age'])\n    writer.writerow(['Alex', 25])"},
+                                            {"title": "JSON файлы", "text": "JSON (JavaScript Object Notation) - формат основанный на объектах JavaScript.\n\nimport json\ndata = {'name': 'Alex', 'age': 25}\nwith open('data.json', 'w') as f:\n    json.dump(data, f)"},
+                                            {"title": "Чтение JSON", "text": "with open('data.json', 'r') as f:\n    data = json.load(f)\n    print(data['name'])"}
+                                        ],
+                                        "codeExample": "# Работа с CSV\nimport csv\n\n# Запись\nwith open('users.csv', 'w', newline='') as f:\n    writer = csv.writer(f)\n    writer.writerow(['name', 'age', 'city'])\n    writer.writerow(['Алекс', 25, 'Москва'])\n    writer.writerow(['Мария', 30, 'СПб'])\n\n# Чтение\nwith open('users.csv', 'r') as f:\n    reader = csv.reader(f)\n    for row in reader:\n        print(row)\n\n# Работа с JSON\nimport json\n\n# Запись\ndata = {\n    'users': [\n        {'name': 'Алекс', 'age': 25},\n        {'name': 'Мария', 'age': 30}\n    ]\n}\nwith open('users.json', 'w', encoding='utf-8') as f:\n    json.dump(data, f, indent=2, ensure_ascii=False)\n\n# Чтение\nwith open('users.json', 'r', encoding='utf-8') as f:\n    data = json.load(f)\n    print(data['users'][0]['name'])",
+                                        "quiz": [
+                                            {"question": "Какой модуль для работы с CSV?", "options": ["csv", "file", "data", "table"], "correct": 0},
+                                            {"question": "Какой модуль для работы с JSON?", "options": ["json", "js", "data", "object"], "correct": 0},
+                                            {"question": "Что делает json.dump()?", "options": ["Читает JSON", "Записывает JSON", "Создаёт объект", "Парсит строку"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Создайте JSON файл с информацией о пользователе (имя, возраст, город), затем прочитайте и выведите имя", "starterCode": "import json\n\nuser = {\n    'name': 'Алекс',\n    'age': 25,\n    'city': 'Москва'\n}\n\n# Запишите в файл\n# Прочитайте и выведите имя", "expectedOutput": "Алекс"}
+                                    },
+                                    "en": {
+                                        "introduction": "CSV and JSON are popular formats for storing and exchanging data. Python has built-in modules for working with them.",
+                                        "sections": [
+                                            {"title": "CSV Files", "text": "CSV (Comma-Separated Values) - text format where values are comma-separated.\n\nimport csv\nwith open('data.csv', 'w') as f:\n    writer = csv.writer(f)\n    writer.writerow(['Name', 'Age'])\n    writer.writerow(['Alex', 25])"},
+                                            {"title": "JSON Files", "text": "JSON (JavaScript Object Notation) - format based on JavaScript objects.\n\nimport json\ndata = {'name': 'Alex', 'age': 25}\nwith open('data.json', 'w') as f:\n    json.dump(data, f)"},
+                                            {"title": "Reading JSON", "text": "with open('data.json', 'r') as f:\n    data = json.load(f)\n    print(data['name'])"}
+                                        ],
+                                        "codeExample": "# Working with CSV\nimport csv\n\n# Write\nwith open('users.csv', 'w', newline='') as f:\n    writer = csv.writer(f)\n    writer.writerow(['name', 'age', 'city'])\n    writer.writerow(['Alex', 25, 'Moscow'])\n    writer.writerow(['Maria', 30, 'SPb'])\n\n# Read\nwith open('users.csv', 'r') as f:\n    reader = csv.reader(f)\n    for row in reader:\n        print(row)\n\n# Working with JSON\nimport json\n\n# Write\ndata = {\n    'users': [\n        {'name': 'Alex', 'age': 25},\n        {'name': 'Maria', 'age': 30}\n    ]\n}\nwith open('users.json', 'w', encoding='utf-8') as f:\n    json.dump(data, f, indent=2, ensure_ascii=False)\n\n# Read\nwith open('users.json', 'r', encoding='utf-8') as f:\n    data = json.load(f)\n    print(data['users'][0]['name'])",
+                                        "quiz": [
+                                            {"question": "Which module for CSV?", "options": ["csv", "file", "data", "table"], "correct": 0},
+                                            {"question": "Which module for JSON?", "options": ["json", "js", "data", "object"], "correct": 0},
+                                            {"question": "What does json.dump() do?", "options": ["Reads JSON", "Writes JSON", "Creates object", "Parses string"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Create JSON file with user info (name, age, city), then read and print name", "starterCode": "import json\n\nuser = {\n    'name': 'Alex',\n    'age': 25,\n    'city': 'Moscow'\n}\n\n# Write to file\n# Read and print name", "expectedOutput": "Alex"}
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "advanced",
+                "name": {"ru": "Продвинутый уровень", "en": "Advanced"},
+                "modules": [
+                    {
+                        "id": "module5",
+                        "name": {"ru": "Объектно-ориентированное программирование", "en": "Object-Oriented Programming"},
+                        "lessons": [
+                            {
+                                "id": "lesson5_1",
+                                "title": {"ru": "Классы и объекты", "en": "Classes and Objects"},
+                                "duration": 35,
+                                "xp": 90,
+                                "content": {
+                                    "ru": {
+                                        "introduction": "ООП - парадигма программирования основанная на объектах. Класс - чертёж объекта, объект - экземпляр класса.",
+                                        "sections": [
+                                            {"title": "Создание класса", "text": "class ClassName:\n    pass\n\nclass Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age"},
+                                            {"title": "Методы и атрибуты", "text": "Атрибуты - переменные класса/объекта\nМетоды - функции класса\n\nself - ссылка на текущий объект"},
+                                            {"title": "Создание объектов", "text": "person = Person('Алекс', 25)\nprint(person.name)  # Алекс\nperson.say_hello()  # вызов метода"}
+                                        ],
+                                        "codeExample": "class Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n    \n    def say_hello(self):\n        return f'Привет, я {self.name}!'\n    \n    def birthday(self):\n        self.age += 1\n        return f'Мне теперь {self.age} лет'\n\n# Создание объектов\nperson1 = Person('Алекс', 25)\nperson2 = Person('Мария', 30)\n\nprint(person1.say_hello())  # Привет, я Алекс!\nprint(person2.birthday())   # Мне теперь 31 лет",
+                                        "quiz": [
+                                            {"question": "Что такое self?", "options": ["Ключевое слово", "Ссылка на объект", "Имя класса", "Метод"], "correct": 1},
+                                            {"question": "Какой метод вызывается при создании объекта?", "options": ["__new__", "__init__", "__create__", "__start__"], "correct": 1},
+                                            {"question": "Может ли класс иметь несколько объектов?", "options": ["Нет", "Да, один", "Да, сколько угодно", "Только два"], "correct": 2}
+                                        ],
+                                        "practice": {"task": "Создайте класс Rectangle с атрибутами width и height, методом area() для вычисления площади", "starterCode": "class Rectangle:\n    def __init__(self, width, height):\n        \n    def area(self):\n        \nrect = Rectangle(5, 10)\nprint('Площадь:', rect.area())", "expectedOutput": "Площадь: 50"}
+                                    },
+                                    "en": {
+                                        "introduction": "OOP is a programming paradigm based on objects. Class is a blueprint, object is an instance of a class.",
+                                        "sections": [
+                                            {"title": "Creating Class", "text": "class ClassName:\n    pass\n\nclass Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age"},
+                                            {"title": "Methods and Attributes", "text": "Attributes - class/object variables\nMethods - class functions\n\nself - reference to current object"},
+                                            {"title": "Creating Objects", "text": "person = Person('Alex', 25)\nprint(person.name)  # Alex\nperson.say_hello()  # call method"}
+                                        ],
+                                        "codeExample": "class Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n    \n    def say_hello(self):\n        return f'Hello, I am {self.name}!'\n    \n    def birthday(self):\n        self.age += 1\n        return f'I am now {self.age} years old'\n\n# Creating objects\nperson1 = Person('Alex', 25)\nperson2 = Person('Maria', 30)\n\nprint(person1.say_hello())  # Hello, I am Alex!\nprint(person2.birthday())   # I am now 31 years old",
+                                        "quiz": [
+                                            {"question": "What is self?", "options": ["Keyword", "Reference to object", "Class name", "Method"], "correct": 1},
+                                            {"question": "Which method is called when creating object?", "options": ["__new__", "__init__", "__create__", "__start__"], "correct": 1},
+                                            {"question": "Can a class have multiple objects?", "options": ["No", "Yes, one", "Yes, any number", "Only two"], "correct": 2}
+                                        ],
+                                        "practice": {"task": "Create Rectangle class with width and height attributes, area() method for calculating area", "starterCode": "class Rectangle:\n    def __init__(self, width, height):\n        \n    def area(self):\n        \nrect = Rectangle(5, 10)\nprint('Area:', rect.area())", "expectedOutput": "Area: 50"}
+                                    }
+                                }
+                            },
+                            {
+                                "id": "lesson5_2",
+                                "title": {"ru": "Наследование и полиморфизм", "en": "Inheritance and Polymorphism"},
+                                "duration": 35,
+                                "xp": 90,
+                                "content": {
+                                    "ru": {
+                                        "introduction": "Наследование позволяет создавать новые классы на основе существующих. Полиморфизм - возможность объектов с одинаковым интерфейсом работать по-разному.",
+                                        "sections": [
+                                            {"title": "Наследование", "text": "class Parent:\n    pass\n\nclass Child(Parent):\n    pass\n\nChild наследует все атрибуты и методы Parent"},
+                                            {"title": "Переопределение методов", "text": "Дочерний класс может переопределить метод родителя:\n\nclass Animal:\n    def speak(self):\n        pass\n\nclass Dog(Animal):\n    def speak(self):\n        return 'Гав!'"},
+                                            {"title": "Полиморфизм", "text": "Разные классы могут иметь метод с одинаковым именем:\n\nfor animal in [Dog(), Cat()]:\n    print(animal.speak())"}
+                                        ],
+                                        "codeExample": "class Animal:\n    def __init__(self, name):\n        self.name = name\n    \n    def speak(self):\n        return '...'\n\nclass Dog(Animal):\n    def speak(self):\n        return f'{self.name} говорит: Гав!'\n\nclass Cat(Animal):\n    def speak(self):\n        return f'{self.name} говорит: Мяу!'\n\n# Полиморфизм\nanimals = [Dog('Бобик'), Cat('Мурзик')]\nfor animal in animals:\n    print(animal.speak())\n\n# Проверка типа\nprint(isinstance(Dog('Тест'), Animal))  # True",
+                                        "quiz": [
+                                            {"question": "Как указать наследование?", "options": ["class Child extends Parent", "class Child(Parent)", "class Child: Parent", "class Child -> Parent"], "correct": 1},
+                                            {"question": "Что такое полиморфизм?", "options": ["Один метод", "Много форм", "Наследование", "Инкапсуляция"], "correct": 1},
+                                            {"question": "Можно ли переопределить метод родителя?", "options": ["Нет", "Да", "Только в некоторых случаях", "Зависит от версии"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Создайте класс Vehicle, затем Car и Motorcycle которые наследуют его и переопределяют метод drive()", "starterCode": "class Vehicle:\n    def drive(self):\n        return 'Еду'\n\nclass Car(Vehicle):\n    \n\nclass Motorcycle(Vehicle):\n    \n\ncar = Car()\nmoto = Motorcycle()\nprint(car.drive())\nprint(moto.drive())", "expectedOutput": "Еду на машине\\nЕду на мотоцикле"}
+                                    },
+                                    "en": {
+                                        "introduction": "Inheritance allows creating new classes based on existing ones. Polymorphism - ability of objects with same interface to work differently.",
+                                        "sections": [
+                                            {"title": "Inheritance", "text": "class Parent:\n    pass\n\nclass Child(Parent):\n    pass\n\nChild inherits all attributes and methods from Parent"},
+                                            {"title": "Method Overriding", "text": "Child class can override parent method:\n\nclass Animal:\n    def speak(self):\n        pass\n\nclass Dog(Animal):\n    def speak(self):\n        return 'Woof!'"},
+                                            {"title": "Polymorphism", "text": "Different classes can have method with same name:\n\nfor animal in [Dog(), Cat()]:\n    print(animal.speak())"}
+                                        ],
+                                        "codeExample": "class Animal:\n    def __init__(self, name):\n        self.name = name\n    \n    def speak(self):\n        return '...'\n\nclass Dog(Animal):\n    def speak(self):\n        return f'{self.name} says: Woof!'\n\nclass Cat(Animal):\n    def speak(self):\n        return f'{self.name} says: Meow!'\n\n# Polymorphism\nanimals = [Dog('Bobik'), Cat('Murzik')]\nfor animal in animals:\n    print(animal.speak())\n\n# Type check\nprint(isinstance(Dog('Test'), Animal))  # True",
+                                        "quiz": [
+                                            {"question": "How to specify inheritance?", "options": ["class Child extends Parent", "class Child(Parent)", "class Child: Parent", "class Child -> Parent"], "correct": 1},
+                                            {"question": "What is polymorphism?", "options": ["One method", "Many forms", "Inheritance", "Encapsulation"], "correct": 1},
+                                            {"question": "Can you override parent method?", "options": ["No", "Yes", "Only in some cases", "Depends on version"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Create Vehicle class, then Car and Motorcycle that inherit and override drive() method", "starterCode": "class Vehicle:\n    def drive(self):\n        return 'Driving'\n\nclass Car(Vehicle):\n    \n\nclass Motorcycle(Vehicle):\n    \n\ncar = Car()\nmoto = Motorcycle()\nprint(car.drive())\nprint(moto.drive())", "expectedOutput": "Driving car\\nDriving motorcycle"}
+                                    }
+                                }
+                            },
+                            {
+                                "id": "lesson5_3",
+                                "title": {"ru": "Инкапсуляция и специальные методы", "en": "Encapsulation and Special Methods"},
+                                "duration": 30,
+                                "xp": 80,
+                                "content": {
+                                    "ru": {
+                                        "introduction": "Инкапсуляция - скрытие внутренних деталей реализации. Специальные методы (магические) позволяют настроить поведение объектов.",
+                                        "sections": [
+                                            {"title": "Уровни доступа", "text": "public - атрибут (доступен везде)\n_protected - один подчёркивание (для внутреннего использования)\n__private - два подчёркивания (скрыт)"},
+                                            {"title": "Геттеры и сеттеры", "text": "@property\ndef name(self):\n    return self._name\n\n@name.setter\ndef name(self, value):\n    self._name = value"},
+                                            {"title": "Магические методы", "text": "__str__ - строковое представление\n__repr__ - официальное представление\n__len__ - длина объекта\n__add__ - сложение"}
+                                        ],
+                                        "codeExample": "class BankAccount:\n    def __init__(self, balance):\n        self.__balance = balance  # приватный\n    \n    @property\n    def balance(self):\n        return self.__balance\n    \n    def deposit(self, amount):\n        if amount > 0:\n            self.__balance += amount\n    \n    def __str__(self):\n        return f'Баланс: {self.__balance}'\n    \n    def __add__(self, other):\n        return BankAccount(self.__balance + other.__balance)\n\naccount = BankAccount(1000)\naccount.deposit(500)\nprint(account)  # Баланс: 1500",
+                                        "quiz": [
+                                            {"question": "Сколько подчёркиваний для приватного атрибута?", "options": ["0", "1", "2", "3"], "correct": 2},
+                                            {"question": "Какой декоратор для геттера?", "options": ["@get", "@property", "@getter", "@access"], "correct": 1},
+                                            {"question": "Какой метод для строкового представления?", "options": ["__tostring__", "__str__", "__repr__", "__string__"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Создайте класс с приватным атрибутом и свойством для доступа к нему", "starterCode": "class Secret:\n    def __init__(self, value):\n        \n    @property\n    def value(self):\n        \nobj = Secret(42)\nprint(obj.value)", "expectedOutput": "42"}
+                                    },
+                                    "en": {
+                                        "introduction": "Encapsulation - hiding internal implementation details. Special (magic) methods allow customizing object behavior.",
+                                        "sections": [
+                                            {"title": "Access Levels", "text": "public - attribute (accessible everywhere)\n_protected - one underscore (for internal use)\n__private - two underscores (hidden)"},
+                                            {"title": "Getters and Setters", "text": "@property\ndef name(self):\n    return self._name\n\n@name.setter\ndef name(self, value):\n    self._name = value"},
+                                            {"title": "Magic Methods", "text": "__str__ - string representation\n__repr__ - official representation\n__len__ - object length\n__add__ - addition"}
+                                        ],
+                                        "codeExample": "class BankAccount:\n    def __init__(self, balance):\n        self.__balance = balance  # private\n    \n    @property\n    def balance(self):\n        return self.__balance\n    \n    def deposit(self, amount):\n        if amount > 0:\n            self.__balance += amount\n    \n    def __str__(self):\n        return f'Balance: {self.__balance}'\n    \n    def __add__(self, other):\n        return BankAccount(self.__balance + other.__balance)\n\naccount = BankAccount(1000)\naccount.deposit(500)\nprint(account)  # Balance: 1500",
+                                        "quiz": [
+                                            {"question": "How many underscores for private attribute?", "options": ["0", "1", "2", "3"], "correct": 2},
+                                            {"question": "Which decorator for getter?", "options": ["@get", "@property", "@getter", "@access"], "correct": 1},
+                                            {"question": "Which method for string representation?", "options": ["__tostring__", "__str__", "__repr__", "__string__"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Create class with private attribute and property for access", "starterCode": "class Secret:\n    def __init__(self, value):\n        \n    @property\n    def value(self):\n        \nobj = Secret(42)\nprint(obj.value)", "expectedOutput": "42"}
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "id": "module6",
+                        "name": {"ru": "Обработка исключений", "en": "Exception Handling"},
+                        "lessons": [
+                            {
+                                "id": "lesson6_1",
+                                "title": {"ru": "try, except, finally", "en": "try, except, finally"},
+                                "duration": 25,
+                                "xp": 70,
+                                "content": {
+                                    "ru": {
+                                        "introduction": "Обработка исключений позволяет обрабатывать ошибки и предотвращать падение программы.",
+                                        "sections": [
+                                            {"title": "Базовый синтаксис", "text": "try:\n    # код который может вызвать ошибку\nexcept ErrorType:\n    # код обработки ошибки"},
+                                            {"title": "Несколько except", "text": "try:\n    # код\nexcept ValueError:\n    # обработка ValueError\nexcept TypeError:\n    # обработка TypeError"},
+                                            {"title": "finally", "text": "finally выполняется всегда:\n\ntry:\n    # код\nexcept:\n    # обработка\nfinally:\n    # выполняется всегда (закрытие файлов и т.д.)"}
+                                        ],
+                                        "codeExample": "# Базовая обработка\ntry:\n    num = int(input('Введите число: '))\n    result = 10 / num\n    print(result)\nexcept ValueError:\n    print('Это не число!')\nexcept ZeroDivisionError:\n    print('Деление на ноль!')\n\n# С finally\ntry:\n    file = open('test.txt', 'r')\n    content = file.read()\nexcept FileNotFoundError:\n    print('Файл не найден')\nfinally:\n    file.close()  # Выполнится всегда\n\n# Получение информации об ошибке\ntry:\n    result = 10 / 0\nexcept Exception as e:\n    print(f'Ошибка: {e}')",
+                                        "quiz": [
+                                            {"question": "Какой блок выполняется всегда?", "options": ["try", "except", "finally", "else"], "correct": 2},
+                                            {"question": "Может ли быть несколько except?", "options": ["Нет", "Да, один", "Да, сколько угодно", "Только два"], "correct": 2},
+                                            {"question": "Что перехватывает Exception?", "options": ["Только ValueError", "Все исключения", "Только системные", "Ничего"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Напишите код который запрашивает число и обрабатывает все возможные ошибки", "starterCode": "try:\n    num = input('Введите число: ')\n    result = 10 / int(num)\n    print('Результат:', result)\nexcept:\n    print('Произошла ошибка')", "expectedOutput": ""}
+                                    },
+                                    "en": {
+                                        "introduction": "Exception handling allows handling errors and preventing program crashes.",
+                                        "sections": [
+                                            {"title": "Basic Syntax", "text": "try:\n    # code that might raise error\nexcept ErrorType:\n    # error handling code"},
+                                            {"title": "Multiple except", "text": "try:\n    # code\nexcept ValueError:\n    # handle ValueError\nexcept TypeError:\n    # handle TypeError"},
+                                            {"title": "finally", "text": "finally always executes:\n\ntry:\n    # code\nexcept:\n    # handling\nfinally:\n    # always executes (closing files etc.)"}
+                                        ],
+                                        "codeExample": "# Basic handling\ntry:\n    num = int(input('Enter number: '))\n    result = 10 / num\n    print(result)\nexcept ValueError:\n    print('Not a number!')\nexcept ZeroDivisionError:\n    print('Division by zero!')\n\n# With finally\ntry:\n    file = open('test.txt', 'r')\n    content = file.read()\nexcept FileNotFoundError:\n    print('File not found')\nfinally:\n    file.close()  # Always executes\n\n# Get error info\ntry:\n    result = 10 / 0\nexcept Exception as e:\n    print(f'Error: {e}')",
+                                        "quiz": [
+                                            {"question": "Which block always executes?", "options": ["try", "except", "finally", "else"], "correct": 2},
+                                            {"question": "Can there be multiple except?", "options": ["No", "Yes, one", "Yes, any number", "Only two"], "correct": 2},
+                                            {"question": "What does Exception catch?", "options": ["Only ValueError", "All exceptions", "Only system", "Nothing"], "correct": 1}
+                                        ],
+                                        "practice": {"task": "Write code that asks for number and handles all possible errors", "starterCode": "try:\n    num = input('Enter number: ')\n    result = 10 / int(num)\n    print('Result:', result)\nexcept:\n    print('Error occurred')", "expectedOutput": ""}
                                     }
                                 }
                             }
